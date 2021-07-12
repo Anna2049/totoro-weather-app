@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="src/styles.css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Totoro Weather App</title>
+  </head>
+  <body>
+    <img class="main-theme" src="media/gif-sun.gif" />
+
+    <!-- to be applied later. styles to be adjusted
+      <img
+      class="tototo-moving"
+      src="https://media4.giphy.com/media/26BRBNNdn7DRASMNO/giphy.gif?cid=790b7611acba77bfe6e6363e64449605c6e62cb8c0b08de3&rid=giphy.gif"
+    /> 
+  -->
+    <div class="container">
+      <form class="input-group search-panel" id="search-city-form">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          id="button-location-gps"
+        >
+          <i class="fas fa-map-marker-alt"></i>
+        </button>
+        <input
+          type="text"
+          class="form-control"
+          id="city-input"
+          placeholder="Enter your city"
+          required
+        />
+        <input type="submit" class="btn btn-outline-secondary" value="Search" />
+      </form>
+
+      <div class="for-background-image">
+        <div class="row row-1">
+          <h1 class="col-5 today-temp" id="current-temperature"></h1>
+          <div class="col-3 UOM-temp">
+            <a href="#" class="clickables" id="celsius">°С</a> |
+            <a href="#" class="clickables" id="fahrenheit">°F</a>
+          </div>
+          <div class="col-4 today-weather-image">
+            <img
+              src="media/partly_cloudy.png"
+              alt="current-weather"
+              class="image-weather-medium"
+            />
+          </div>
+        </div>
+
+        <h2 class="row-2 city" id="current-city"></h2>
+        <br />
+        <div class="row row-3">
+          <div class="col-6 main-info">
+            <h3 class="date" id="date-and-time">Date & Time placeh-r</h3>
+            <h3 class="state" id="current-description"></h3>
+          </div>
+
+          <div class="col-6 today-other">
+            <div class="row">
+              <div class="col-7 today-statements">
+                <p>Feels like :</p>
+                <p>Humidity :</p>
+                <p>Wind :</p>
+              </div>
+              <div class="col-1 today-results">
+                <p>19</p>
+                <p>100</p>
+                <p>10</p>
+              </div>
+              <div class="col-2 today-UOM">
+                <p>°</p>
+                <p>%</p>
+                <p>mph</p>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-7 today-statements">Last updated:</div>
+              <div class="col-5 update-time">11:30 AM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--closing tag for background-->
+      <hr />
+
+      <div class="scrolling-wrapper">
+        <div class="card hourly">
+          <p class="time">12:00</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp">25°C</p>
+        </div>
+
+        <div class="card hourly">
+          <p class="time">13:00</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp">25°C</p>
+        </div>
+
+        <div class="card hourly">
+          <p class="time">14:00</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp">25°C</p>
+        </div>
+
+        <div class="card hourly">
+          <p class="time">15:00</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp">25°C</p>
+        </div>
+
+        <div class="card hourly">
+          <p class="time">16:00</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp">25°C</p>
+        </div>
+
+        <div class="card hourly">
+          <p class="time">17:00</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp">25°C</p>
+        </div>
+
+        <div class="card hourly">
+          <p class="time">18:00</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp">25°C</p>
+        </div>
+        <div class="card hourly">
+          <p class="time">19:00</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp">25°C</p>
+        </div>
+      </div>
+
+      <img
+        src="media/six-chibi-totoro.png"
+        alt="six chibi totoro"
+        class="image-main-theme"
+      />
+
+      <h4>
+        <span class="clickables">Weekly</span> |
+        <span class="clickables">Monthly</span>
+      </h4>
+      <hr />
+
+      <div class="row row-weekly">
+        <div class="card weekly col-2">
+          <p class="weekday">Sun</p>
+          <p class="date">Jun 13</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp min">19°C</p>
+          <p class="temp max">26°C</p>
+        </div>
+        <div class="card weekly col-2">
+          <p class="weekday">Sun</p>
+          <p class="date">Jun 13</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp min">19°C</p>
+          <p class="temp max">26°C</p>
+        </div>
+        <div class="card weekly col-2">
+          <p class="weekday">Sun</p>
+          <p class="date">Jun 13</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp min">19°C</p>
+          <p class="temp max">26°C</p>
+        </div>
+        <div class="card weekly col-2">
+          <p class="weekday">Sun</p>
+          <p class="date">Jun 13</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp min">19°C</p>
+          <p class="temp max">26°C</p>
+        </div>
+        <div class="card weekly col-2">
+          <p class="weekday">Sun</p>
+          <p class="date">Jun 13</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp min">19°C</p>
+          <p class="temp max">26°C</p>
+        </div>
+        <div class="card weekly col-2">
+          <p class="weekday">Sun</p>
+          <p class="date">Jun 13</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp min">19°C</p>
+          <p class="temp max">26°C</p>
+        </div>
+      </div>
+
+      <footer>
+        <img src="media/footer.png" class="image-footer" />
+        <p class="source-code clickables">Open a source code</p>
+        <p>by Anna Lavrenova</p>
+      </footer>
+    </div>
+
+    <script
+      src="https://kit.fontawesome.com/a5036b286c.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="src/script.js"></script>
+  </body>
+</html>

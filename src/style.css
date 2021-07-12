@@ -1,0 +1,122 @@
+.scrolling-wrapper {
+  opacity: 60%;
+}
+/*.for-background-image {
+  background-image: url("https://i.pinimg.com/originals/b2/60/29/b2602932cb36bffa63c00f0f9e26e5b5.gif");
+  background-repeat: no-repeat;
+} */
+
+body {
+  border: 1px solid gray;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 5px;
+  font-family: "Oswald", sans-serif;
+}
+a {
+  text-decoration: none;
+}
+.main-theme {
+  width: 490px;
+  height: 770px;
+  position: absolute;
+  z-index: -1;
+  margin: 0 auto;
+  opacity: 80%;
+  padding: 0;
+}
+.totoro-moving {
+  width: auto;
+  height: 100px;
+  position: absolute;
+  z-index: 0;
+  margin: 0 auto;
+  opacity: 80%;
+  padding: -10px;
+}
+footer {
+  text-align: center;
+  font-size: 15px;
+  margin-top: 40px;
+}
+h2 {
+  font-size: 40px;
+  line-height: 44px;
+}
+h4 {
+  text-align: center;
+}
+p {
+  margin: 0;
+}
+
+.search-panel {
+  margin: 15px auto 0;
+}
+.form-control {
+  line-height: 30px;
+}
+.today-temp {
+  font-size: 100px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+.UOM-temp {
+  font-size: 30px;
+}
+.row-1 {
+  padding-top: 10px;
+  line-height: 100px;
+}
+
+.today-other {
+  font-size: 20px;
+  line-height: 25px;
+  text-align: right;
+}
+.today-results {
+  --bs-gutter-x: 0;
+}
+.today-UOM,
+.update-time {
+  text-align: left;
+}
+
+.image-main-theme {
+  display: block;
+  max-width: 110%;
+  margin: -40px;
+}
+.image-weather-medium {
+  display: block;
+  height: 100%;
+}
+.image-weather-small {
+  display: inline-block;
+  max-width: 80%;
+}
+.image-footer {
+  width: 15%;
+}
+.hourly,
+.weekly {
+  display: inline-block;
+  font-size: 20px;
+  text-align: center;
+  padding: 0;
+  max-width: 16%;
+  margin: 1px;
+}
+
+.scrolling-wrapper {
+  overflow: auto;
+  white-space: nowrap;
+  padding: 10px;
+}
+
+.clickables:hover {
+  cursor: pointer;
+  font-size: larger;
+  opacity: 80%;
+}
