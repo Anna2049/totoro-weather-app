@@ -17,6 +17,7 @@ body {
 a {
   text-decoration: none;
 }
+
 .main-theme {
   width: 490px;
   height: 770px;
@@ -54,6 +55,17 @@ p {
 .search-panel {
   margin: 15px auto 0;
 }
+#button-settings {
+  margin-right: 10px;
+  font-size: 20px;
+  border-radius: 4px;
+}
+
+#button-location-gps {
+  border-radius: 4px 0px 0px 4px;
+  font-size: 20px;
+}
+
 .form-control {
   line-height: 30px;
 }

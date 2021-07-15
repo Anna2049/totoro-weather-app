@@ -15,7 +15,12 @@
       integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="src/styles.css" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="src/style.css" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Totoro Weather App</title>
   </head>
@@ -28,8 +33,37 @@
       src="https://media4.giphy.com/media/26BRBNNdn7DRASMNO/giphy.gif?cid=790b7611acba77bfe6e6363e64449605c6e62cb8c0b08de3&rid=giphy.gif"
     /> 
   -->
+
+    <div
+      class="offcanvas offcanvas-start"
+      tabindex="-1"
+      id="offcanvasStart"
+      aria-labelledby="offcanvasStartLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 id="offcanvasStartLabel">Settings will be added here</h5>
+        <button
+          type="button"
+          class="btn-close text-reset"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">...</div>
+    </div>
+
     <div class="container">
       <form class="input-group search-panel" id="search-city-form">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          id="button-settings"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasStart"
+          aria-controls="offcanvasStart"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
         <button
           type="button"
           class="btn btn-outline-secondary"
