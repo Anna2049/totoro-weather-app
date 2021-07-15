@@ -28,10 +28,12 @@ function showCurrentDateAndTime() {
 }
 
 function enableGPS() {
+  document.querySelector("#city-input").value = "";
   navigator.geolocation.getCurrentPosition(createApiRouteByGPS);
 }
 
 function createApiRouteByGPS(position) {
+  // to-do: units responsive
   let units = "metric";
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
@@ -49,6 +51,10 @@ function createApiRouteByCityName(event) {
 
 function showWeather(response) {
   currentTemperature.innerHTML = Math.round(response.data.main.temp);
+  //celsiusUOM.innerHTML = "°С";
+  //fahrenheitUOM.innerHTML = "°F";
+  var placeholderUOM = document.getElementById("placeholderUOM"); // working without # near id. styles specifics vs js??
+  placeholderUOM.style["opacity"] = "100%";
   let currentCity = document.querySelector("#current-city");
   currentCity.innerHTML = `${response.data.name} (${response.data.sys.country})`;
   let currentWeatherDescription = document.querySelector(

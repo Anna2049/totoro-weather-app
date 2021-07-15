@@ -34,24 +34,6 @@
     /> 
   -->
 
-    <div
-      class="offcanvas offcanvas-start"
-      tabindex="-1"
-      id="offcanvasStart"
-      aria-labelledby="offcanvasStartLabel"
-    >
-      <div class="offcanvas-header">
-        <h5 id="offcanvasStartLabel">Settings will be added here</h5>
-        <button
-          type="button"
-          class="btn-close text-reset"
-          data-bs-dismiss="offcanvas"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="offcanvas-body">...</div>
-    </div>
-
     <div class="container">
       <form class="input-group search-panel" id="search-city-form">
         <button
@@ -82,12 +64,15 @@
       </form>
 
       <div class="for-background-image">
-        <div class="row row-1">
-          <h1 class="col-5 today-temp" id="current-temperature"></h1>
-          <div class="col-3 UOM-temp">
+        <h1 class="today-temp">
+          <span id="current-temperature"></span
+          ><small class="UOM-temp" id="placeholderUOM">
             <a href="#" class="clickables" id="celsius">°С</a> |
             <a href="#" class="clickables" id="fahrenheit">°F</a>
-          </div>
+          </small>
+        </h1>
+
+        <!--
           <div class="col-4 today-weather-image">
             <img
               src="media/partly_cloudy.png"
@@ -96,6 +81,7 @@
             />
           </div>
         </div>
+          -->
 
         <h2 class="row-2 city" id="current-city"></h2>
         <br />
@@ -218,7 +204,7 @@
       <img
         src="media/six-chibi-totoro.png"
         alt="six chibi totoro"
-        class="image-main-theme"
+        class="image-six-chibi"
       />
 
       <h4>
@@ -296,11 +282,86 @@
         </div>
       </div>
 
-      <footer>
-        <img src="media/footer.png" class="image-footer" />
-        <p class="source-code clickables">Open a source code</p>
-        <p>by Anna Lavrenova</p>
-      </footer>
+      <div
+        class="offcanvas offcanvas-start"
+        tabindex="-1"
+        id="offcanvasStart"
+        aria-labelledby="offcanvasStartLabel"
+      >
+        <div class="offcanvas-header">
+          <h5 id="offcanvasStartLabel">Settings:</h5>
+          <button
+            type="button"
+            class="btn-close text-reset"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <div>Units:</div>
+          <div class="row">
+            <div class="col">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineUnitOptions"
+                id="set-units-metric"
+                checked
+              /><label for="#set-units-metric">Metric</label>
+            </div>
+            <div class="col">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineUnitOptions"
+                id="set-units-imperial"
+              /><label for="#set-units-imperial">Imperial</label>
+            </div>
+          </div>
+
+          <div>Themes:</div>
+          <div class="row">
+            <div class="col">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineThemeOptions"
+                id="set-theme-default"
+                checked
+              /><label for="#set-theme-default">Default</label>
+            </div>
+            <div class="col">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineThemeOptions"
+                id="set-theme-city"
+                disabled
+              /><label for="#set-theme-city">City</label>
+            </div>
+            <div class="col">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineThemeOptions"
+                id="set-theme-minimalistic"
+                disabled
+              /><label for="#set-theme-minimalistic">Minimalistic</label>
+            </div>
+          </div>
+
+          <footer>
+            <img src="media/footer.png" class="image-footer" />
+            <br />
+            <a
+              href="https://github.com/Anna2049/totoro-weather-app"
+              class="source-code clickables"
+              >Open a source code</a
+            >
+            <p>by Anna Lavrenova</p>
+          </footer>
+        </div>
+      </div>
     </div>
 
     <script

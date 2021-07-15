@@ -1,3 +1,21 @@
+@media (min-width: 1024px) {
+  body {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .main-theme {
+    max-width: 400px;
+  }
+}
+
+.main-theme {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: -1;
+  opacity: 80%;
+}
+
 .scrolling-wrapper {
   opacity: 60%;
 }
@@ -6,27 +24,31 @@
   background-repeat: no-repeat;
 } */
 
+html {
+  width: 100%;
+  font-size: 100%;
+}
+
 body {
   border: 1px solid gray;
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 5px;
+  width: 100vw;
   font-family: "Oswald", sans-serif;
 }
 a {
   text-decoration: none;
+  color: unset;
 }
 
-.main-theme {
-  width: 490px;
-  height: 770px;
-  position: absolute;
-  z-index: -1;
-  margin: 0 auto;
-  opacity: 80%;
-  padding: 0;
+.form-check-input {
+  margin-left: 10px;
 }
+
+.image-six-chibi {
+  display: block;
+  max-width: 110%;
+  margin: -40px;
+}
+
 .totoro-moving {
   width: auto;
   height: 100px;
@@ -76,6 +98,7 @@ p {
 }
 .UOM-temp {
   font-size: 30px;
+  opacity: 0;
 }
 .row-1 {
   padding-top: 10px;
@@ -95,15 +118,13 @@ p {
   text-align: left;
 }
 
-.image-main-theme {
-  display: block;
-  max-width: 110%;
-  margin: -40px;
-}
+/*
 .image-weather-medium {
   display: block;
   height: 100%;
 }
+*/
+
 .image-weather-small {
   display: inline-block;
   max-width: 80%;
