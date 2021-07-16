@@ -25,18 +25,13 @@
     <title>Totoro Weather App</title>
   </head>
   <body>
-    <img class="main-theme" id="mainTheme" src="" />
-
-    <!-- to be applied later. styles to be adjusted
-      <img
-      class="tototo-moving"
-      src="https://media4.giphy.com/media/26BRBNNdn7DRASMNO/giphy.gif?cid=790b7611acba77bfe6e6363e64449605c6e62cb8c0b08de3&rid=giphy.gif"
-    /> 
-  -->
+    <img class="main-theme" id="mainTheme" src="media/gif-sun.gif" />
 
     <div class="container">
-      <img class="layer-clouds cloud-1" src="media/front-clouds-light1.png" />
-      <img class="layer-clouds cloud-2" src="media/front-clouds-light1.png" />
+      <!-- <div class="front-layer">
+        <img class="layer-clouds cloud-1" src="media/front-clouds-light1.png" />
+        <img class="layer-clouds cloud-2" src="media/front-clouds-light1.png" />
+      </div> -->
 
       <form class="input-group search-panel" id="search-city-form">
         <button
@@ -66,61 +61,48 @@
         <input type="submit" class="btn btn-outline-secondary" value="Search" />
       </form>
 
-      <div class="for-background-image">
-        <h1 class="today-temp">
-          <span id="current-temperature"></span
-          ><small class="UOM-temp" id="placeholderUOM">
-            <a href="#" class="clickables" id="celsius">°С</a> |
-            <a href="#" class="clickables" id="fahrenheit">°F</a>
-          </small>
-        </h1>
+      <h1 class="today-temp">
+        <span id="current-temperature"></span
+        ><small class="UOM-temp" id="placeholderUOM">
+          <a href="#" class="clickables" id="celsius">°С</a> |
+          <a href="#" class="clickables" id="fahrenheit">°F</a>
+        </small>
+      </h1>
 
-        <!--
-          <div class="col-4 today-weather-image">
-            <img
-              src="media/partly_cloudy.png"
-              alt="current-weather"
-              class="image-weather-medium"
-            />
-          </div>
+      <h2 class="row-2 city" id="current-city"></h2>
+      <br />
+      <div class="row row-3">
+        <div class="col-6 main-info">
+          <h3 class="date" id="date-and-time">Date & Time placeh-r</h3>
+          <h3 class="state" id="current-description"></h3>
         </div>
-          -->
 
-        <h2 class="row-2 city" id="current-city"></h2>
-        <br />
-        <div class="row row-3">
-          <div class="col-6 main-info">
-            <h3 class="date" id="date-and-time">Date & Time placeh-r</h3>
-            <h3 class="state" id="current-description"></h3>
+        <div class="col-6 today-other">
+          <div class="row">
+            <div class="col-7 today-statements">
+              <p>Feels like :</p>
+              <p>Humidity :</p>
+              <p>Wind :</p>
+            </div>
+            <div class="col-1 today-results">
+              <p>19</p>
+              <p>100</p>
+              <p>10</p>
+            </div>
+            <div class="col-2 today-UOM">
+              <p>°</p>
+              <p>%</p>
+              <p>mph</p>
+            </div>
           </div>
-
-          <div class="col-6 today-other">
-            <div class="row">
-              <div class="col-7 today-statements">
-                <p>Feels like :</p>
-                <p>Humidity :</p>
-                <p>Wind :</p>
-              </div>
-              <div class="col-1 today-results">
-                <p>19</p>
-                <p>100</p>
-                <p>10</p>
-              </div>
-              <div class="col-2 today-UOM">
-                <p>°</p>
-                <p>%</p>
-                <p>mph</p>
-              </div>
-            </div>
-            <br />
-            <div class="row">
-              <div class="col-7 today-statements">Last updated:</div>
-              <div class="col-5 update-time">11:30 AM</div>
-            </div>
+          <br />
+          <div class="row">
+            <div class="col-7 today-statements">Last updated:</div>
+            <div class="col-5 update-time">11:30 AM</div>
           </div>
         </div>
       </div>
-      <!--closing tag for background-->
+
       <hr />
 
       <div class="scrolling-wrapper">
@@ -204,6 +186,7 @@
         </div>
       </div>
 
+      <!---->
       <img
         src="media/six-chibi-totoro.png"
         alt="six chibi totoro"
