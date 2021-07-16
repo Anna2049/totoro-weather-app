@@ -61,6 +61,29 @@ function showWeather(response) {
     "#current-description"
   );
   currentWeatherDescription.innerHTML = response.data.weather[0].description;
+
+  var shortDescription = response.data.weather[0].main.toLowerCase();
+  console.log(shortDescription);
+
+  if (
+    shortDescription === "clear" ||
+    shortDescription === "clouds" ||
+    shortDescription === "scattered clouds"
+  ) {
+    mainThemeSource.src = "media/themes/default/back-daytime-sunny.gif";
+  }
+  if (shortDescription === "rain" || shortDescription === "shower rain") {
+    mainThemeSource.src = "media/themes/default/back-rain-heavy.gif";
+  }
+  if (shortDescription === "thundersorm") {
+    mainThemeSource.src = "media/themes/default/back-night-thunder.gif";
+  }
+  if (shortDescription === "snow") {
+    mainThemeSource.src = "media/themes/default/back-daytime-snow-light.gif";
+  }
+  if (shortDescription === "mist") {
+    mainThemeSource.src = "media/themes/default/back-daytime-fog.gif";
+  }
 }
 
 /*other stuff to be included:
@@ -111,3 +134,7 @@ inputFormCity.addEventListener("submit", createApiRouteByCityName);
 let fahrenheitUOM = document.querySelector("#fahrenheit");
 let celsiusUOM = document.querySelector("#celsius");
 fahrenheitUOM.addEventListener("click", changeUOM);
+
+//document.getElementById("mainTheme").src = "media/footer.png";
+
+let mainThemeSource = document.getElementById("mainTheme");
