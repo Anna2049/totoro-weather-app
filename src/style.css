@@ -19,15 +19,17 @@
   opacity: 80%;
 }
 
-.container {
-  overflow: hidden;
-}
 .layer-clouds {
   position: absolute;
-  width: 100%;
+  width: 100vw;
   z-index: -1;
   opacity: 100%;
   animation: moveRightToLeftCloud 14s linear infinite running;
+}
+
+/* */
+.front-layer {
+  overflow: hidden;
 }
 
 @keyframes moveRightToLeftCloud {
@@ -53,10 +55,6 @@
 .scrolling-wrapper {
   opacity: 60%;
 }
-/*.for-background-image {
-  background-image: url("https://i.pinimg.com/originals/b2/60/29/b2602932cb36bffa63c00f0f9e26e5b5.gif");
-  background-repeat: no-repeat;
-} */
 
 html {
   width: 100%;
@@ -78,10 +76,17 @@ a {
   margin-left: 10px;
 }
 
-.image-six-chibi {
+/*.image-six-chibi {
   display: block;
   max-width: 110%;
   margin: -40px;
+}
+*/
+
+.image-six-chibi {
+  width: 100%;
+  margin-top: -30px;
+  margin-bottom: -30px;
 }
 
 .totoro-moving {
@@ -152,13 +157,6 @@ p {
 .update-time {
   text-align: left;
 }
-
-/*
-.image-weather-medium {
-  display: block;
-  height: 100%;
-}
-*/
 
 .image-weather-small {
   display: inline-block;
