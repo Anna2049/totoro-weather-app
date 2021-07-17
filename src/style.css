@@ -209,9 +209,14 @@ p {
 
 h1,
 h2,
-h3,
-#current-weather-indices {
+h3 {
   opacity: 80%;
+}
+
+#current-weather-indices {
+  background-color: #fff;
+  border-radius: 0.25rem;
+  opacity: 60%;
 }
 
 #placeholderUOM,

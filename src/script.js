@@ -5,6 +5,17 @@ function convertUnixTime(UNIX_timestamp) {
   var formatedTime = `${hh}:${mm}`;
   return formatedTime;
 }
+
+function getCardinalDirectionArrow(angle) {
+  const directions = ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"];
+  // const directions = ["⇑","⇗","⇒","⇘","⇓","⇙","⇐","⇖"];
+  return directions[Math.round(angle / 45) % 8];
+}
+function getCardinalDirectionName(angle) {
+  const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+  return directions[Math.round(angle / 45) % 8];
+}
+
 function showCurrentDateAndTime() {
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   let months = [
@@ -84,7 +95,6 @@ function showWeather(response) {
   let wind = document.querySelector("#wind");
   let sunrise = document.querySelector("#sunrise");
   let sunset = document.querySelector("#sunset");
-  let visibility = document.querySelector("#visibility");
 
   tempMax.innerHTML = Math.round(response.data.main.temp_max);
   tempMin.innerHTML = Math.round(response.data.main.temp_min);
@@ -92,10 +102,11 @@ function showWeather(response) {
   cloudiness.innerHTML = response.data.clouds.all;
   pressure.innerHTML = response.data.main.pressure;
   humidity.innerHTML = response.data.main.humidity;
-  wind.innerHTML = response.data.wind.speed;
+  var windSpeed = response.data.wind.speed;
+  var windDirection = getCardinalDirectionArrow(response.data.wind.deg);
+  wind.innerHTML = `${windSpeed} ${windDirection}`;
   sunrise.innerHTML = convertUnixTime(response.data.sys.sunrise);
   sunset.innerHTML = convertUnixTime(response.data.sys.sunset);
-  visibility.innerHTML = Math.round(response.data.visibility / 100);
 
   // make elements visible
 
