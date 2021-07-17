@@ -1,3 +1,10 @@
+function convertUnixTime(UNIX_timestamp) {
+  var a = new Date(UNIX_timestamp * 1000);
+  var hh = a.getHours();
+  var mm = a.getMinutes();
+  var formatedTime = `${hh}:${mm}`;
+  return formatedTime;
+}
 function showCurrentDateAndTime() {
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   let months = [
@@ -51,16 +58,53 @@ function createApiRouteByCityName(event) {
 
 function showWeather(response) {
   currentTemperature.innerHTML = Math.round(response.data.main.temp);
+
   //celsiusUOM.innerHTML = "°С";
   //fahrenheitUOM.innerHTML = "°F";
+
+  //for (let e of document.getElementsByTagName("h1")) {e.style.visibility = "visible";}
+
   var placeholderUOM = document.getElementById("placeholderUOM"); // working without # near id. styles specifics vs js??
-  placeholderUOM.style["opacity"] = "100%";
+  placeholderUOM.style["visibility"] = "visible";
   let currentCity = document.querySelector("#current-city");
   currentCity.innerHTML = `${response.data.name} (${response.data.sys.country})`;
   let currentWeatherDescription = document.querySelector(
     "#current-description"
   );
   currentWeatherDescription.innerHTML = response.data.weather[0].description;
+
+  // fetch extra results for current weather
+
+  let tempMax = document.querySelector("#temp-max");
+  let tempMin = document.querySelector("#temp-min");
+  let feelsLike = document.querySelector("#feels-like");
+  let cloudiness = document.querySelector("#cloudiness");
+  let pressure = document.querySelector("#pressure");
+  let humidity = document.querySelector("#humidity");
+  let wind = document.querySelector("#wind");
+  let sunrise = document.querySelector("#sunrise");
+  let sunset = document.querySelector("#sunset");
+  let visibility = document.querySelector("#visibility");
+
+  tempMax.innerHTML = Math.round(response.data.main.temp_max);
+  tempMin.innerHTML = Math.round(response.data.main.temp_min);
+  feelsLike.innerHTML = Math.round(response.data.main.feels_like);
+  cloudiness.innerHTML = response.data.clouds.all;
+  pressure.innerHTML = response.data.main.pressure;
+  humidity.innerHTML = response.data.main.humidity;
+  wind.innerHTML = response.data.wind.speed;
+  sunrise.innerHTML = convertUnixTime(response.data.sys.sunrise);
+  sunset.innerHTML = convertUnixTime(response.data.sys.sunset);
+  visibility.innerHTML = Math.round(response.data.visibility / 100);
+
+  // make elements visible
+
+  var currentIndicesPlaceholder = document.getElementById(
+    "current-weather-indices"
+  );
+  currentIndicesPlaceholder.style["visibility"] = "visible";
+
+  // set background and front layer
 
   var shortDescription = response.data.weather[0].main.toLowerCase();
   console.log(shortDescription);
@@ -71,32 +115,20 @@ function showWeather(response) {
     shortDescription === "scattered clouds"
   ) {
     mainThemeSource.src = "media/themes/default/back-daytime-sunny.gif";
-  }
-  if (shortDescription === "rain" || shortDescription === "shower rain") {
+  } else if (
+    shortDescription === "rain" ||
+    shortDescription === "shower rain"
+  ) {
     mainThemeSource.src = "media/themes/default/back-rain-heavy.gif";
-  }
-  if (shortDescription === "thundersorm") {
+  } else if (shortDescription === "thundersorm") {
     mainThemeSource.src = "media/themes/default/back-night-thunder.gif";
-  }
-  if (shortDescription === "snow") {
+  } else if (shortDescription === "snow") {
     mainThemeSource.src = "media/themes/default/back-daytime-snow-light.gif";
-  }
-  if (shortDescription === "mist") {
+  } else if (shortDescription === "mist") {
     mainThemeSource.src = "media/themes/default/back-daytime-fog.gif";
+  } else {
   }
 }
-
-/*other stuff to be included:
-  "country": "US",
-  description": "clear sky",
-  "feels_like": 281.86,
-    "temp_min": 280.37,
-    "temp_max": 284.26,
-    "pressure": 1023,
-    "humidity": 100
-    "sunrise": 1560343627,
-    "sunset": 1560396563
- */
 
 function changeUOM(event) {
   event.preventDefault();

@@ -11,6 +11,28 @@
   }
 }
 
+html {
+  width: 100vw;
+  font-size: 100%;
+}
+
+body {
+  border: 1px solid gray;
+  width: 100vw;
+  font-family: "Oswald", sans-serif;
+}
+a {
+  text-decoration: none;
+  color: unset;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 .main-theme {
   width: 100vw;
   height: 100vh;
@@ -24,12 +46,23 @@
   width: 100vw;
   z-index: -1;
   opacity: 100%;
-  animation: moveRightToLeftCloud 14s linear infinite running;
 }
 
-/* */
-.front-layer {
+.UOM-temp,
+#celsius,
+#fahrenheit {
+  position: relative;
+}
+/*.front-layer {
   overflow: hidden;
+}
+
+.layer-clouds {
+  position: absolute;
+  width: 100vw;
+  z-index: -1;
+  opacity: 100%;
+  animation: moveRightToLeftCloud 14s linear infinite running;
 }
 
 @keyframes moveRightToLeftCloud {
@@ -50,26 +83,10 @@
   padding-top: 35px;
   opacity: 0;
   animation-delay: 7s;
-}
+} */
 
 .scrolling-wrapper {
   opacity: 60%;
-}
-
-html {
-  width: 100%;
-  font-size: 100%;
-}
-
-body {
-  border: 1px solid gray;
-  width: 100vw;
-  font-family: "Oswald", sans-serif;
-}
-a {
-  text-decoration: none;
-  color: unset;
-  cursor: pointer;
 }
 
 .form-check-input {
@@ -85,10 +102,9 @@ a {
 
 .image-six-chibi {
   width: 100%;
-  margin-top: -30px;
-  margin-bottom: -30px;
 }
 
+/*.
 .totoro-moving {
   width: auto;
   height: 100px;
@@ -96,8 +112,10 @@ a {
   z-index: 0;
   margin: 0 auto;
   opacity: 80%;
-  padding: -10px;
+  padding: -10px; 
 }
+*/
+
 footer {
   text-align: center;
   font-size: 15px;
@@ -131,14 +149,16 @@ p {
 .form-control {
   line-height: 30px;
 }
-.today-temp {
+#current-temperature {
   font-size: 100px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 .UOM-temp {
   font-size: 30px;
-  opacity: 0;
+  opacity: 100%; /* change back to zero*/
+  position: relative;
+  top: -45px; /* replace by smth less fixed*/
 }
 .row-1 {
   padding-top: 10px;
@@ -178,11 +198,33 @@ p {
 .scrolling-wrapper {
   overflow: auto;
   white-space: nowrap;
-  padding: 10px;
+  padding-right: 10px;
 }
 
 .clickables:hover {
   cursor: pointer;
   font-size: larger;
   opacity: 80%;
+}
+
+h1,
+h2,
+h3,
+#current-weather-indices {
+  opacity: 80%;
+}
+
+#placeholderUOM,
+#current-weather-indices {
+  visibility: collapse;
+}
+
+.visible {
+  visibility: visible;
+}
+.hidden {
+  visibility: hidden;
+}
+.collapsed {
+  visibility: collapse;
 }

@@ -24,15 +24,16 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Totoro Weather App</title>
   </head>
+
   <body>
-    <img class="main-theme" id="mainTheme" src="media/gif-sun.gif" />
+    <img class="main-theme" id="mainTheme" src="media/homescreen2.jpg" />
+
+    <div class="front-layer">
+      <img class="layer-clouds cloud-1" src="media/front-clouds-light1.png" />
+      <img class="layer-clouds cloud-2" src="media/front-clouds-light1.png" />
+    </div>
 
     <div class="container">
-      <!-- <div class="front-layer">
-        <img class="layer-clouds cloud-1" src="media/front-clouds-light1.png" />
-        <img class="layer-clouds cloud-2" src="media/front-clouds-light1.png" />
-      </div> -->
-
       <form class="input-group search-panel" id="search-city-form">
         <button
           type="button"
@@ -61,7 +62,7 @@
         <input type="submit" class="btn btn-outline-secondary" value="Search" />
       </form>
 
-      <h1 class="today-temp">
+      <h1 id="temp-main">
         <span id="current-temperature"></span
         ><small class="UOM-temp" id="placeholderUOM">
           <a href="#" class="clickables" id="celsius">°С</a> |
@@ -69,37 +70,108 @@
         </small>
       </h1>
 
-      <h2 class="row-2 city" id="current-city"></h2>
-      <br />
-      <div class="row row-3">
-        <div class="col-6 main-info">
-          <h3 class="date" id="date-and-time">Date & Time placeh-r</h3>
-          <h3 class="state" id="current-description"></h3>
-        </div>
+      <h2 id="current-city"></h2>
 
-        <div class="col-6 today-other">
-          <div class="row">
-            <div class="col-7 today-statements">
-              <p>Feels like :</p>
-              <p>Humidity :</p>
-              <p>Wind :</p>
-            </div>
-            <div class="col-1 today-results">
-              <p>19</p>
-              <p>100</p>
-              <p>10</p>
-            </div>
-            <div class="col-2 today-UOM">
-              <p>°</p>
-              <p>%</p>
-              <p>mph</p>
-            </div>
+      <h3 id="date-and-time">Date & Time placeh-r</h3>
+      <h3 id="current-description"></h3>
+
+      <br />
+
+      <!--  to be further deleted if not needed   
+        <ul>
+        <li>
+          <span
+            ><i class="fas fa-temperature-high"></i
+            ><i class="fas fa-temperature-low"></i>temp_max/min</span
+          >32<span> / </span>28<span>°С</span>
+        </li>
+        <li>
+          <span><i class="fas fa-tshirt"></i>feels_like</span>29<span>°С</span>
+        </li>
+        <li>
+          <span><i class="fas fa-cloud"></i>cloudiness</span>30<span></span>%
+        </li>
+        <li>
+          <span><i class="fas fa-tachometer-alt"></i>pressure</span>1023<span
+          ></span>mbar
+        </li>
+        <li>
+          <span><i class="fas fa-tint"></i>humidity</span>100<span>%</span>
+        </li>
+        <li>
+          <span><i class="fas fa-eye"></i>visibility</span>16093<span></span>
+        </li>
+        <li>
+          <span> <i class="fas fa-wind"></i>wind-speed</span>1.5<span></span>m/s
+        </li>
+        <li>
+          <span> <i class="fas fa-wind"></i>wind-degrees</span>350<span></span>
+        </li>
+        <li>
+          <span> <i class="fas fa-wind"></i>wind-gust???</span><span></span>
+        </li>
+        <li>
+          <span
+            ><i class="fas fa-sun"><i class="fas fa-angle-double-up"></i></i
+            >sunrise</span
+          ><span></span>
+        </li>
+        <li>
+          <span
+            ><i class="far fa-sun"></i><i class="fas fa-angle-double-down"></i></i
+            >sunset</span
+          ><span></span>
+        </li>
+      </ul> -->
+
+      <!---->
+      <div class="container" id="current-weather-indices">
+        <div class="row g-0">
+          <div class="col-2">
+            <i class="fas fa-temperature-high"></i
+            ><i class="fas fa-temperature-low"></i>
           </div>
-          <br />
-          <div class="row">
-            <div class="col-7 today-statements">Last updated:</div>
-            <div class="col-5 update-time">11:30 AM</div>
+          <div class="col-2">
+            <span id="temp-max"></span> / <span id="temp-min"></span>
           </div>
+          <div class="col-2">°С</div>
+
+          <div class="col-2"><i class="fas fa-tshirt"></i></div>
+          <div class="col-2" id="feels-like">18</div>
+          <div class="col-2">°С</div>
+
+          <div class="col-2"><i class="fas fa-cloud"></i></div>
+          <div class="col-2" id="cloudiness">000</div>
+          <div class="col-2">%</div>
+
+          <div class="col-2"><i class="fas fa-tachometer-alt"></i></div>
+          <div class="col-2" id="pressure">000</div>
+          <div class="col-2">mbar</div>
+
+          <div class="col-2">
+            <i class="fas fa-tint"></i>
+          </div>
+          <div class="col-2" id="humidity">000</div>
+          <div class="col-2">%</div>
+
+          <div class="col-2"><i class="fas fa-wind"></i></div>
+          <div class="col-2" id="wind">000</div>
+          <div class="col-2">m/s</div>
+
+          <div class="col-2">
+            <i class="fas fa-sun"></i><i class="fas fa-angle-double-up"></i>
+          </div>
+          <div class="col-4" id="sunrise">000</div>
+          <div class="col-2">
+            <i class="fas fa-sun"></i><i class="fas fa-angle-double-down"></i>
+          </div>
+          <div class="col-4" id="sunset">000</div>
+
+          <div class="col-2">
+            <i class="fas fa-eye"></i>
+          </div>
+          <div class="col-2" id="visibility">000</div>
+          <div class="col-2">%</div>
         </div>
       </div>
 
@@ -186,7 +258,6 @@
         </div>
       </div>
 
-      <!---->
       <img
         src="media/six-chibi-totoro.png"
         alt="six chibi totoro"
@@ -335,6 +406,44 @@
                 id="set-theme-minimalistic"
                 disabled
               /><label for="#set-theme-minimalistic">Minimalistic</label>
+            </div>
+          </div>
+          <br />
+          <div>Icons meaning:</div>
+          <br />
+          <div class="container">
+            <div class="row">
+              <div class="col-2">
+                <i class="fas fa-temperature-high"></i>
+              </div>
+              <div class="col-4">Temp max</div>
+              <div class="col-2">
+                <i class="fas fa-temperature-high"></i>
+              </div>
+              <div class="col-4">Temp min</div>
+              <div class="col-2"><i class="fas fa-tshirt"></i></div>
+              <div class="col-4">Feels like</div>
+              <div class="col-2"><i class="fas fa-cloud"></i></div>
+              <div class="col-4">Cloudiness</div>
+              <div class="col-2"><i class="fas fa-tachometer-alt"></i></div>
+              <div class="col-4">Pressure</div>
+              <div class="col-2">
+                <i class="fas fa-tint"></i>
+              </div>
+              <div class="col-4">Humidity</div>
+              <div class="col-2"><i class="fas fa-wind"></i></div>
+              <div class="col-4">Wind</div>
+              <div class="col-2"><i class="fas fa-eye"></i></div>
+              <div class="col-4">Visibility</div>
+              <div class="col-2">
+                <i class="fas fa-sun"></i><i class="fas fa-angle-double-up"></i>
+              </div>
+              <div class="col-4">Sunrise</div>
+              <div class="col-2">
+                <i class="fas fa-sun"></i
+                ><i class="fas fa-angle-double-down"></i>
+              </div>
+              <div class="col-4">Sunset</div>
             </div>
           </div>
 
