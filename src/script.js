@@ -48,6 +48,127 @@ function showCurrentDateAndTime() {
   currentDateAndTime.innerHTML = `${month} ${date}, ${day}, ${time}`;
 }
 
+function displayCurrentWeatherIndices() {
+  let currentWeatherIndices = document.querySelector(
+    "#current-weather-indices"
+  );
+  currentWeatherIndices.innerHTML = `      <div class="row g-0">
+        <div class="col-2">
+          <i class="fas fa-temperature-high"></i
+          ><i class="fas fa-temperature-low"></i>
+        </div>
+        <div class="col-2">
+          <span class="t" id="temp-max"></span> /
+          <span class="t" id="temp-min"></span>
+        </div>
+        <div class="col-2 uom-temp">°С</div>
+
+        <div class="col-2"><i class="fas fa-cloud"></i></div>
+        <div class="col-2" id="cloudiness"></div>
+        <div class="col-2">%</div>
+
+        <div class="col-2"><i class="fas fa-tshirt"></i></div>
+        <div class="col-2 t" id="feels-like">25</div>
+        <div class="col-2 uom-temp">°С</div>
+
+        <div class="col-2"><i class="fas fa-tachometer-alt"></i></div>
+        <div class="col-2" id="pressure"></div>
+        <div class="col-2">mbar</div>
+
+        <div class="col-2">
+          <i class="fas fa-tint"></i>
+        </div>
+        <div class="col-2" id="humidity"></div>
+        <div class="col-2">%</div>
+
+        <div class="col-2"><i class="fas fa-wind"></i></div>
+        <div class="col-2" id="wind"></div>
+        <div class="col-2">m/s</div>
+
+        <div class="col-2">
+          <i class="fas fa-sun"></i><i class="fas fa-angle-double-up"></i>
+        </div>
+        <div class="col-4" id="sunrise"></div>
+        <div class="col-2">
+          <i class="fas fa-sun"></i><i class="fas fa-angle-double-down"></i>
+        </div>
+        <div class="col-4" id="sunset"></div>
+      </div>`;
+}
+
+function displayForecastHourly() {
+  let forecastHourly = document.querySelector("#forecast-hourly");
+  let forecastHourlyHTML = `<div class="scrolling-wrapper">`;
+  let hours = [
+    "00:00",
+    "01:00",
+    "02:00",
+    "03:00",
+    "04:00",
+    "05:00",
+    "06:00",
+    "07:00",
+    "08:00",
+    "09:00",
+    "10:00",
+    "11:00",
+    "12:00",
+    "13:00",
+    "14:00",
+    "15:00",
+    "16:00",
+    "17:00",
+    "18:00",
+    "19:00",
+    "20:00",
+    "21:00",
+    "22:00",
+    "23:00",
+  ];
+
+  hours.forEach(function (hour) {
+    forecastHourlyHTML =
+      forecastHourlyHTML +
+      `<div class="card hourly">
+            <p class="time">${hour}</p>
+            <img
+              src="media/suncloud.png"
+              class="image-weather-small"
+              alt="image-weather-small"
+            />
+            <p class="temp">25°C</p>
+          </div>`;
+  });
+  forecastHourlyHTML = forecastHourlyHTML + `</div>`;
+
+  forecastHourly.innerHTML = forecastHourlyHTML;
+}
+
+function displayForecastWeek() {
+  let forecastWeek = document.querySelector("#forecast-week");
+  let forecastWeekHTML = `<div class="scrolling-wrapper">`;
+  let weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  weekDays.forEach(function (weekDay) {
+    forecastWeekHTML =
+      forecastWeekHTML +
+      `<div class="card weekly col-2">
+          <p class="weekday">${weekDay}</p>
+          <p class="date">Jun 13</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp min">19°C</p>
+          <p class="temp max">26°C</p>
+        </div>`;
+  });
+  forecastWeekHTML = forecastWeekHTML + `</div>`;
+
+  forecastWeek.innerHTML = forecastWeekHTML;
+}
+
 function enableGPS() {
   document.querySelector("#city-input").value = "";
   navigator.geolocation.getCurrentPosition(createApiRouteByGPS);
@@ -88,6 +209,8 @@ function showWeather(response) {
   currentWeatherDescription.innerHTML = response.data.weather[0].description;
 
   // fetch extra results for current weather
+
+  displayCurrentWeatherIndices();
 
   let tempMax = document.querySelector("#temp-max");
   let tempMin = document.querySelector("#temp-min");
@@ -142,6 +265,9 @@ function showWeather(response) {
     mainThemeSource.src = "media/themes/default/back-daytime-fog.gif";
   } else {
   }
+
+  displayForecastHourly();
+  displayForecastWeek();
 }
 
 function changeUOM(event) {
@@ -160,6 +286,13 @@ function changeUOM(event) {
 
       for (var i = 0; i < uomTemp.length; i++) {
         uomTemp[i].innerHTML = "°F";
+      }
+
+      // no mistake in console, and not working
+      var items = document.getElementsByClassName(".t");
+      for (var item of items) {
+        const t = item.innerHTML;
+        item.innerHTML = Math.round(t * 1.8 + 32);
       }
 
       /* should get an array of values for class ".t" elements 

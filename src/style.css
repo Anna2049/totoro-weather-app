@@ -1,30 +1,69 @@
-@media (min-width: 1024px) {
+@media (min-width: 250px) {
+  html {
+    width: 100vw;
+    font-size: 100%;
+  }
+
+  .main-theme {
+    width: 100vw;
+    height: 100vh;
+  }
+  .container {
+    width: 90vw;
+    margin: 5vw;
+    padding: 0;
+  }
+}
+@media (min-width: 800px) {
   body {
     max-width: 400px;
     margin: 0 auto;
   }
+  .container {
+    max-width: 400px;
+    margin: 10px;
+  }
   .main-theme {
     max-width: 400px;
   }
-  .layer-clouds {
-    max-width: 500px;
-  }
-}
-
-html {
-  width: 100vw;
-  font-size: 100%;
 }
 
 body {
   border: 1px solid gray;
-  width: 100vw;
   font-family: "Oswald", sans-serif;
 }
+
 a {
   text-decoration: none;
   color: unset;
   cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  opacity: 80%;
+}
+h1 {
+  font-size: 100px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+h2 {
+  font-size: 40px;
+  line-height: 44px;
+}
+h3:first-letter {
+  text-transform: capitalize;
+}
+
+/*td: replace h4,p?*/
+h4 {
+  text-align: center;
+}
+p {
+  margin: 0;
 }
 
 ul {
@@ -34,25 +73,11 @@ ul {
 }
 
 .main-theme {
-  width: 100vw;
-  height: 100vh;
   position: absolute;
   z-index: -1;
   opacity: 80%;
 }
 
-.layer-clouds {
-  position: absolute;
-  width: 100vw;
-  z-index: -1;
-  opacity: 100%;
-}
-
-#placeholderUOM,
-#celsius,
-#fahrenheit {
-  position: relative;
-}
 /*.front-layer {
   overflow: hidden;
 }
@@ -87,82 +112,32 @@ ul {
 
 .scrolling-wrapper {
   opacity: 60%;
+  overflow: auto;
+  white-space: nowrap;
+  padding-right: 10px;
 }
-
-.form-check-input {
-  margin-left: 10px;
-}
-
-/*.image-six-chibi {
-  display: block;
-  max-width: 110%;
-  margin: -40px;
-}
-*/
 
 .image-six-chibi {
+  display: block;
   width: 100%;
+  margin: -30px 0 -30px -20px; /*td: add settings in vw*/
 }
 
-/*.
-.totoro-moving {
-  width: auto;
-  height: 100px;
-  position: absolute;
-  z-index: 0;
-  margin: 0 auto;
-  opacity: 80%;
-  padding: -10px; 
-}
-*/
-
-footer {
-  text-align: center;
-  font-size: 15px;
-  margin-top: 40px;
-}
-h2 {
-  font-size: 40px;
-  line-height: 44px;
-}
-h4 {
-  text-align: center;
-}
-p {
-  margin: 0;
-}
-
-.search-panel {
-  margin: 15px auto 0;
-}
-#button-settings {
+.search #button-settings {
   margin-right: 10px;
   font-size: 20px;
   border-radius: 4px;
 }
 
-#button-location-gps {
+.search #button-location-gps {
   border-radius: 4px 0px 0px 4px;
   font-size: 20px;
 }
 
-.form-control {
-  line-height: 30px;
-}
-#current-temperature {
-  font-size: 100px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-}
 #placeholderUOM {
   font-size: 30px;
-  opacity: 100%; /* change back to zero*/
   position: relative;
   top: -45px; /* replace by smth less fixed*/
-}
-.row-1 {
-  padding-top: 10px;
-  line-height: 100px;
 }
 
 .today-other {
@@ -170,21 +145,12 @@ p {
   line-height: 25px;
   text-align: right;
 }
-.today-results {
-  --bs-gutter-x: 0;
-}
-.today-UOM,
-.update-time {
-  text-align: left;
-}
 
 .image-weather-small {
   display: inline-block;
   max-width: 80%;
 }
-.image-footer {
-  width: 15%;
-}
+
 .hourly,
 .weekly {
   display: inline-block;
@@ -195,27 +161,12 @@ p {
   margin: 1px;
 }
 
-.scrolling-wrapper {
-  overflow: auto;
-  white-space: nowrap;
-  padding-right: 10px;
-}
-
 .clickables:hover {
   cursor: pointer;
   font-size: larger;
   opacity: 80%;
 }
 
-h1,
-h2,
-h3 {
-  opacity: 80%;
-}
-
-h3:first-letter {
-  text-transform: capitalize;
-}
 #current-weather-indices {
   background-color: #fff;
   border-radius: 4px;
@@ -223,8 +174,8 @@ h3:first-letter {
   padding: 12px;
 }
 
-#placeholderUOM,
-#current-weather-indices {
+/* td: change this below to js*/
+#placeholderUOM {
   visibility: collapse;
 }
 
@@ -236,4 +187,13 @@ h3:first-letter {
 }
 .collapsed {
   visibility: collapse;
+}
+
+.offcanvas-body footer {
+  text-align: center;
+  font-size: 15px;
+  margin-top: 40px;
+}
+.offcanvas-body footer .image-footer {
+  width: 15%;
 }

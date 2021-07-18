@@ -28,13 +28,13 @@
   <body>
     <img class="main-theme" id="mainTheme" src="media/homescreen2.jpg" />
 
-    <div class="front-layer">
+    <!--    <div class="front-layer">
       <img class="layer-clouds cloud-1" src="media/front-clouds-light1.png" />
       <img class="layer-clouds cloud-2" src="media/front-clouds-light1.png" />
-    </div>
+    </div>-->
 
-    <div class="container">
-      <form class="input-group search-panel" id="search-city-form">
+    <div class="container search">
+      <form class="input-group" id="search-city-form">
         <button
           type="button"
           class="btn btn-outline-secondary"
@@ -61,7 +61,9 @@
         />
         <input type="submit" class="btn btn-outline-secondary" value="Search" />
       </form>
+    </div>
 
+    <div class="container main-info">
       <h1 id="temp-main">
         <span id="current-temperature"></span
         ><small id="placeholderUOM">
@@ -74,152 +76,30 @@
 
       <h3 id="date-and-time">Date & Time placeh-r</h3>
       <h3 id="current-description"></h3>
+    </div>
 
-      <br />
+    <div class="container" id="current-weather-indices"></div>
 
-      <!---->
-      <div class="container" id="current-weather-indices">
-        <div class="row g-0">
-          <div class="col-2">
-            <i class="fas fa-temperature-high"></i
-            ><i class="fas fa-temperature-low"></i>
-          </div>
-          <div class="col-2">
-            <span class="t" id="temp-max"></span> /
-            <span class="t" id="temp-min"></span>
-          </div>
-          <div class="col-2 uom-temp">°С</div>
+    <div class="container" id="forecast-hourly"></div>
 
-          <div class="col-2"><i class="fas fa-cloud"></i></div>
-          <div class="col-2" id="cloudiness"></div>
-          <div class="col-2">%</div>
-
-          <div class="col-2"><i class="fas fa-tshirt"></i></div>
-          <div class="col-2 t" id="feels-like">25</div>
-          <div class="col-2 uom-temp">°С</div>
-
-          <div class="col-2"><i class="fas fa-tachometer-alt"></i></div>
-          <div class="col-2" id="pressure"></div>
-          <div class="col-2">mbar</div>
-
-          <div class="col-2">
-            <i class="fas fa-tint"></i>
-          </div>
-          <div class="col-2" id="humidity"></div>
-          <div class="col-2">%</div>
-
-          <div class="col-2"><i class="fas fa-wind"></i></div>
-          <div class="col-2" id="wind"></div>
-          <div class="col-2">m/s</div>
-
-          <div class="col-2">
-            <i class="fas fa-sun"></i><i class="fas fa-angle-double-up"></i>
-          </div>
-          <div class="col-4" id="sunrise"></div>
-          <div class="col-2">
-            <i class="fas fa-sun"></i><i class="fas fa-angle-double-down"></i>
-          </div>
-          <div class="col-4" id="sunset"></div>
-        </div>
-      </div>
-
-      <hr />
-
-      <div class="scrolling-wrapper">
-        <div class="card hourly">
-          <p class="time">12:00</p>
-          <img
-            src="media/suncloud.png"
-            class="image-weather-small"
-            alt="image-weather-small"
-          />
-          <p class="temp">25°C</p>
-        </div>
-
-        <div class="card hourly">
-          <p class="time">13:00</p>
-          <img
-            src="media/suncloud.png"
-            class="image-weather-small"
-            alt="image-weather-small"
-          />
-          <p class="temp">25°C</p>
-        </div>
-
-        <div class="card hourly">
-          <p class="time">14:00</p>
-          <img
-            src="media/suncloud.png"
-            class="image-weather-small"
-            alt="image-weather-small"
-          />
-          <p class="temp">25°C</p>
-        </div>
-
-        <div class="card hourly">
-          <p class="time">15:00</p>
-          <img
-            src="media/suncloud.png"
-            class="image-weather-small"
-            alt="image-weather-small"
-          />
-          <p class="temp">25°C</p>
-        </div>
-
-        <div class="card hourly">
-          <p class="time">16:00</p>
-          <img
-            src="media/suncloud.png"
-            class="image-weather-small"
-            alt="image-weather-small"
-          />
-          <p class="temp">25°C</p>
-        </div>
-
-        <div class="card hourly">
-          <p class="time">17:00</p>
-          <img
-            src="media/suncloud.png"
-            class="image-weather-small"
-            alt="image-weather-small"
-          />
-          <p class="temp">25°C</p>
-        </div>
-
-        <div class="card hourly">
-          <p class="time">18:00</p>
-          <img
-            src="media/suncloud.png"
-            class="image-weather-small"
-            alt="image-weather-small"
-          />
-          <p class="temp">25°C</p>
-        </div>
-        <div class="card hourly">
-          <p class="time">19:00</p>
-          <img
-            src="media/suncloud.png"
-            class="image-weather-small"
-            alt="image-weather-small"
-          />
-          <p class="temp">25°C</p>
-        </div>
-      </div>
-
-      <!---->
+    <div class="container" id="hr-image">
       <img
         src="media/six-chibi-totoro.png"
         alt="six chibi totoro"
         class="image-six-chibi"
       />
+    </div>
 
-      <h4>
-        <span class="clickables">Weekly</span> |
-        <span class="clickables">Monthly</span>
-      </h4>
-      <hr />
+    <h4>
+      <span class="clickables">Weekly</span> |
+      <span class="clickables">Monthly</span>
+    </h4>
+    <hr />
 
-      <div class="row row-weekly">
+    <div class="container" id="forecast-week"></div>
+    <!--
+      <div class="scrolling-wrapper">
+        
         <div class="card weekly col-2">
           <p class="weekday">Sun</p>
           <p class="date">Jun 13</p>
@@ -286,127 +166,137 @@
           <p class="temp min">19°C</p>
           <p class="temp max">26°C</p>
         </div>
+        <div class="card weekly col-2">
+          <p class="weekday">Sun</p>
+          <p class="date">Jun 13</p>
+          <img
+            src="media/suncloud.png"
+            class="image-weather-small"
+            alt="image-weather-small"
+          />
+          <p class="temp min">19°C</p>
+          <p class="temp max">26°C</p>
+        </div>
+      </div> 
+    -->
+
+    <div
+      class="offcanvas offcanvas-start"
+      tabindex="-1"
+      id="offcanvasStart"
+      aria-labelledby="offcanvasStartLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 id="offcanvasStartLabel">Settings:</h5>
+        <button
+          type="button"
+          class="btn-close text-reset"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
       </div>
-
-      <div
-        class="offcanvas offcanvas-start"
-        tabindex="-1"
-        id="offcanvasStart"
-        aria-labelledby="offcanvasStartLabel"
-      >
-        <div class="offcanvas-header">
-          <h5 id="offcanvasStartLabel">Settings:</h5>
-          <button
-            type="button"
-            class="btn-close text-reset"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
+      <div class="offcanvas-body">
+        <div>Units:</div>
+        <br />
+        <div class="row">
+          <div class="col-4">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineUnitOptions"
+              id="set-units-metric"
+              checked
+            /><label for="#set-units-metric">Metric</label>
+          </div>
+          <div class="col">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineUnitOptions"
+              id="set-units-imperial"
+            /><label for="#set-units-imperial">Imperial</label>
+          </div>
         </div>
-        <div class="offcanvas-body">
-          <div>Units:</div>
-          <br />
-          <div class="row">
-            <div class="col-4">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="inlineUnitOptions"
-                id="set-units-metric"
-                checked
-              /><label for="#set-units-metric">Metric</label>
-            </div>
-            <div class="col">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="inlineUnitOptions"
-                id="set-units-imperial"
-              /><label for="#set-units-imperial">Imperial</label>
-            </div>
+        <br />
+        <div>Themes:</div>
+        <br />
+        <div class="row">
+          <div class="col-4">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineThemeOptions"
+              id="set-theme-default"
+              checked
+            /><label for="#set-theme-default">Default</label>
           </div>
-          <br />
-          <div>Themes:</div>
-          <br />
-          <div class="row">
-            <div class="col-4">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="inlineThemeOptions"
-                id="set-theme-default"
-                checked
-              /><label for="#set-theme-default">Default</label>
-            </div>
-            <div class="col-3">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="inlineThemeOptions"
-                id="set-theme-city"
-                disabled
-              /><label for="#set-theme-city">City</label>
-            </div>
-            <div class="col-5">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="inlineThemeOptions"
-                id="set-theme-minimalistic"
-                disabled
-              /><label for="#set-theme-minimalistic">Minimalistic</label>
-            </div>
+          <div class="col-3">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineThemeOptions"
+              id="set-theme-city"
+              disabled
+            /><label for="#set-theme-city">City</label>
           </div>
-          <br />
-          <div>Icons meaning:</div>
-          <br />
-          <div class="container">
-            <div class="row">
-              <div class="col-2">
-                <i class="fas fa-temperature-high"></i>
-              </div>
-              <div class="col-4">Temp max</div>
-              <div class="col-2">
-                <i class="fas fa-temperature-low"></i>
-              </div>
-              <div class="col-4">Temp min</div>
-              <div class="col-2"><i class="fas fa-tshirt"></i></div>
-              <div class="col-4">Feels like</div>
-              <div class="col-2"><i class="fas fa-cloud"></i></div>
-              <div class="col-4">Cloudiness</div>
-              <div class="col-2"><i class="fas fa-tachometer-alt"></i></div>
-              <div class="col-4">Pressure</div>
-              <div class="col-2">
-                <i class="fas fa-tint"></i>
-              </div>
-              <div class="col-4">Humidity</div>
-              <div class="col-2"><i class="fas fa-wind"></i></div>
-              <div class="col-4">Wind</div>
-              <div class="col-2"><i class="fas fa-eye"></i></div>
-              <div class="col-4">Visibility</div>
-              <div class="col-2">
-                <i class="fas fa-sun"></i><i class="fas fa-angle-double-up"></i>
-              </div>
-              <div class="col-4">Sunrise</div>
-              <div class="col-2">
-                <i class="fas fa-sun"></i
-                ><i class="fas fa-angle-double-down"></i>
-              </div>
-              <div class="col-4">Sunset</div>
-            </div>
+          <div class="col-5">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineThemeOptions"
+              id="set-theme-minimalistic"
+              disabled
+            /><label for="#set-theme-minimalistic">Minimalistic</label>
           </div>
-
-          <footer>
-            <img src="media/footer.png" class="image-footer" />
-            <br />
-            <a
-              href="https://github.com/Anna2049/totoro-weather-app"
-              class="source-code clickables"
-              >Open a source code</a
-            >
-            <p>by Anna Lavrenova</p>
-          </footer>
         </div>
+        <br />
+        <div>Icons meaning:</div>
+        <br />
+        <div class="container">
+          <div class="row">
+            <div class="col-2">
+              <i class="fas fa-temperature-high"></i>
+            </div>
+            <div class="col-4">Temp max</div>
+            <div class="col-2">
+              <i class="fas fa-temperature-low"></i>
+            </div>
+            <div class="col-4">Temp min</div>
+            <div class="col-2"><i class="fas fa-tshirt"></i></div>
+            <div class="col-4">Feels like</div>
+            <div class="col-2"><i class="fas fa-cloud"></i></div>
+            <div class="col-4">Cloudiness</div>
+            <div class="col-2"><i class="fas fa-tachometer-alt"></i></div>
+            <div class="col-4">Pressure</div>
+            <div class="col-2">
+              <i class="fas fa-tint"></i>
+            </div>
+            <div class="col-4">Humidity</div>
+            <div class="col-2"><i class="fas fa-wind"></i></div>
+            <div class="col-4">Wind</div>
+            <div class="col-2"><i class="fas fa-eye"></i></div>
+            <div class="col-4">Visibility</div>
+            <div class="col-2">
+              <i class="fas fa-sun"></i><i class="fas fa-angle-double-up"></i>
+            </div>
+            <div class="col-4">Sunrise</div>
+            <div class="col-2">
+              <i class="fas fa-sun"></i><i class="fas fa-angle-double-down"></i>
+            </div>
+            <div class="col-4">Sunset</div>
+          </div>
+        </div>
+
+        <footer>
+          <img src="media/footer.png" class="image-footer" />
+          <br />
+          <a
+            href="https://github.com/Anna2049/totoro-weather-app"
+            class="source-code clickables"
+            >Open a source code</a
+          >
+          <p>by Anna Lavrenova</p>
+        </footer>
       </div>
     </div>
 
