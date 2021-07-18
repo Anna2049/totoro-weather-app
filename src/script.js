@@ -2,6 +2,9 @@ function convertUnixTime(UNIX_timestamp) {
   var a = new Date(UNIX_timestamp * 1000);
   var hh = a.getHours();
   var mm = a.getMinutes();
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
   var formatedTime = `${hh}:${mm}`;
   return formatedTime;
 }
