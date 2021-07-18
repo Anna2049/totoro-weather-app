@@ -213,10 +213,14 @@ h3 {
   opacity: 80%;
 }
 
+h3:first-letter {
+  text-transform: capitalize;
+}
 #current-weather-indices {
   background-color: #fff;
-  border-radius: 0.25rem;
+  border-radius: 4px;
   opacity: 60%;
+  padding: 12px;
 }
 
 #placeholderUOM,
