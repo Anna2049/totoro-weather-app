@@ -10,21 +10,22 @@
   }
   .container {
     width: 90vw;
-    margin: 5vw;
+    margin: 5vw auto;
     padding: 0;
   }
 }
 @media (min-width: 800px) {
   body {
-    max-width: 400px;
+    max-width: 500px;
     margin: 0 auto;
   }
   .container {
-    max-width: 400px;
-    margin: 10px;
+    max-width: 90%;
+    margin: 10px auto;
   }
   .main-theme {
-    max-width: 400px;
+    max-width: 500px;
+    height: 100vh;
   }
 }
 
