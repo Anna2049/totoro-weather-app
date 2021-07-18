@@ -64,7 +64,7 @@
 
       <h1 id="temp-main">
         <span id="current-temperature"></span
-        ><small class="UOM-temp" id="placeholderUOM">
+        ><small id="placeholderUOM">
           <a href="#" class="clickables" id="celsius">°С</a> |
           <a href="#" class="clickables" id="fahrenheit">°F</a>
         </small>
@@ -85,40 +85,41 @@
             ><i class="fas fa-temperature-low"></i>
           </div>
           <div class="col-2">
-            <span id="temp-max"></span> / <span id="temp-min"></span>
+            <span class="t" id="temp-max"></span> /
+            <span class="t" id="temp-min"></span>
           </div>
-          <div class="col-2">°С</div>
+          <div class="col-2 uom-temp">°С</div>
 
           <div class="col-2"><i class="fas fa-cloud"></i></div>
-          <div class="col-2" id="cloudiness">000</div>
+          <div class="col-2" id="cloudiness"></div>
           <div class="col-2">%</div>
 
           <div class="col-2"><i class="fas fa-tshirt"></i></div>
-          <div class="col-2" id="feels-like">18</div>
-          <div class="col-2">°С</div>
+          <div class="col-2 t" id="feels-like">25</div>
+          <div class="col-2 uom-temp">°С</div>
 
           <div class="col-2"><i class="fas fa-tachometer-alt"></i></div>
-          <div class="col-2" id="pressure">000</div>
+          <div class="col-2" id="pressure"></div>
           <div class="col-2">mbar</div>
 
           <div class="col-2">
             <i class="fas fa-tint"></i>
           </div>
-          <div class="col-2" id="humidity">000</div>
+          <div class="col-2" id="humidity"></div>
           <div class="col-2">%</div>
 
           <div class="col-2"><i class="fas fa-wind"></i></div>
-          <div class="col-2" id="wind">000</div>
+          <div class="col-2" id="wind"></div>
           <div class="col-2">m/s</div>
 
           <div class="col-2">
             <i class="fas fa-sun"></i><i class="fas fa-angle-double-up"></i>
           </div>
-          <div class="col-4" id="sunrise">000</div>
+          <div class="col-4" id="sunrise"></div>
           <div class="col-2">
             <i class="fas fa-sun"></i><i class="fas fa-angle-double-down"></i>
           </div>
-          <div class="col-4" id="sunset">000</div>
+          <div class="col-4" id="sunset"></div>
         </div>
       </div>
 
@@ -366,7 +367,7 @@
               </div>
               <div class="col-4">Temp max</div>
               <div class="col-2">
-                <i class="fas fa-temperature-high"></i>
+                <i class="fas fa-temperature-low"></i>
               </div>
               <div class="col-4">Temp min</div>
               <div class="col-2"><i class="fas fa-tshirt"></i></div>

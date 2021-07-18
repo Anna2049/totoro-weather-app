@@ -2,8 +2,8 @@ function convertUnixTime(UNIX_timestamp) {
   var a = new Date(UNIX_timestamp * 1000);
   var hh = a.getHours();
   var mm = a.getMinutes();
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
+  if (mm < 10) {
+    mm = `0${mm}`;
   }
   var formatedTime = `${hh}:${mm}`;
   return formatedTime;
@@ -150,18 +150,36 @@ function changeUOM(event) {
     "current-temperature"
   ).textContent;
   if (currentTempResponse === "") {
+    // may delete zero length confition in future, since placeholder is hidden now
   } else {
     currentTempResponse = parseInt(currentTempResponse);
     if (event.target.id === "fahrenheit") {
       currentTemperature.innerHTML = Math.round(currentTempResponse * 1.8 + 32);
       fahrenheitUOM.removeEventListener("click", changeUOM);
       celsiusUOM.addEventListener("click", changeUOM);
+
+      for (var i = 0; i < uomTemp.length; i++) {
+        uomTemp[i].innerHTML = "°F";
+      }
+
+      /* should get an array of values for class ".t" elements 
+      var t = document.querySelector(".t").textContent;
+      console.log(t);
+      var x = document.getElementsByClassName(".t").textContent;
+      console.log(x);
+      for (var i = 0; i < 10; i++) {
+        t[i].innerHTML = Math.round(t * 1.8 + 32);
+      }
+      */
     } else {
       currentTemperature.innerHTML = Math.round(
         (currentTempResponse - 32) / 1.8
       );
       celsiusUOM.removeEventListener("click", changeUOM);
       fahrenheitUOM.addEventListener("click", changeUOM);
+      for (var i = 0; i < uomTemp.length; i++) {
+        uomTemp[i].innerHTML = "°C";
+      }
     }
   }
 }
@@ -184,3 +202,4 @@ fahrenheitUOM.addEventListener("click", changeUOM);
 //document.getElementById("mainTheme").src = "media/footer.png";
 
 let mainThemeSource = document.getElementById("mainTheme");
+var uomTemp = document.querySelectorAll(".uom-temp");
