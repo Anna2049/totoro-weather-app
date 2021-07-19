@@ -8,7 +8,6 @@ function convertUnixTime(UNIX_timestamp) {
   var formatedTime = `${hh}:${mm}`;
   return formatedTime;
 }
-
 function getCardinalDirectionArrow(angle) {
   const directions = ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"];
   // const directions = ["⇑","⇗","⇒","⇘","⇓","⇙","⇐","⇖"];
@@ -18,7 +17,6 @@ function getCardinalDirectionName(angle) {
   const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
   return directions[Math.round(angle / 45) % 8];
 }
-
 function showCurrentDateAndTime() {
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   let months = [
@@ -47,7 +45,28 @@ function showCurrentDateAndTime() {
   let time = `${hours}:${minutes}`;
   currentDateAndTime.innerHTML = `${month} ${date}, ${day}, ${time}`;
 }
-
+function defineGraphicElements(shortDescription) {
+  console.log(shortDescription);
+  if (
+    shortDescription === "clear" ||
+    shortDescription === "clouds" ||
+    shortDescription === "scattered clouds"
+  ) {
+    mainThemeSource.src = "media/themes/default/back-daytime-sunny.gif";
+  } else if (
+    shortDescription === "rain" ||
+    shortDescription === "shower rain"
+  ) {
+    mainThemeSource.src = "media/themes/default/back-rain-heavy.gif";
+  } else if (shortDescription === "thundersorm") {
+    mainThemeSource.src = "media/themes/default/back-night-thunder.gif";
+  } else if (shortDescription === "snow") {
+    mainThemeSource.src = "media/themes/default/back-daytime-snow-light.gif";
+  } else if (shortDescription === "mist") {
+    mainThemeSource.src = "media/themes/default/back-daytime-fog.gif";
+  } else {
+  }
+}
 function displayCurrentWeatherIndices() {
   let currentWeatherIndices = document.querySelector(
     "#current-weather-indices"
@@ -95,7 +114,6 @@ function displayCurrentWeatherIndices() {
         <div class="col-4" id="sunset"></div>
       </div>`;
 }
-
 function displayForecastHourly() {
   let forecastHourly = document.querySelector("#forecast-hourly");
   let forecastHourlyHTML = `<div class="scrolling-wrapper">`;
@@ -173,22 +191,25 @@ function enableGPS() {
   document.querySelector("#city-input").value = "";
   navigator.geolocation.getCurrentPosition(createApiRouteByGPS);
 }
-
 function createApiRouteByGPS(position) {
-  // to-do: units responsive
-  let units = "metric";
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
   axios.get(apiUrl).then(showWeather);
 }
-
 function createApiRouteByCityName(event) {
   event.preventDefault();
   let city = document.querySelector("#city-input").value;
-  let units = "metric";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`;
   axios.get(apiUrl).then(showWeather);
+}
+function createApiRouteForOneCall(coordinates) {
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&units=${units}&exclude=minutely&appid=${apiKey}`;
+  axios.get(apiUrl).then(fetchForecastWeek);
+}
+
+function fetchForecastWeek(response) {
+  console.log(response.data.daily);
 }
 
 function showWeather(response) {
@@ -234,40 +255,11 @@ function showWeather(response) {
   sunrise.innerHTML = convertUnixTime(response.data.sys.sunrise);
   sunset.innerHTML = convertUnixTime(response.data.sys.sunset);
 
-  // make elements visible
-
-  var currentIndicesPlaceholder = document.getElementById(
-    "current-weather-indices"
-  );
-  currentIndicesPlaceholder.style["visibility"] = "visible";
-
-  // set background and front layer
-
-  var shortDescription = response.data.weather[0].main.toLowerCase();
-  console.log(shortDescription);
-
-  if (
-    shortDescription === "clear" ||
-    shortDescription === "clouds" ||
-    shortDescription === "scattered clouds"
-  ) {
-    mainThemeSource.src = "media/themes/default/back-daytime-sunny.gif";
-  } else if (
-    shortDescription === "rain" ||
-    shortDescription === "shower rain"
-  ) {
-    mainThemeSource.src = "media/themes/default/back-rain-heavy.gif";
-  } else if (shortDescription === "thundersorm") {
-    mainThemeSource.src = "media/themes/default/back-night-thunder.gif";
-  } else if (shortDescription === "snow") {
-    mainThemeSource.src = "media/themes/default/back-daytime-snow-light.gif";
-  } else if (shortDescription === "mist") {
-    mainThemeSource.src = "media/themes/default/back-daytime-fog.gif";
-  } else {
-  }
+  createApiRouteForOneCall(response.data.coord);
 
   displayForecastHourly();
-  displayForecastWeek();
+  displayForecastWeek(response);
+  defineGraphicElements(response.data.weather[0].main.toLowerCase()); // set background and front layer
 }
 
 function changeUOM(event) {
@@ -321,6 +313,8 @@ let currentDateAndTime = document.querySelector("#date-and-time");
 showCurrentDateAndTime(currentDateAndTime);
 
 let apiKey = "13e9496ba2a5643119025f905a5f6396";
+// to-do: units responsive
+let units = "metric";
 let currentTemperature = document.querySelector("#current-temperature");
 
 let buttonGps = document.querySelector("#button-location-gps");
