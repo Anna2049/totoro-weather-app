@@ -161,7 +161,7 @@ function displayForecastHourly(response) {
       <small>${convertUnixDay(forecastHour.dt)}</small>
             <p class="time">${convertUnixTime(forecastHour.dt)}</p>
             <img
-              src="http://openweathermap.org/img/wn/${
+              src="https://openweathermap.org/img/wn/${
                 forecastHour.weather[0].icon
               }@2x.png"
               class="image-weather-small"
@@ -185,7 +185,7 @@ function displayForecastWeek(response) {
       `<div class="card weekly col-2">
           <p class="weekday">${convertUnixDay(forecastDay.dt)}</p>
           <img
-            src="http://openweathermap.org/img/wn/${
+            src="https://openweathermap.org/img/wn/${
               forecastDay.weather[0].icon
             }@2x.png"
             class="image-weather-small"
