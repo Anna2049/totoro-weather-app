@@ -148,47 +148,25 @@ function displayCurrentWeatherIndicesPlaceholder() {
         <div class="col-4" id="sunset"></div>
       </div>`;
 }
-function displayForecastHourly() {
+function displayForecastHourly(response) {
+  let forecastHoursFromArray = response.data.hourly;
+  console.log(forecastHoursFromArray);
   let forecastHourly = document.querySelector("#forecast-hourly");
   let forecastHourlyHTML = `<div class="scrolling-wrapper">`;
-  let hours = [
-    "00:00",
-    "01:00",
-    "02:00",
-    "03:00",
-    "04:00",
-    "05:00",
-    "06:00",
-    "07:00",
-    "08:00",
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "14:00",
-    "15:00",
-    "16:00",
-    "17:00",
-    "18:00",
-    "19:00",
-    "20:00",
-    "21:00",
-    "22:00",
-    "23:00",
-  ];
 
-  hours.forEach(function (hour) {
+  forecastHoursFromArray.forEach(function (forecastHour) {
     forecastHourlyHTML =
       forecastHourlyHTML +
       `<div class="card hourly">
-            <p class="time">${hour}</p>
+      <small>${convertUnixDay(forecastHour.dt)}</small>
+            <p class="time">${convertUnixTime(forecastHour.dt)}</p>
             <img
-              src="media/suncloud.png"
+              src="http://openweathermap.org/img/wn/${
+                forecastHour.weather[0].icon
+              }@2x.png"
               class="image-weather-small"
-              alt="image-weather-small"
             />
-            <p class="temp">25°C</p>
+            <p class="temp">${Math.round(forecastHour.temp)}°</p>
           </div>`;
   });
   forecastHourlyHTML = forecastHourlyHTML + `</div>`;
@@ -206,16 +184,15 @@ function displayForecastWeek(response) {
       forecastWeekHTML +
       `<div class="card weekly col-2">
           <p class="weekday">${convertUnixDay(forecastDay.dt)}</p>
-          <p class="date">Jun 13</p>
           <img
             src="http://openweathermap.org/img/wn/${
               forecastDay.weather[0].icon
             }@2x.png"
             class="image-weather-small"
-            alt="image-weather-small"
           />
-          <p class="temp min">${Math.round(forecastDay.temp.min)}°C</p>
-          <p class="temp max">${Math.round(forecastDay.temp.max)}°C</p>
+           <p class="temp max">${Math.round(forecastDay.temp.max)}°</p>
+          <small class="temp min">${Math.round(forecastDay.temp.min)}°</small>
+         
         </div>`;
   });
   forecastWeekHTML = forecastWeekHTML + `</div>`;
@@ -242,6 +219,7 @@ function createApiRouteByCityName(event) {
 function createApiRouteForOneCall(coordinates) {
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&units=${units}&exclude=minutely&appid=${apiKey}`;
   axios.get(apiUrl).then(displayForecastWeek);
+  axios.get(apiUrl).then(displayForecastHourly);
 }
 
 function showWeather(response) {
