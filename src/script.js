@@ -1,13 +1,47 @@
 function convertUnixTime(UNIX_timestamp) {
-  var a = new Date(UNIX_timestamp * 1000);
-  var hh = a.getHours();
-  var mm = a.getMinutes();
+  let date = new Date(UNIX_timestamp * 1000);
+  let hh = date.getHours();
+  let mm = date.getMinutes();
   if (mm < 10) {
     mm = `0${mm}`;
   }
   var formatedTime = `${hh}:${mm}`;
   return formatedTime;
 }
+
+function convertUnixDay(UNIX_timestamp) {
+  let date = new Date(UNIX_timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  return days[day];
+}
+
+/* to-do: merge current and convertions
+
+function convertUnixDay(UNIX_timestamp) {
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  let months = [
+    "Jan",
+    "Feb",
+    "March",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  let date = new Date(UNIX_timestamp * 1000);
+  let month = months[date.getMonth()];
+  let date = date.getDate();
+  let day = days[date.getDay()];
+  let formatedDay = `${day}, ${month} ${date}`;
+  return formatedDay[day];
+} */
+
 function getCardinalDirectionArrow(angle) {
   const directions = ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"];
   // const directions = ["⇑","⇗","⇒","⇘","⇓","⇙","⇐","⇖"];
@@ -67,7 +101,7 @@ function defineGraphicElements(shortDescription) {
   } else {
   }
 }
-function displayCurrentWeatherIndices() {
+function displayCurrentWeatherIndicesPlaceholder() {
   let currentWeatherIndices = document.querySelector(
     "#current-weather-indices"
   );
@@ -162,24 +196,26 @@ function displayForecastHourly() {
   forecastHourly.innerHTML = forecastHourlyHTML;
 }
 
-function displayForecastWeek() {
+function displayForecastWeek(response) {
+  let forecastDaysFromArray = response.data.daily;
   let forecastWeek = document.querySelector("#forecast-week");
   let forecastWeekHTML = `<div class="scrolling-wrapper">`;
-  let weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  weekDays.forEach(function (weekDay) {
+  forecastDaysFromArray.forEach(function (forecastDay) {
     forecastWeekHTML =
       forecastWeekHTML +
       `<div class="card weekly col-2">
-          <p class="weekday">${weekDay}</p>
+          <p class="weekday">${convertUnixDay(forecastDay.dt)}</p>
           <p class="date">Jun 13</p>
           <img
-            src="media/suncloud.png"
+            src="http://openweathermap.org/img/wn/${
+              forecastDay.weather[0].icon
+            }@2x.png"
             class="image-weather-small"
             alt="image-weather-small"
           />
-          <p class="temp min">19°C</p>
-          <p class="temp max">26°C</p>
+          <p class="temp min">${Math.round(forecastDay.temp.min)}°C</p>
+          <p class="temp max">${Math.round(forecastDay.temp.max)}°C</p>
         </div>`;
   });
   forecastWeekHTML = forecastWeekHTML + `</div>`;
@@ -205,11 +241,7 @@ function createApiRouteByCityName(event) {
 }
 function createApiRouteForOneCall(coordinates) {
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&units=${units}&exclude=minutely&appid=${apiKey}`;
-  axios.get(apiUrl).then(fetchForecastWeek);
-}
-
-function fetchForecastWeek(response) {
-  console.log(response.data.daily);
+  axios.get(apiUrl).then(displayForecastWeek);
 }
 
 function showWeather(response) {
@@ -231,7 +263,7 @@ function showWeather(response) {
 
   // fetch extra results for current weather
 
-  displayCurrentWeatherIndices();
+  displayCurrentWeatherIndicesPlaceholder();
 
   let tempMax = document.querySelector("#temp-max");
   let tempMin = document.querySelector("#temp-min");
@@ -255,10 +287,7 @@ function showWeather(response) {
   sunrise.innerHTML = convertUnixTime(response.data.sys.sunrise);
   sunset.innerHTML = convertUnixTime(response.data.sys.sunset);
 
-  createApiRouteForOneCall(response.data.coord);
-
-  displayForecastHourly();
-  displayForecastWeek(response);
+  createApiRouteForOneCall(response.data.coord); // and displayForecastWeek from it
   defineGraphicElements(response.data.weather[0].main.toLowerCase()); // set background and front layer
 }
 

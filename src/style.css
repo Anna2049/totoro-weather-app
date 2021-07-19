@@ -112,7 +112,6 @@ ul {
 } */
 
 .scrolling-wrapper {
-  opacity: 60%;
   overflow: auto;
   white-space: nowrap;
   padding-right: 10px;
@@ -197,4 +196,8 @@ ul {
 }
 .offcanvas-body footer .image-footer {
   width: 15%;
+}
+
+.card {
+  background-color: rgba(203, 207, 207, 0.5);
 }
