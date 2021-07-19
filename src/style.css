@@ -121,6 +121,7 @@ ul {
   display: block;
   width: 100%;
   margin: -40px 0 -30px -10px; /*td: add settings in vw*/
+  opacity: 90%;
 }
 
 .search #button-settings {
@@ -200,4 +201,9 @@ ul {
 
 .card {
   background-color: rgba(203, 207, 207, 0.5);
+}
+
+.api-icons-explanation img {
+  width: 3em;
+  margin: -0.8em;
 }
