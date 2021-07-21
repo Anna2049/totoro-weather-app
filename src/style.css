@@ -207,3 +207,16 @@ ul {
   width: 3em;
   margin: -0.8em;
 }
+
+.carousel-inner {
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+}
+
+.carousel-item {
+  transition: transform 10s linear;
+}
+.carousel-item img {
+  height: 40vh;
+}

@@ -67,7 +67,7 @@ function showCurrentDateAndTime() {
     "Nov",
     "Dec",
   ];
-  let now = new Date();
+
   let month = months[now.getMonth()];
   let date = now.getDate();
   let day = days[now.getDay()];
@@ -79,14 +79,15 @@ function showCurrentDateAndTime() {
   let time = `${hours}:${minutes}`;
   currentDateAndTime.innerHTML = `${month} ${date}, ${day}, ${time}`;
 }
-function defineGraphicElements(shortDescription) {
+function defineBackgroundTheme(shortDescription) {
   console.log(shortDescription);
   if (
     shortDescription === "clear" ||
-    shortDescription === "clouds" ||
-    shortDescription === "scattered clouds"
+    shortDescription === "few clouds" ||
+    shortDescription === "scattered clouds" ||
+    shortDescription === "clouds"
   ) {
-    mainThemeSource.src = "media/themes/default/back-daytime-sunny.gif";
+    mainThemeSource.src = `media/themes/default/back-${timeOfTheDay}-clear.gif`;
   } else if (
     shortDescription === "rain" ||
     shortDescription === "shower rain"
@@ -95,12 +96,13 @@ function defineGraphicElements(shortDescription) {
   } else if (shortDescription === "thundersorm") {
     mainThemeSource.src = "media/themes/default/back-night-thunder.gif";
   } else if (shortDescription === "snow") {
-    mainThemeSource.src = "media/themes/default/back-daytime-snow-light.gif";
+    mainThemeSource.src = "media/themes/default/back-day-snow.gif";
   } else if (shortDescription === "mist") {
-    mainThemeSource.src = "media/themes/default/back-daytime-fog.gif";
+    mainThemeSource.src = "media/themes/default/back-day-fog.gif";
   } else {
   }
 }
+
 function displayCurrentWeatherIndicesPlaceholder() {
   let currentWeatherIndices = document.querySelector(
     "#current-weather-indices"
@@ -266,7 +268,8 @@ function showWeather(response) {
   sunset.innerHTML = convertUnixTime(response.data.sys.sunset);
 
   createApiRouteForOneCall(response.data.coord); // and displayForecastWeek from it
-  defineGraphicElements(response.data.weather[0].main.toLowerCase()); // set background and front layer
+  defineBackgroundTheme(response.data.weather[0].main.toLowerCase());
+  //  defineExtraAnimation(response.data.weather[0].main.toLowerCase());
 }
 
 function changeUOM(event) {
@@ -316,6 +319,18 @@ function changeUOM(event) {
   }
 }
 
+let now = new Date();
+let timeOfTheDay = "";
+if (now.getHours() >= 5 && now.getHours() <= 19) {
+  timeOfTheDay = "day";
+  console.log(timeOfTheDay);
+} else if (now.getHours() > 19 && now.getHours() <= 21) {
+  timeOfTheDay = "evening";
+} else if (now.getHours() > 22 || now.getHours() < 5) {
+  timeOfTheDay = "night";
+} else {
+}
+
 let currentDateAndTime = document.querySelector("#date-and-time");
 showCurrentDateAndTime(currentDateAndTime);
 
@@ -336,4 +351,22 @@ fahrenheitUOM.addEventListener("click", changeUOM);
 //document.getElementById("mainTheme").src = "media/footer.png";
 
 let mainThemeSource = document.getElementById("mainTheme");
+
 var uomTemp = document.querySelectorAll(".uom-temp");
+
+console.log(now.getHours());
+console.log(timeOfTheDay);
+
+/*
+function defineExtraAnimation(shortDescription) {
+  let cloud1 = document.querySelector("#clouds-placeholder");
+  let cloudsHTML = "";
+  if (shortDescription === "clouds") {
+    cloudsHTML =
+      cloudsHTML +
+      `         `;
+  } else {
+    alert("Hello");
+  }
+  cloud1.innerHTML = cloudsHTML;
+} */
