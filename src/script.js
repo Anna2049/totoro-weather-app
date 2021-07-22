@@ -83,9 +83,9 @@ function defineBackgroundTheme(shortDescription) {
   console.log(shortDescription);
   if (
     shortDescription === "clear" ||
-    shortDescription === "few clouds" ||
-    shortDescription === "scattered clouds" ||
-    shortDescription === "clouds"
+    shortDescription === "clouds" ||
+    shortDescription === "drizzle" ||
+    shortDescription === "rain"
   ) {
     mainThemeSource.src = `media/themes/default/back-${timeOfTheDay}-clear.gif`;
   } else if (
@@ -97,11 +97,44 @@ function defineBackgroundTheme(shortDescription) {
     mainThemeSource.src = "media/themes/default/back-night-thunder.gif";
   } else if (shortDescription === "snow") {
     mainThemeSource.src = "media/themes/default/back-day-snow.gif";
-  } else if (shortDescription === "mist") {
+  } else if (
+    shortDescription === "mist" ||
+    shortDescription === "smoke" ||
+    shortDescription === "fog" ||
+    shortDescription === "haze" ||
+    shortDescription === "dust" ||
+    shortDescription === "sand" ||
+    shortDescription === "ash"
+  ) {
     mainThemeSource.src = "media/themes/default/back-day-fog.gif";
+  } else if (shortDescription === "squall") {
+    mainThemeSource.src = "media/themes/default/back-squall.gif";
+  } else if (shortDescription === "tornado") {
+    mainThemeSource.src = "media/themes/default/back-tornado.gif";
   } else {
   }
 }
+function defineExtraAnimation(cloudinessPercent, shortDescription, windSpeed) {
+  if (cloudinessPercent > 5) {
+    cloudsCarousel.style["visibility"] = "visible";
+    setCloudsSpeedAndOpacity(windSpeed, cloudinessPercent);
+  } else {
+  }
+}
+function setCloudsSpeedAndOpacity(windSpeed, cloudinessPercent) {
+  let carouselItem1 = document.getElementById("carousel-item1");
+  let carouselItem2 = document.getElementById("carousel-item2");
+  transitionDuration = 40 - windSpeed; //supposed that 40km/h is max for weather being just cloudy
+  carouselItem1.style["transition"] = `transform ${transitionDuration}s linear`;
+  carouselItem2.style["transition"] = `transform ${transitionDuration}s linear`;
+  let carouselCloud1 = document.getElementById("carousel-cloud1");
+  let carouselCloud2 = document.getElementById("carousel-cloud2");
+  carouselCloud1.setAttribute("style", `opacity: ${cloudinessPercent * 1.5}%;`); //*1.5 since direct correlation is a bit too transparent
+  carouselCloud2.setAttribute("style", `opacity: ${cloudinessPercent * 1.5}%;`);
+}
+
+// Clear Clouds Drizzle Rain Thunderstorm Snow
+// Mist Smoke Haze Dust Fog Sand Ash Squall Tornado
 
 function displayCurrentWeatherIndicesPlaceholder() {
   let currentWeatherIndices = document.querySelector(
@@ -128,7 +161,7 @@ function displayCurrentWeatherIndicesPlaceholder() {
 
         <div class="col-2"><i class="fas fa-tachometer-alt"></i></div>
         <div class="col-2" id="pressure"></div>
-        <div class="col-2">mbar</div>
+        <div class="col-2">hPa</div>
 
         <div class="col-2">
           <i class="fas fa-tint"></i>
@@ -138,7 +171,7 @@ function displayCurrentWeatherIndicesPlaceholder() {
 
         <div class="col-2"><i class="fas fa-wind"></i></div>
         <div class="col-2" id="wind"></div>
-        <div class="col-2">m/s</div>
+        <div class="col-2">km/h</div>
 
         <div class="col-2">
           <i class="fas fa-sun"></i><i class="fas fa-angle-double-up"></i>
@@ -174,12 +207,19 @@ function displayForecastHourly(response) {
   forecastHourlyHTML = forecastHourlyHTML + `</div>`;
 
   forecastHourly.innerHTML = forecastHourlyHTML;
+
+  let horizontalDivider = document.getElementById("hr-image");
+  horizontalDivider.src = "media/six-chibi-totoro.png";
 }
 
 function displayForecastWeek(response) {
   let forecastDaysFromArray = response.data.daily;
   let forecastWeek = document.querySelector("#forecast-week");
-  let forecastWeekHTML = `<div class="scrolling-wrapper">`;
+  let forecastWeekHTML = `    <h4>
+      Weekly: <span class="clickables">Brief</span> |
+      <span class="clickables">Detailed</span>
+    </h4>
+    <hr /><div class="scrolling-wrapper">`;
 
   forecastDaysFromArray.forEach(function (forecastDay) {
     forecastWeekHTML =
@@ -214,7 +254,7 @@ function createApiRouteByGPS(position) {
 }
 function createApiRouteByCityName(event) {
   event.preventDefault();
-  let city = document.querySelector("#city-input").value;
+  let city = document.querySelector("#city-input").value.trim();
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`;
   axios.get(apiUrl).then(showWeather);
 }
@@ -258,10 +298,11 @@ function showWeather(response) {
   tempMax.innerHTML = Math.round(response.data.main.temp_max);
   tempMin.innerHTML = Math.round(response.data.main.temp_min);
   feelsLike.innerHTML = Math.round(response.data.main.feels_like);
-  cloudiness.innerHTML = response.data.clouds.all;
+  var cloudinessPercent = response.data.clouds.all;
+  cloudiness.innerHTML = cloudinessPercent;
   pressure.innerHTML = response.data.main.pressure;
   humidity.innerHTML = response.data.main.humidity;
-  var windSpeed = response.data.wind.speed;
+  var windSpeed = Math.round(response.data.wind.speed * 3.6);
   var windDirection = getCardinalDirectionArrow(response.data.wind.deg);
   wind.innerHTML = `${windSpeed} ${windDirection}`;
   sunrise.innerHTML = convertUnixTime(response.data.sys.sunrise);
@@ -269,7 +310,11 @@ function showWeather(response) {
 
   createApiRouteForOneCall(response.data.coord); // and displayForecastWeek from it
   defineBackgroundTheme(response.data.weather[0].main.toLowerCase());
-  //  defineExtraAnimation(response.data.weather[0].main.toLowerCase());
+  defineExtraAnimation(
+    cloudinessPercent,
+    response.data.weather[0].main.toLowerCase(),
+    windSpeed
+  );
 }
 
 function changeUOM(event) {
@@ -323,12 +368,10 @@ let now = new Date();
 let timeOfTheDay = "";
 if (now.getHours() >= 5 && now.getHours() <= 19) {
   timeOfTheDay = "day";
-  console.log(timeOfTheDay);
 } else if (now.getHours() > 19 && now.getHours() <= 21) {
   timeOfTheDay = "evening";
-} else if (now.getHours() > 22 || now.getHours() < 5) {
-  timeOfTheDay = "night";
 } else {
+  timeOfTheDay = "night";
 }
 
 let currentDateAndTime = document.querySelector("#date-and-time");
@@ -354,19 +397,4 @@ let mainThemeSource = document.getElementById("mainTheme");
 
 var uomTemp = document.querySelectorAll(".uom-temp");
 
-console.log(now.getHours());
-console.log(timeOfTheDay);
-
-/*
-function defineExtraAnimation(shortDescription) {
-  let cloud1 = document.querySelector("#clouds-placeholder");
-  let cloudsHTML = "";
-  if (shortDescription === "clouds") {
-    cloudsHTML =
-      cloudsHTML +
-      `         `;
-  } else {
-    alert("Hello");
-  }
-  cloud1.innerHTML = cloudsHTML;
-} */
+let cloudsCarousel = document.getElementById("clouds-placeholder");

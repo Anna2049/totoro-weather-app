@@ -28,22 +28,30 @@
   <body>
     <img class="main-theme" id="mainTheme" src="media/homescreen2.jpg" />
 
-    <div id="clouds-placeholder">
+    <!--<div id="extra-animation-placeholder">
+      <img src="media/themes/default/front-rain.gif" class="front-layer" />
+    </div>-->
+
+    <div id="clouds-placeholder" class="hidden">
       <div id="carousel-clouds" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-          <div class="carousel-item active" data-bs-interval="1">
+          <div
+            id="carousel-item1"
+            class="carousel-item active"
+            data-bs-interval="1"
+          >
             <img
               id="carousel-cloud1"
               class="d-block w-100"
-              src="media/clouds1.png"
+              src="media/front-layers/clouds1.png"
             />
           </div>
 
-          <div id="carousel-cloud2" class="carousel-item" data-bs-interval="1">
+          <div id="carousel-item2" class="carousel-item" data-bs-interval="1">
             <img
               id="carousel-cloud2"
               class="d-block w-100"
-              src="media/clouds2.png"
+              src="media/front-layers/clouds2.png"
             />
           </div>
         </div>
@@ -100,19 +108,9 @@
 
     <div class="container" id="forecast-hourly"></div>
 
-    <div class="container" id="hr-image">
-      <img
-        src="media/six-chibi-totoro.png"
-        alt="six chibi totoro"
-        class="image-six-chibi"
-      />
+    <div class="container">
+      <img id="hr-image" src="" alt="" class="image-six-chibi" />
     </div>
-
-    <h4>
-      <span class="clickables">Weekly</span> |
-      <span class="clickables">Monthly</span>
-    </h4>
-    <hr />
 
     <div class="container" id="forecast-week"></div>
 
