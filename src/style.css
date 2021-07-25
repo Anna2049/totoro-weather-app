@@ -74,6 +74,7 @@ ul {
 
 .main-theme {
   position: fixed;
+  top: 0;
   z-index: -1;
   opacity: 80%;
   border: 1px solid lightgray;

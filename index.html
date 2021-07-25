@@ -56,7 +56,6 @@
           </div>
         </div>
       </div>
-      ;
     </div>
 
     <div class="container search">
@@ -315,13 +314,14 @@
       google.maps.event.addDomListener(window, "load", initialize);
 
       const geocoder = new google.maps.Geocoder();
-      document.getElementById("submit").addEventListener("click", () => {
+      document.getElementById("submit").addEventListener("click", (event) => {
+        event.preventDefault();
         geocodeAddress(geocoder);
       });
       function geocodeAddress(geocoder) {
         const address = document.querySelector("#city-input").value;
         geocoder.geocode({ address: address }).then(({ results }) => {
-          alertLatLng(
+          createApiRouteForOpenWeatherOneCall(
             results[0].geometry.location.lat(),
             results[0].geometry.location.lng()
           );

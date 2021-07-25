@@ -80,7 +80,6 @@ function showCurrentDateAndTime() {
   currentDateAndTime.innerHTML = `${month} ${date}, ${day}, ${time}`;
 }
 function defineBackgroundTheme(shortDescription) {
-  console.log(shortDescription);
   if (
     shortDescription === "clear" ||
     shortDescription === "clouds" ||
@@ -185,7 +184,7 @@ function displayCurrentWeatherIndicesPlaceholder() {
 }
 function displayForecastHourly(response) {
   let forecastHoursFromArray = response.data.hourly;
-  console.log(forecastHoursFromArray);
+  //console.log(forecastHoursFromArray);
   let forecastHourly = document.querySelector("#forecast-hourly");
   let forecastHourlyHTML = `<div class="scrolling-wrapper">`;
 
@@ -243,42 +242,37 @@ function displayForecastWeek(response) {
 
 function enableGPS() {
   document.querySelector("#city-input").value = "";
-  navigator.geolocation.getCurrentPosition(createApiRouteByGPS);
+  navigator.geolocation.getCurrentPosition(getCurrentPositionFromGPS);
 }
-function createApiRouteByGPS(position) {
+
+function getCurrentPositionFromGPS(position) {
   let lat = position.coords.latitude;
-  let lon = position.coords.longitude;
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
-  axios.get(apiUrl).then(showWeather);
-}
-function createApiRouteByCityName(event) {
-  event.preventDefault();
-  let city = document.querySelector("#city-input").value.trim();
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`;
-  axios.get(apiUrl).then(showWeather);
-}
-function createApiRouteForOneCall(coordinates) {
-  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&units=${units}&exclude=minutely&appid=${apiKey}`;
-  axios.get(apiUrl).then(displayForecastWeek);
-  axios.get(apiUrl).then(displayForecastHourly);
+  let lng = position.coords.longitude;
+  createApiRouteForOpenWeatherOneCall(lat, lng);
 }
 
-function showWeather(response) {
-  currentTemperature.innerHTML = Math.round(response.data.main.temp);
+function createApiRouteForOpenWeatherOneCall(lat, lng) {
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=${units}&exclude=minutely&appid=${apiKey}`;
+  //console.log(apiUrl);
+  axios.get(apiUrl).then((response) => {
+    displayCurrentWeather(response);
+    displayForecastWeek(response);
+    displayForecastHourly(response);
+  });
+}
 
-  //celsiusUOM.innerHTML = "°С";
-  //fahrenheitUOM.innerHTML = "°F";
-
-  //for (let e of document.getElementsByTagName("h1")) {e.style.visibility = "visible";}
-
+function displayCurrentWeather(response) {
+  currentTemperature.innerHTML = Math.round(response.data.current.temp);
   var placeholderUOM = document.getElementById("placeholderUOM"); // working without # near id. styles specifics vs js??
   placeholderUOM.style["visibility"] = "visible";
   let currentCity = document.querySelector("#current-city");
-  currentCity.innerHTML = `${response.data.name} (${response.data.sys.country})`;
+  let citySelected = document.querySelector("#city-input").value.split(",");
+  currentCity.innerHTML = citySelected[0];
   let currentWeatherDescription = document.querySelector(
     "#current-description"
   );
-  currentWeatherDescription.innerHTML = response.data.weather[0].description;
+  currentWeatherDescription.innerHTML =
+    response.data.current.weather[0].description;
 
   // fetch extra results for current weather
 
@@ -294,26 +288,23 @@ function showWeather(response) {
   let sunrise = document.querySelector("#sunrise");
   let sunset = document.querySelector("#sunset");
 
-  tempMax.innerHTML = Math.round(response.data.main.temp_max);
-  tempMin.innerHTML = Math.round(response.data.main.temp_min);
-  feelsLike.innerHTML = Math.round(response.data.main.feels_like);
-  var cloudinessPercent = response.data.clouds.all;
-  cloudiness.innerHTML = cloudinessPercent;
-  pressure.innerHTML = response.data.main.pressure;
-  humidity.innerHTML = response.data.main.humidity;
-  var windSpeed = Math.round(response.data.wind.speed * 3.6);
-  var windDirection = getCardinalDirectionArrow(response.data.wind.deg);
-  wind.innerHTML = `${windSpeed} ${windDirection}`;
-  sunrise.innerHTML = convertUnixTime(response.data.sys.sunrise);
-  sunset.innerHTML = convertUnixTime(response.data.sys.sunset);
+  var cloudinessPercent = response.data.current.clouds;
+  var windSpeed = Math.round(response.data.current.wind_speed * 3.6);
+  var windDirection = getCardinalDirectionArrow(response.data.current.wind_deg);
+  var shortDescription = response.data.current.weather[0].main.toLowerCase();
 
-  createApiRouteForOneCall(response.data.coord); // and displayForecastWeek from it
-  defineBackgroundTheme(response.data.weather[0].main.toLowerCase());
-  defineExtraAnimation(
-    cloudinessPercent,
-    response.data.weather[0].main.toLowerCase(),
-    windSpeed
-  );
+  tempMax.innerHTML = Math.round(response.data.daily[0].temp.max);
+  tempMin.innerHTML = Math.round(response.data.daily[0].temp.min);
+  feelsLike.innerHTML = Math.round(response.data.current.feels_like);
+  cloudiness.innerHTML = cloudinessPercent;
+  pressure.innerHTML = response.data.current.pressure;
+  humidity.innerHTML = response.data.current.humidity;
+  wind.innerHTML = `${windSpeed} ${windDirection}`;
+  sunrise.innerHTML = convertUnixTime(response.data.current.sunrise);
+  sunset.innerHTML = convertUnixTime(response.data.current.sunset);
+
+  defineBackgroundTheme(shortDescription);
+  defineExtraAnimation(cloudinessPercent, shortDescription, windSpeed);
 }
 
 function changeUOM(event) {
@@ -384,7 +375,7 @@ let currentTemperature = document.querySelector("#current-temperature");
 let buttonGps = document.querySelector("#button-location-gps");
 buttonGps.addEventListener("click", enableGPS);
 let inputFormCity = document.querySelector("#search-city-form");
-inputFormCity.addEventListener("submit", createApiRouteByCityName);
+//inputFormCity.addEventListener("submit", createApiRouteForOpenWeatherOneCall);
 
 let fahrenheitUOM = document.querySelector("#fahrenheit");
 let celsiusUOM = document.querySelector("#celsius");
@@ -397,8 +388,3 @@ let mainThemeSource = document.getElementById("mainTheme");
 var uomTemp = document.querySelectorAll(".uom-temp");
 
 let cloudsCarousel = document.getElementById("clouds-placeholder");
-
-function alertLatLng(lat, lng) {
-  alert(lat);
-  alert(lng);
-}
