@@ -144,6 +144,8 @@ function defineExtraAnimation(cloudinessPercent, shortDescription, windSpeed) {
     frontLayerSource.src = "media/front-layers/rain5.gif";
     frontLayerSource.style["visibility"] = "visible";
   } else {
+    frontLayerSource.src = "";
+    frontLayerSource.style["visibility"] = "hidden";
   }
 }
 function setCloudsSpeedAndOpacity(windSpeed, cloudinessPercent) {
