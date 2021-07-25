@@ -397,3 +397,8 @@ let mainThemeSource = document.getElementById("mainTheme");
 var uomTemp = document.querySelectorAll(".uom-temp");
 
 let cloudsCarousel = document.getElementById("clouds-placeholder");
+
+function alertLatLng(lat, lng) {
+  alert(lat);
+  alert(lng);
+}
