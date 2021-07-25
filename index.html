@@ -83,8 +83,10 @@
           class="form-control"
           id="city-input"
           placeholder="Enter your city"
+          onfocus="this.value=''"
           required
         />
+
         <input type="submit" class="btn btn-outline-secondary" value="Search" />
       </form>
     </div>
@@ -293,5 +295,19 @@
       crossorigin="anonymous"
     ></script>
     <script src="src/script.js"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnMPWcmFo_Je-QnkZBUUNyIlaqwyBIBco&libraries=places"></script>
+    <script>
+      function initialize() {
+        var options = {
+          types: ["(cities)"],
+        };
+
+        var input = document.getElementById("city-input");
+        var autocomplete = new google.maps.places.Autocomplete(input, options);
+      }
+
+      google.maps.event.addDomListener(window, "load", initialize);
+    </script>
   </body>
 </html>

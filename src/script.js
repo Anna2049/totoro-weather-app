@@ -106,7 +106,7 @@ function defineBackgroundTheme(shortDescription) {
     shortDescription === "sand" ||
     shortDescription === "ash"
   ) {
-    mainThemeSource.src = "media/themes/default/back-day-fog.gif";
+    mainThemeSource.src = "media/themes/default/back-day-fog.jpg";
   } else if (shortDescription === "squall") {
     mainThemeSource.src = "media/themes/default/back-squall.gif";
   } else if (shortDescription === "tornado") {
@@ -211,7 +211,6 @@ function displayForecastHourly(response) {
   let horizontalDivider = document.getElementById("hr-image");
   horizontalDivider.src = "media/six-chibi-totoro.png";
 }
-
 function displayForecastWeek(response) {
   let forecastDaysFromArray = response.data.daily;
   let forecastWeek = document.querySelector("#forecast-week");
