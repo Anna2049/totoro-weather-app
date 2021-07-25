@@ -126,6 +126,7 @@
     >
       <div class="offcanvas-header">
         <h5 id="offcanvasStartLabel">Settings:</h5>
+
         <button
           type="button"
           class="btn-close text-reset"
@@ -134,7 +135,37 @@
         ></button>
       </div>
       <div class="offcanvas-body">
-        <div class="row">
+        <div>
+          <small
+            ><i
+              >(*upon change - new settings are applied automatically for
+              further queries)</i
+            ></small
+          >
+        </div>
+        <br />
+        <label for="themes">Theme:</label>
+        <select id="theme-preferred" class="">
+          <option value="nature" selected>Nature</option>
+          <option value="city">City</option>
+          <option value="minimalistic">Minimalistic</option>
+        </select>
+
+        <label for="units">Units:</label>
+        <select id="units-preferred" class="">
+          <option value="metric" selected>Metric</option>
+          <option value="imperial">Imperial</option>
+        </select>
+
+        <br />
+
+        <label for="cities">Favourite city:</label>
+        <select id="city">
+          <option value="city" selected>Warsaw</option>
+        </select>
+
+        <!--
+                <div class="row">
           <div class="col-4">Units:</div>
           <div class="col-3">
             <input
@@ -173,7 +204,6 @@
               type="radio"
               name="inlineThemeOptions"
               id="set-theme-city"
-              disabled
             /><label for="#set-theme-city">City</label>
           </div>
           <div class="col-5">
@@ -185,10 +215,11 @@
               disabled
             /><label for="#set-theme-minimalistic">Minimalistic</label>
           </div>
-        </div>
-        <br />
-        <div>Icons meaning:</div>
-        <br />
+        </div>-->
+
+        <hr />
+
+        <h5>Icons meaning: Current Weather</h5>
         <div class="container">
           <div class="row">
             <div class="col-2">
@@ -223,19 +254,8 @@
             <div class="col-4">Sunset</div>
           </div>
         </div>
-
-        <footer>
-          <img src="media/footer.png" class="image-footer" />
-          <br />
-          <a
-            href="https://github.com/Anna2049/totoro-weather-app"
-            class="source-code clickables"
-            >Open a source code</a
-          >
-          <p>by Anna Lavrenova</p>
-        </footer>
-        <br />
-        <!-- think where to move icons explanation-->
+        <hr />
+        <h5>Icons meaning: Weather Forecasts</h5>
         <div class="row g-0 align-items-center api-icons-explanation">
           <div class="col-1">
             <img src="https://openweathermap.org/img/wn/01d@2x.png" />
@@ -289,6 +309,18 @@
           <div class="col-1"></div>
           <div class="col-4">Mist</div>
         </div>
+
+        <footer>
+          <img src="media/footer.png" class="image-footer" />
+          <br />
+          <a
+            href="https://github.com/Anna2049/totoro-weather-app"
+            class="source-code clickables"
+            >Open a source code</a
+          >
+          <p>by Anna Lavrenova</p>
+        </footer>
+        <!-- think where to move icons explanation-->
       </div>
     </div>
 
@@ -297,7 +329,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="src/script.js"></script>
-
+    <script src="src/local_storage.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnMPWcmFo_Je-QnkZBUUNyIlaqwyBIBco&libraries=places"></script>
     <script>
       function initialize() {

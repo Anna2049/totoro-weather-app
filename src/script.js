@@ -91,19 +91,28 @@ function showCurrentDateAndTime(dateString) {
   defineTimeOfTheDay(hours);
 }
 function defineBackgroundTheme(shortDescription) {
+  let themeFolder = "";
+  if (window.localStorage.getItem("theme").length > 0) {
+    themeFolder = window.localStorage.getItem("theme");
+  } else {
+    themeFolder = "nature";
+  }
+  console.log(themeFolder);
+  console.log(shortDescription);
+
   if (
     shortDescription === "clear" ||
     shortDescription === "clouds" ||
     shortDescription === "drizzle" ||
     shortDescription === "rain"
   ) {
-    mainThemeSource.src = `media/themes/default/back-${timeOfTheDay}-clear.gif`;
+    mainThemeSource.src = `media/themes/${themeFolder}/back-${timeOfTheDay}-clear.gif`;
   } else if (shortDescription === "shower rain") {
-    mainThemeSource.src = `media/themes/default/back-rain-heavy.gif`;
+    mainThemeSource.src = `media/themes/${themeFolder}/back-rain-heavy.gif`;
   } else if (shortDescription === "thundersorm") {
-    mainThemeSource.src = "media/themes/default/back-night-thunder.gif";
+    mainThemeSource.src = `media/themes/${themeFolder}/back-night-thunder.gif`;
   } else if (shortDescription === "snow") {
-    mainThemeSource.src = "media/themes/default/back-day-snow.gif";
+    mainThemeSource.src = `media/themes/${themeFolder}/back-day-snow.gif`;
   } else if (
     shortDescription === "mist" ||
     shortDescription === "smoke" ||
@@ -113,11 +122,11 @@ function defineBackgroundTheme(shortDescription) {
     shortDescription === "sand" ||
     shortDescription === "ash"
   ) {
-    mainThemeSource.src = "media/themes/default/back-day-fog.jpg";
+    mainThemeSource.src = `media/themes/${themeFolder}/back-day-fog.jpg`;
   } else if (shortDescription === "squall") {
-    mainThemeSource.src = "media/themes/default/back-squall.gif";
+    mainThemeSource.src = `media/themes/${themeFolder}/back-squall.gif`;
   } else if (shortDescription === "tornado") {
-    mainThemeSource.src = "media/themes/default/back-tornado.gif";
+    mainThemeSource.src = `media/themes/${themeFolder}/back-tornado.gif`;
   } else {
   }
 }
@@ -125,7 +134,10 @@ function defineExtraAnimation(cloudinessPercent, shortDescription, windSpeed) {
   if (cloudinessPercent > 5) {
     cloudsCarousel.style["visibility"] = "visible";
     setCloudsSpeedAndOpacity(windSpeed, cloudinessPercent);
-  } else if (shortDescription === "drizzle") {
+  } else {
+  }
+
+  if (shortDescription === "drizzle") {
     frontLayerSource.src = "media/front-layers/rain4.gif";
     frontLayerSource.style["visibility"] = "visible";
   } else if (shortDescription === "rain") {
@@ -198,9 +210,11 @@ function displayCurrentWeatherIndicesPlaceholder() {
 }
 function displayForecastHourly(response) {
   let forecastHoursFromArray = response.data.hourly;
+  forecastHoursFromArray.shift();
   //console.log(forecastHoursFromArray);
   let forecastHourly = document.querySelector("#forecast-hourly");
-  let forecastHourlyHTML = `<div class="scrolling-wrapper">`;
+  let forecastHourlyHTML = `<h4> Hourly: 48 hours </h4>
+    <hr /><div class="scrolling-wrapper">`;
 
   forecastHoursFromArray.forEach(function (forecastHour) {
     forecastHourlyHTML =
@@ -226,6 +240,7 @@ function displayForecastHourly(response) {
 }
 function displayForecastWeek(response) {
   let forecastDaysFromArray = response.data.daily;
+  forecastDaysFromArray.shift();
   let forecastWeek = document.querySelector("#forecast-week");
   let forecastWeekHTML = `    <h4>
       Weekly: <span class="clickables">Brief</span> |
@@ -266,6 +281,14 @@ function getCurrentPositionFromGPS(position) {
 }
 
 function createApiRouteForOpenWeatherOneCall(lat, lng) {
+  let units = "";
+  if (window.localStorage.getItem("units").length > 0) {
+    units = window.localStorage.getItem("units");
+  } else {
+    units = "metric";
+  }
+  console.log(units);
+
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=${units}&exclude=minutely&appid=${apiKey}`;
   console.log(apiUrl);
   axios.get(apiUrl).then((response) => {
@@ -384,7 +407,7 @@ showCurrentDateAndTime(now);
 
 let apiKey = "13e9496ba2a5643119025f905a5f6396";
 // to-do: units responsive
-let units = "metric";
+
 let currentTemperature = document.querySelector("#current-temperature");
 
 let buttonGps = document.querySelector("#button-location-gps");
