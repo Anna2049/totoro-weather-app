@@ -1,5 +1,38 @@
+function changeCurrentTimezoneOffset(openWeatherResponse) {
+  currentTimeZoneOffset = `${openWeatherResponse}`;
+  return currentTimeZoneOffset;
+}
+
+function changeCurrentTimezone(openWeatherResponse) {
+  currentTimeZone = `${openWeatherResponse}`;
+  return currentTimeZone;
+}
+
+function convertTZ(date, tzString) {
+  return new Date(
+    (typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {
+      timeZone: tzString,
+    })
+  );
+}
+
+function defineTimeOfTheDay(hours) {
+  if (hours >= 5 && hours <= 19) {
+    timeOfTheDay = "day";
+  } else if (hours > 19 && hours <= 21) {
+    timeOfTheDay = "evening";
+  } else {
+    timeOfTheDay = "night";
+  }
+  console.log(timeOfTheDay);
+  return timeOfTheDay;
+}
+
 function convertUnixTime(UNIX_timestamp) {
-  let date = new Date(UNIX_timestamp * 1000);
+  let date = new Date(
+    UNIX_timestamp * 1000 +
+      (currentTimeZoneOffset - Math.abs(requesterTimeZoneOffset)) * 1000
+  );
   let hh = date.getHours();
   let mm = date.getMinutes();
   if (mm < 10) {
@@ -10,37 +43,14 @@ function convertUnixTime(UNIX_timestamp) {
 }
 
 function convertUnixDay(UNIX_timestamp) {
-  let date = new Date(UNIX_timestamp * 1000);
+  let date = new Date(
+    UNIX_timestamp * 1000 +
+      (currentTimeZoneOffset - Math.abs(requesterTimeZoneOffset)) * 1000
+  );
   let day = date.getDay();
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   return days[day];
 }
-
-/* to-do: merge current and convertions
-
-function convertUnixDay(UNIX_timestamp) {
-  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  let months = [
-    "Jan",
-    "Feb",
-    "March",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  let date = new Date(UNIX_timestamp * 1000);
-  let month = months[date.getMonth()];
-  let date = date.getDate();
-  let day = days[date.getDay()];
-  let formatedDay = `${day}, ${month} ${date}`;
-  return formatedDay[day];
-} */
 
 function getCardinalDirectionArrow(angle) {
   const directions = ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"];
@@ -51,7 +61,7 @@ function getCardinalDirectionName(angle) {
   const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
   return directions[Math.round(angle / 45) % 8];
 }
-function showCurrentDateAndTime() {
+function showCurrentDateAndTime(dateString) {
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   let months = [
     "Jan",
@@ -68,16 +78,17 @@ function showCurrentDateAndTime() {
     "Dec",
   ];
 
-  let month = months[now.getMonth()];
-  let date = now.getDate();
-  let day = days[now.getDay()];
-  let hours = now.getHours();
-  let minutes = now.getMinutes();
+  let month = months[dateString.getMonth()];
+  let date = dateString.getDate();
+  let day = days[dateString.getDay()];
+  let hours = dateString.getHours();
+  let minutes = dateString.getMinutes();
   if (minutes < 10) {
     minutes = `0${minutes}`;
   }
   let time = `${hours}:${minutes}`;
   currentDateAndTime.innerHTML = `${month} ${date}, ${day}, ${time}`;
+  defineTimeOfTheDay(hours);
 }
 function defineBackgroundTheme(shortDescription) {
   if (
@@ -253,8 +264,12 @@ function getCurrentPositionFromGPS(position) {
 
 function createApiRouteForOpenWeatherOneCall(lat, lng) {
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=${units}&exclude=minutely&appid=${apiKey}`;
-  //console.log(apiUrl);
+  console.log(apiUrl);
   axios.get(apiUrl).then((response) => {
+    showCurrentDateAndTime(convertTZ(now, response.data.timezone));
+    changeCurrentTimezone(response.data.timezone);
+    changeCurrentTimezoneOffset(response.data.timezone_offset);
+    displayCurrentWeather(response);
     displayCurrentWeather(response);
     displayForecastWeek(response);
     displayForecastHourly(response);
@@ -354,18 +369,15 @@ function changeUOM(event) {
   }
 }
 
-let now = new Date();
-let timeOfTheDay = "";
-if (now.getHours() >= 5 && now.getHours() <= 19) {
-  timeOfTheDay = "day";
-} else if (now.getHours() > 19 && now.getHours() <= 21) {
-  timeOfTheDay = "evening";
-} else {
-  timeOfTheDay = "night";
-}
-
 let currentDateAndTime = document.querySelector("#date-and-time");
-showCurrentDateAndTime(currentDateAndTime);
+let now = new Date();
+var requesterTimeZoneOffset = new Date().getTimezoneOffset() * 60;
+console.log(requesterTimeZoneOffset);
+
+let currentTimeZone = "";
+let currentTimeZoneOffset = null;
+let timeOfTheDay = "";
+showCurrentDateAndTime(now);
 
 let apiKey = "13e9496ba2a5643119025f905a5f6396";
 // to-do: units responsive
@@ -388,3 +400,5 @@ let mainThemeSource = document.getElementById("mainTheme");
 var uomTemp = document.querySelectorAll(".uom-temp");
 
 let cloudsCarousel = document.getElementById("clouds-placeholder");
+
+console.log(timeOfTheDay);
