@@ -98,11 +98,8 @@ function defineBackgroundTheme(shortDescription) {
     shortDescription === "rain"
   ) {
     mainThemeSource.src = `media/themes/default/back-${timeOfTheDay}-clear.gif`;
-  } else if (
-    shortDescription === "rain" ||
-    shortDescription === "shower rain"
-  ) {
-    mainThemeSource.src = "media/themes/default/back-rain-heavy.gif";
+  } else if (shortDescription === "shower rain") {
+    mainThemeSource.src = `media/themes/default/back-rain-heavy.gif`;
   } else if (shortDescription === "thundersorm") {
     mainThemeSource.src = "media/themes/default/back-night-thunder.gif";
   } else if (shortDescription === "snow") {
@@ -128,6 +125,12 @@ function defineExtraAnimation(cloudinessPercent, shortDescription, windSpeed) {
   if (cloudinessPercent > 5) {
     cloudsCarousel.style["visibility"] = "visible";
     setCloudsSpeedAndOpacity(windSpeed, cloudinessPercent);
+  } else if (shortDescription === "drizzle") {
+    frontLayerSource.src = "media/front-layers/rain4.gif";
+    frontLayerSource.style["visibility"] = "visible";
+  } else if (shortDescription === "rain") {
+    frontLayerSource.src = "media/front-layers/rain5.gif";
+    frontLayerSource.style["visibility"] = "visible";
   } else {
   }
 }
@@ -396,6 +399,7 @@ fahrenheitUOM.addEventListener("click", changeUOM);
 //document.getElementById("mainTheme").src = "media/footer.png";
 
 let mainThemeSource = document.getElementById("mainTheme");
+let frontLayerSource = document.getElementById("front-layer");
 
 var uomTemp = document.querySelectorAll(".uom-temp");
 
