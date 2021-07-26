@@ -135,6 +135,7 @@ function defineExtraAnimation(cloudinessPercent, shortDescription, windSpeed) {
     cloudsCarousel.style["visibility"] = "visible";
     setCloudsSpeedAndOpacity(windSpeed, cloudinessPercent);
   } else {
+    cloudsCarousel.style["visibility"] = "hidden";
   }
 
   if (shortDescription === "drizzle") {
@@ -160,8 +161,28 @@ function setCloudsSpeedAndOpacity(windSpeed, cloudinessPercent) {
   carouselCloud2.setAttribute("style", `opacity: ${cloudinessPercent * 1.5}%;`);
 }
 
-// Clear Clouds Drizzle Rain Thunderstorm Snow
-// Mist Smoke Haze Dust Fog Sand Ash Squall Tornado
+function defineBodyFont(elements) {
+  console.log(timeOfTheDay);
+  if (timeOfTheDay === "night") {
+    for (var i = 0; i < elementsWithDynamicFont.length; i++) {
+      elementsWithDynamicFont[i].setAttribute(
+        `style`,
+        `
+        text-shadow: 2px 1px 4px black;
+        color: white;`
+      );
+    }
+  } else {
+    for (var i = 0; i < elementsWithDynamicFont.length; i++) {
+      elementsWithDynamicFont[i].setAttribute(
+        `style`,
+        `
+        text-shadow: 2px 1px 4px white;
+        color: black;`
+      ); // background-color: rgba(255, 255, 255, 0.6);
+    }
+  }
+}
 
 function displayCurrentWeatherIndicesPlaceholder() {
   let currentWeatherIndices = document.querySelector(
@@ -302,11 +323,12 @@ function createApiRouteForOpenWeatherOneCall(lat, lng) {
     displayForecastWeek(response);
     displayForecastHourly(response);
   });
+  defineBodyFont(elementsWithDynamicFont);
 }
 
 function displayCurrentWeather(response) {
   currentTemperature.innerHTML = Math.round(response.data.current.temp);
-  var placeholderUOM = document.getElementById("placeholderUOM"); // working without # near id. styles specifics vs js??
+  var placeholderUOM = document.getElementById("placeholderUOM");
   placeholderUOM.style["visibility"] = "visible";
   let currentCity = document.querySelector("#current-city");
   let citySelected = document.querySelector("#city-input").value.split(",");
@@ -316,8 +338,6 @@ function displayCurrentWeather(response) {
   );
   currentWeatherDescription.innerHTML =
     response.data.current.weather[0].description;
-
-  // fetch extra results for current weather
 
   displayCurrentWeatherIndicesPlaceholder();
 
@@ -363,36 +383,12 @@ function changeUOM(event) {
       currentTemperature.innerHTML = Math.round(currentTempResponse * 1.8 + 32);
       fahrenheitUOM.removeEventListener("click", changeUOM);
       celsiusUOM.addEventListener("click", changeUOM);
-
-      for (var i = 0; i < uomTemp.length; i++) {
-        uomTemp[i].innerHTML = "°F";
-      }
-
-      // no mistake in console, and not working
-      var items = document.getElementsByClassName(".t");
-      for (var item of items) {
-        const t = item.innerHTML;
-        item.innerHTML = Math.round(t * 1.8 + 32);
-      }
-
-      /* should get an array of values for class ".t" elements 
-      var t = document.querySelector(".t").textContent;
-      console.log(t);
-      var x = document.getElementsByClassName(".t").textContent;
-      console.log(x);
-      for (var i = 0; i < 10; i++) {
-        t[i].innerHTML = Math.round(t * 1.8 + 32);
-      }
-      */
     } else {
       currentTemperature.innerHTML = Math.round(
         (currentTempResponse - 32) / 1.8
       );
       celsiusUOM.removeEventListener("click", changeUOM);
       fahrenheitUOM.addEventListener("click", changeUOM);
-      for (var i = 0; i < uomTemp.length; i++) {
-        uomTemp[i].innerHTML = "°C";
-      }
     }
   }
 }
@@ -431,3 +427,22 @@ var uomTemp = document.querySelectorAll(".uom-temp");
 let cloudsCarousel = document.getElementById("clouds-placeholder");
 
 console.log(timeOfTheDay);
+var elementsWithDynamicFont = document.getElementsByClassName("dynamic-font");
+
+/*console.log(elementsWithDynamicFont);
+  console.log(timeOfTheDay);
+  if ((timeOfTheDay = "night")) {
+    elements.setAttribute(
+      "style",
+      `text-shadow: 2px 0px black;
+    color: white`
+    );
+  } else {
+    {
+      elements.setAttribute(
+        "style",
+        `text-shadow: 2px 0px white; 
+    color: bblack`
+      );
+    }
+  } */

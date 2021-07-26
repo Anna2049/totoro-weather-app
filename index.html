@@ -60,7 +60,7 @@
       <form class="input-group" id="search-city-form">
         <button
           type="button"
-          class="btn btn-outline-secondary"
+          class="btn btn-outline-secondary dynamic-font"
           id="button-settings"
           data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasStart"
@@ -70,7 +70,7 @@
         </button>
         <button
           type="button"
-          class="btn btn-outline-secondary"
+          class="btn btn-outline-secondary dynamic-font"
           id="button-location-gps"
         >
           <i class="fas fa-map-marker-alt"></i>
@@ -87,13 +87,13 @@
         <input
           id="submit"
           type="submit"
-          class="btn btn-outline-secondary"
+          class="btn btn-outline-secondary dynamic-font"
           value="Search"
         />
       </form>
     </div>
 
-    <div class="container main-info">
+    <div class="container main-info dynamic-font">
       <h1 id="temp-main">
         <span id="current-temperature"></span
         ><small id="placeholderUOM">
@@ -103,20 +103,19 @@
       </h1>
 
       <h2 id="current-city"></h2>
-
-      <h3 id="date-and-time">Date & Time placeh-r</h3>
+      <h3 id="date-and-time"></h3>
       <h3 id="current-description"></h3>
     </div>
 
-    <div class="container" id="current-weather-indices"></div>
+    <div class="container dynamic-font" id="current-weather-indices"></div>
 
-    <div class="container" id="forecast-hourly"></div>
+    <div class="container dynamic-font" id="forecast-hourly"></div>
 
     <div class="container">
       <img id="hr-image" src="" alt="" class="image-six-chibi" />
     </div>
 
-    <div class="container" id="forecast-week"></div>
+    <div class="container dynamic-font" id="forecast-week"></div>
 
     <div
       class="offcanvas offcanvas-start"
@@ -136,34 +135,33 @@
       </div>
       <div class="offcanvas-body">
         <div>
-          <small
-            ><i
-              >(*upon change - new settings are applied automatically for
-              further queries)</i
-            ></small
-          >
+          <label for="themes">Theme:</label>
+          <select id="theme-preferred" class="">
+            <option value="nature" selected>Nature</option>
+            <option value="city">City</option>
+            <option value="minimalistic" disabled>Minimalistic</option>
+          </select>
+
+          <label for="units">Units:</label>
+          <select id="units-preferred" class="">
+            <option value="metric" selected>Metric</option>
+            <option value="imperial">Imperial</option>
+          </select>
+
+          <br />
+
+          <label for="cities">Favourite city:</label>
+          <select id="city">
+            <option value="city" disabled>not available</option>
+          </select>
+          <div>
+            <small
+              ><i
+                >* new settings are applied starting from next search</i
+              ></small
+            >
+          </div>
         </div>
-        <br />
-        <label for="themes">Theme:</label>
-        <select id="theme-preferred" class="">
-          <option value="nature" selected>Nature</option>
-          <option value="city">City</option>
-          <option value="minimalistic">Minimalistic</option>
-        </select>
-
-        <label for="units">Units:</label>
-        <select id="units-preferred" class="">
-          <option value="metric" selected>Metric</option>
-          <option value="imperial">Imperial</option>
-        </select>
-
-        <br />
-
-        <label for="cities">Favourite city:</label>
-        <select id="city">
-          <option value="city" selected>Warsaw</option>
-        </select>
-
         <!--
                 <div class="row">
           <div class="col-4">Units:</div>

@@ -4,6 +4,7 @@ function resetSettings() {
 
 var themePreferred = document.getElementById("theme-preferred");
 var unitsPreferred = document.getElementById("units-preferred");
+var favouriteCities = document.getElementById("previousSearchOptions");
 
 function saveSettings() {
   localStorage.setItem(
