@@ -48,3 +48,5 @@ makePreferencesSelected(unitsPreferred, units);
 
 themePreferred.onchange = saveSettings;
 unitsPreferred.onchange = saveSettings;
+
+// test
