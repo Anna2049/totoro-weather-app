@@ -91,12 +91,6 @@ function showCurrentDateAndTime(dateString) {
   defineTimeOfTheDay(hours);
 }
 function defineBackgroundTheme(shortDescription) {
-  let themeFolder = "";
-  if (window.localStorage.getItem("theme").length > 0) {
-    themeFolder = window.localStorage.getItem("theme");
-  } else {
-    themeFolder = "nature";
-  }
   console.log(themeFolder);
   console.log(shortDescription);
 
@@ -304,12 +298,6 @@ function getCurrentPositionFromGPS(position) {
 }
 
 function createApiRouteForOpenWeatherOneCall(lat, lng) {
-  let units = "";
-  if (window.localStorage.getItem("units").length > 0) {
-    units = window.localStorage.getItem("units");
-  } else {
-    units = "metric";
-  }
   console.log(units);
 
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=${units}&exclude=minutely&appid=${apiKey}`;
@@ -404,7 +392,6 @@ let timeOfTheDay = "";
 showCurrentDateAndTime(now);
 
 let apiKey = "13e9496ba2a5643119025f905a5f6396";
-// to-do: units responsive
 
 let currentTemperature = document.querySelector("#current-temperature");
 
@@ -429,20 +416,5 @@ let cloudsCarousel = document.getElementById("clouds-placeholder");
 console.log(timeOfTheDay);
 var elementsWithDynamicFont = document.getElementsByClassName("dynamic-font");
 
-/*console.log(elementsWithDynamicFont);
-  console.log(timeOfTheDay);
-  if ((timeOfTheDay = "night")) {
-    elements.setAttribute(
-      "style",
-      `text-shadow: 2px 0px black;
-    color: white`
-    );
-  } else {
-    {
-      elements.setAttribute(
-        "style",
-        `text-shadow: 2px 0px white; 
-    color: bblack`
-      );
-    }
-  } */
+let units = "";
+let themeFolder = "";
