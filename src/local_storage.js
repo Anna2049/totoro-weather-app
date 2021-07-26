@@ -1,5 +1,5 @@
 function applySettingsThemeFolder() {
-  if (window.localStorage.getItem("theme").length > 0) {
+  if (window.localStorage.theme != null) {
     themeFolder = window.localStorage.getItem("theme");
   } else {
     themeFolder = "nature";
@@ -7,7 +7,7 @@ function applySettingsThemeFolder() {
   return themeFolder;
 }
 function applySettingsUnits() {
-  if (window.localStorage.getItem("units").length > 0) {
+  if (window.localStorage.units != null) {
     units = window.localStorage.getItem("units");
   } else {
     units = "metric";
@@ -48,5 +48,3 @@ makePreferencesSelected(unitsPreferred, units);
 
 themePreferred.onchange = saveSettings;
 unitsPreferred.onchange = saveSettings;
-
-// test
