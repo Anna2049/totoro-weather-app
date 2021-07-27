@@ -101,7 +101,6 @@
           <a href="#" class="clickables" id="fahrenheit">°F</a>
         </small>
       </h1>
-
       <h2 id="current-city"></h2>
       <h3 id="date-and-time"></h3>
       <h3 id="current-description"></h3>
@@ -150,10 +149,9 @@
 
           <br />
 
-          <label for="cities">Favourite city:</label>
-          <select id="city">
-            <option value="city" disabled>not available</option>
-          </select>
+          <label for="cities">Saved location:</label>
+          <input id="saved-location" disabled />
+
           <div>
             <small
               ><i
@@ -254,58 +252,60 @@
         </div>
         <hr />
         <h5>Icons meaning: Weather Forecasts</h5>
-        <div class="row g-0 align-items-center api-icons-explanation">
-          <div class="col-1">
-            <img src="https://openweathermap.org/img/wn/01d@2x.png" />
+        <div class="container">
+          <div class="row g-0 align-items-center api-icons-explanation">
+            <div class="col-1">
+              <img src="https://openweathermap.org/img/wn/01d@2x.png" />
+            </div>
+            <div class="col-1">
+              <img src="https://openweathermap.org/img/wn/01n@2x.png" />
+            </div>
+            <div class="col-4">Clear sky</div>
+            <div class="col-1">
+              <img src="https://openweathermap.org/img/wn/02d@2x.png" />
+            </div>
+            <div class="col-1">
+              <img src="https://openweathermap.org/img/wn/02n@2x.png" />
+            </div>
+            <div class="col-4">Few clouds</div>
+            <div class="col-1">
+              <img src="https://openweathermap.org/img/wn/03d@2x.png" />
+            </div>
+            <div class="col-1"></div>
+            <div class="col-4">Scattered clouds</div>
+            <div class="col-1">
+              <img src="https://openweathermap.org/img/wn/04d@2x.png" />
+            </div>
+            <div class="col-1"></div>
+            <div class="col-4">Broken clouds</div>
+            <div class="col-1">
+              <img src="https://openweathermap.org/img/wn/09d@2x.png" />
+            </div>
+            <div class="col-1"></div>
+            <div class="col-4">Shower rain</div>
+            <div class="col-1">
+              <img src="https://openweathermap.org/img/wn/10d@2x.png" />
+            </div>
+            <div class="col-1">
+              <img src="https://openweathermap.org/img/wn/10n@2x.png" />
+            </div>
+            <div class="col-4">Rain</div>
+            <div class="col-1">
+              <img src="https://openweathermap.org/img/wn/11d@2x.png" />
+            </div>
+            <div class="col-1"></div>
+            <div class="col-4">thunderstorm</div>
+            <div class="col-1">
+              <img src="https://openweathermap.org/img/wn/13d@2x.png" />
+            </div>
+            <div class="col-1"></div>
+            <div class="col-4">Snow</div>
+            <div class="col-1">
+              <img src="https://openweathermap.org/img/wn/50d@2x.png" />
+            </div>
+            <div class="col-1"></div>
+            <div class="col-4">Mist</div>
           </div>
-          <div class="col-1">
-            <img src="https://openweathermap.org/img/wn/01n@2x.png" />
-          </div>
-          <div class="col-4">Clear sky</div>
-          <div class="col-1">
-            <img src="https://openweathermap.org/img/wn/02d@2x.png" />
-          </div>
-          <div class="col-1">
-            <img src="https://openweathermap.org/img/wn/02n@2x.png" />
-          </div>
-          <div class="col-4">Few clouds</div>
-          <div class="col-1">
-            <img src="https://openweathermap.org/img/wn/03d@2x.png" />
-          </div>
-          <div class="col-1"></div>
-          <div class="col-4">Scattered clouds</div>
-          <div class="col-1">
-            <img src="https://openweathermap.org/img/wn/04d@2x.png" />
-          </div>
-          <div class="col-1"></div>
-          <div class="col-4">Broken clouds</div>
-          <div class="col-1">
-            <img src="https://openweathermap.org/img/wn/09d@2x.png" />
-          </div>
-          <div class="col-1"></div>
-          <div class="col-4">Shower rain</div>
-          <div class="col-1">
-            <img src="https://openweathermap.org/img/wn/10d@2x.png" />
-          </div>
-          <div class="col-1">
-            <img src="https://openweathermap.org/img/wn/10n@2x.png" />
-          </div>
-          <div class="col-4">Rain</div>
-          <div class="col-1">
-            <img src="https://openweathermap.org/img/wn/11d@2x.png" />
-          </div>
-          <div class="col-1"></div>
-          <div class="col-4">thunderstorm</div>
-          <div class="col-1">
-            <img src="https://openweathermap.org/img/wn/13d@2x.png" />
-          </div>
-          <div class="col-1"></div>
-          <div class="col-4">Snow</div>
-          <div class="col-1">
-            <img src="https://openweathermap.org/img/wn/50d@2x.png" />
-          </div>
-          <div class="col-1"></div>
-          <div class="col-4">Mist</div>
         </div>
 
         <footer>
@@ -318,7 +318,6 @@
           >
           <p>by Anna Lavrenova</p>
         </footer>
-        <!-- think where to move icons explanation-->
       </div>
     </div>
 
@@ -345,6 +344,10 @@
       document.getElementById("submit").addEventListener("click", (event) => {
         event.preventDefault();
         geocodeAddress(geocoder);
+        let citySelected = document
+          .querySelector("#city-input")
+          .value.split(",");
+        currentCity.innerHTML = citySelected[0];
       });
       function geocodeAddress(geocoder) {
         const address = document.querySelector("#city-input").value;

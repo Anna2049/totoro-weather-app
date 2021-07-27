@@ -22,8 +22,26 @@ function makePreferencesSelected(optionsList, preference) {
     }
   }
 }
-function resetSettings() {
+function applyLatestGpsLocation() {
+  if (
+    window.localStorage.latitude != null &&
+    window.localStorage.longitude != null
+  ) {
+    lat = window.localStorage.getItem("latitude");
+    lng = window.localStorage.getItem("longitude");
+    currentCity.innerHTML = window.localStorage.getItem("gpsCity");
+    savedGpsLocation.value = window.localStorage.getItem("gpsCity");
+    createApiRouteForOpenWeatherOneCall(lat, lng);
+  } else {
+    lat = `52.248952`;
+    lng = `21.012078`;
+    currentCity.innerHTML = "Warsaw";
+    createApiRouteForOpenWeatherOneCall(lat, lng);
+  }
+}
+function clear() {
   window.localStorage.clear();
+  console.log(localStorage);
 }
 function saveSettings() {
   localStorage.setItem(
@@ -34,14 +52,23 @@ function saveSettings() {
     "units",
     document.getElementById("units-preferred").value
   );
+}
+function saveGps(lat, lng) {
+  localStorage.setItem("latitude", lat);
+  localStorage.setItem("longitude", lng);
   console.log(localStorage);
 }
+function saveCityFromGps(latestGpsSearch) {
+  localStorage.setItem("gpsCity", latestGpsSearch);
+}
+
 var themePreferred = document.getElementById("theme-preferred");
 var unitsPreferred = document.getElementById("units-preferred");
-var favouriteCities = document.getElementById("previousSearchOptions");
+var savedGpsLocation = document.getElementById("saved-location");
 
 applySettingsThemeFolder();
 applySettingsUnits();
+applyLatestGpsLocation();
 
 makePreferencesSelected(themePreferred, themeFolder);
 makePreferencesSelected(unitsPreferred, units);
