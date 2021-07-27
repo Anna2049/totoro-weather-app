@@ -43,15 +43,21 @@ function clear() {
   window.localStorage.clear();
   console.log(localStorage);
 }
-function saveSettings() {
+function saveSettingsTheme() {
   localStorage.setItem(
     "theme",
     document.getElementById("theme-preferred").value
   );
+  themeFolder = document.getElementById("theme-preferred").value;
+  return themeFolder;
+}
+function saveSettingsUnits() {
   localStorage.setItem(
     "units",
     document.getElementById("units-preferred").value
   );
+  units = document.getElementById("units-preferred").value;
+  return units;
 }
 function saveGps(lat, lng) {
   localStorage.setItem("latitude", lat);
@@ -73,5 +79,5 @@ applyLatestGpsLocation();
 makePreferencesSelected(themePreferred, themeFolder);
 makePreferencesSelected(unitsPreferred, units);
 
-themePreferred.onchange = saveSettings;
-unitsPreferred.onchange = saveSettings;
+themePreferred.onchange = saveSettingsTheme;
+unitsPreferred.onchange = saveSettingsUnits;
