@@ -20,6 +20,7 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnMPWcmFo_Je-QnkZBUUNyIlaqwyBIBco&libraries=places"></script>
     <link rel="stylesheet" href="src/style.css" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Totoro Weather App</title>
@@ -160,58 +161,6 @@
             >
           </div>
         </div>
-        <!--
-                <div class="row">
-          <div class="col-4">Units:</div>
-          <div class="col-3">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineUnitOptions"
-              id="set-units-metric"
-              checked
-            /><label for="#set-units-metric">Metric</label>
-          </div>
-          <div class="col-5">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineUnitOptions"
-              id="set-units-imperial"
-            /><label for="#set-units-imperial">Imperial</label>
-          </div>
-        </div>
-        <br />
-        <div>Themes:</div>
-        <br />
-        <div class="row">
-          <div class="col-4">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineThemeOptions"
-              id="set-theme-default"
-              checked
-            /><label for="#set-theme-default">Default</label>
-          </div>
-          <div class="col-3">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineThemeOptions"
-              id="set-theme-city"
-            /><label for="#set-theme-city">City</label>
-          </div>
-          <div class="col-5">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineThemeOptions"
-              id="set-theme-minimalistic"
-              disabled
-            /><label for="#set-theme-minimalistic">Minimalistic</label>
-          </div>
-        </div>-->
 
         <hr />
 
@@ -327,37 +276,5 @@
     ></script>
     <script src="src/script.js"></script>
     <script src="src/local_storage.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnMPWcmFo_Je-QnkZBUUNyIlaqwyBIBco&libraries=places"></script>
-    <script>
-      function initialize() {
-        var options = {
-          types: ["(cities)"],
-        };
-
-        var input = document.getElementById("city-input");
-        var autocomplete = new google.maps.places.Autocomplete(input, options);
-      }
-
-      google.maps.event.addDomListener(window, "load", initialize);
-
-      const geocoder = new google.maps.Geocoder();
-      document.getElementById("submit").addEventListener("click", (event) => {
-        event.preventDefault();
-        geocodeAddress(geocoder);
-        let citySelected = document
-          .querySelector("#city-input")
-          .value.split(",");
-        currentCity.innerHTML = citySelected[0];
-      });
-      function geocodeAddress(geocoder) {
-        const address = document.querySelector("#city-input").value;
-        geocoder.geocode({ address: address }).then(({ results }) => {
-          createApiRouteForOpenWeatherOneCall(
-            results[0].geometry.location.lat(),
-            results[0].geometry.location.lng()
-          );
-        });
-      }
-    </script>
   </body>
 </html>

@@ -68,9 +68,9 @@ function saveCityFromGps(latestGpsSearch) {
   localStorage.setItem("gpsCity", latestGpsSearch);
 }
 
-var themePreferred = document.getElementById("theme-preferred");
-var unitsPreferred = document.getElementById("units-preferred");
-var savedGpsLocation = document.getElementById("saved-location");
+let themePreferred = document.getElementById("theme-preferred");
+let unitsPreferred = document.getElementById("units-preferred");
+let savedGpsLocation = document.getElementById("saved-location");
 
 applySettingsThemeFolder();
 applySettingsUnits();

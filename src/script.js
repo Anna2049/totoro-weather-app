@@ -51,7 +51,6 @@ function defineTimeOfTheDay(hours) {
   } else {
     timeOfTheDay = "night";
   }
-  console.log(timeOfTheDay);
   return timeOfTheDay;
 }
 function convertUnixTime(UNIX_timestamp) {
@@ -171,7 +170,6 @@ function setCloudsSpeedAndOpacity(windSpeed, cloudinessPercent) {
   carouselCloud2.setAttribute("style", `opacity: ${cloudinessPercent * 1.5}%;`);
 }
 function defineBodyFont(elements) {
-  console.log(timeOfTheDay);
   if (timeOfTheDay === "night") {
     for (var i = 0; i < elementsWithDynamicFont.length; i++) {
       elementsWithDynamicFont[i].setAttribute(
@@ -242,32 +240,29 @@ function displayCurrentWeatherIndicesPlaceholder() {
       </div>`;
 }
 function displayCurrentWeather(response) {
-  currentTemperature.innerHTML = Math.round(response.data.current.temp);
-  var placeholderUOM = document.getElementById("placeholderUOM");
-  placeholderUOM.style["visibility"] = "visible";
-
-  let currentWeatherDescription = document.querySelector(
-    "#current-description"
+  let currentTemperature = document.getElementById("current-temperature");
+  let currentWeatherDescription = document.getElementById(
+    "current-description"
   );
+  currentTemperature.innerHTML = Math.round(response.data.current.temp);
   currentWeatherDescription.innerHTML =
     response.data.current.weather[0].description;
 
-  displayCurrentWeatherIndicesPlaceholder();
+  placeholderUOM.style["visibility"] = "visible";
+  let tempMax = document.getElementById("temp-max");
+  let tempMin = document.getElementById("temp-min");
+  let feelsLike = document.getElementById("feels-like");
+  let cloudiness = document.getElementById("cloudiness");
+  let pressure = document.getElementById("pressure");
+  let humidity = document.getElementById("humidity");
+  let wind = document.getElementById("wind");
+  let sunrise = document.getElementById("sunrise");
+  let sunset = document.getElementById("sunset");
+  let windDirection = getCardinalDirectionArrow(response.data.current.wind_deg);
 
-  let tempMax = document.querySelector("#temp-max");
-  let tempMin = document.querySelector("#temp-min");
-  let feelsLike = document.querySelector("#feels-like");
-  let cloudiness = document.querySelector("#cloudiness");
-  let pressure = document.querySelector("#pressure");
-  let humidity = document.querySelector("#humidity");
-  let wind = document.querySelector("#wind");
-  let sunrise = document.querySelector("#sunrise");
-  let sunset = document.querySelector("#sunset");
-
-  var cloudinessPercent = response.data.current.clouds;
-  var windSpeed = Math.round(response.data.current.wind_speed * 3.6);
-  var windDirection = getCardinalDirectionArrow(response.data.current.wind_deg);
-  var shortDescription = response.data.current.weather[0].main.toLowerCase();
+  let cloudinessPercent = response.data.current.clouds;
+  let windSpeed = Math.round(response.data.current.wind_speed * 3.6);
+  let shortDescription = response.data.current.weather[0].main.toLowerCase();
 
   tempMax.innerHTML = Math.round(response.data.daily[0].temp.max);
   tempMin.innerHTML = Math.round(response.data.daily[0].temp.min);
@@ -345,7 +340,7 @@ function displayForecastWeek(response) {
 // GPS-related
 
 function enableGPS() {
-  document.querySelector("#city-input").value = "";
+  address.value = "";
   navigator.geolocation.getCurrentPosition(getCurrentPositionFromGPS);
 }
 function getCurrentPositionFromGPS(position) {
@@ -355,10 +350,19 @@ function getCurrentPositionFromGPS(position) {
   createApiRouteForOpenWeatherCurrent(lat, lng);
   createApiRouteForOpenWeatherOneCall(lat, lng);
 }
+function geocodeAddress(geocoder) {
+  geocoder.geocode({ address: address.value }).then(({ results }) => {
+    createApiRouteForOpenWeatherOneCall(
+      results[0].geometry.location.lat(),
+      results[0].geometry.location.lng()
+    );
+  });
+}
+
 // OpenWeather API calls, f with OneCall is the "command center". Google API call is on index
 
 function createApiRouteForOpenWeatherCurrent(lat, lng) {
-  let apiCurrentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=${units}&appid=${apiKey}`;
+  let apiCurrentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=${units}&appid=${apiKeyOW}`;
   console.log(apiCurrentUrl);
   axios.get(apiCurrentUrl).then((response) => {
     currentCity.innerHTML = response.data.name;
@@ -366,12 +370,13 @@ function createApiRouteForOpenWeatherCurrent(lat, lng) {
   });
 }
 function createApiRouteForOpenWeatherOneCall(lat, lng) {
-  let apiOneCallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=${units}&exclude=minutely&appid=${apiKey}`;
+  let apiOneCallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=${units}&exclude=minutely&appid=${apiKeyOW}`;
   console.log(apiOneCallUrl);
   axios.get(apiOneCallUrl).then((response) => {
     showCurrentDateAndTime(convertTZ(now, response.data.timezone));
     changeCurrentTimezone(response.data.timezone);
     changeCurrentTimezoneOffset(response.data.timezone_offset);
+    displayCurrentWeatherIndicesPlaceholder();
     displayCurrentWeather(response);
     displayCurrentWeather(response);
     displayForecastWeek(response);
@@ -382,37 +387,47 @@ function createApiRouteForOpenWeatherOneCall(lat, lng) {
 
 // declarations
 
-let apiKey = "13e9496ba2a5643119025f905a5f6396";
+const apiKeyOW = "13e9496ba2a5643119025f905a5f6396";
 
-let currentDateAndTime = document.querySelector("#date-and-time");
 let now = new Date();
+let currentDateAndTime = document.querySelector("#date-and-time");
 var requesterTimeZoneOffset = new Date().getTimezoneOffset() * 60;
+console.log(requesterTimeZoneOffset);
 let currentTimeZone = "";
 let currentTimeZoneOffset = null;
+
 let timeOfTheDay = "";
+let lat = "";
+let lng = "";
+let units = "";
+let themeFolder = "";
 
-let currentCity = document.querySelector("#current-city");
-let currentTemperature = document.querySelector("#current-temperature");
-var uomTemp = document.querySelectorAll(".uom-temp");
+let celsiusUOM = document.getElementById("celsius");
+let fahrenheitUOM = document.getElementById("fahrenheit");
+let uomTemp = document.querySelectorAll(".uom-temp");
 
-let buttonGps = document.querySelector("#button-location-gps");
-let inputFormCity = document.querySelector("#search-city-form");
-let fahrenheitUOM = document.querySelector("#fahrenheit");
-let celsiusUOM = document.querySelector("#celsius");
-buttonGps.addEventListener("click", enableGPS);
-fahrenheitUOM.addEventListener("click", changeUOM);
-
+const placeholderUOM = document.getElementById("placeholderUOM");
 let mainThemeSource = document.getElementById("mainTheme");
 let frontLayerSource = document.getElementById("front-layer");
 let cloudsCarousel = document.getElementById("clouds-placeholder");
-var elementsWithDynamicFont = document.getElementsByClassName("dynamic-font");
+let elementsWithDynamicFont = document.getElementsByClassName("dynamic-font");
 
-let units = "";
-let themeFolder = "";
-let lat = "";
-let lng = "";
+const address = document.getElementById("city-input");
+let cityOptions = {
+  types: ["(cities)"],
+};
+let autocomplete = new google.maps.places.Autocomplete(address, cityOptions);
+const geocoder = new google.maps.Geocoder();
+let currentCity = document.getElementById("current-city");
 
-// actions upon page start
-
-showCurrentDateAndTime(now);
-console.log(requesterTimeZoneOffset);
+const buttonGps = document.getElementById("button-location-gps");
+const buttonSearch = document.getElementById("submit");
+buttonGps.addEventListener("click", enableGPS);
+fahrenheitUOM.addEventListener("click", changeUOM);
+buttonSearch.addEventListener("click", (event) => {
+  event.preventDefault();
+  geocodeAddress(geocoder);
+  let citySelected = address.value.split(",");
+  currentCity.innerHTML = citySelected[0];
+});
+//let inputFormCity = document.getElementById("search-city-form");
