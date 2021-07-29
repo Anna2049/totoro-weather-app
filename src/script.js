@@ -376,8 +376,8 @@ function createApiRouteForOpenWeatherOneCall(lat, lng) {
     displayCurrentWeather(response);
     displayForecastWeek(response);
     displayForecastHourly(response);
+    defineBodyFont(elementsWithDynamicFont);
   });
-  defineBodyFont(elementsWithDynamicFont);
 }
 
 // declarations
