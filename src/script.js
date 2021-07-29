@@ -249,33 +249,27 @@ function displayCurrentWeather(response) {
     response.data.current.weather[0].description;
 
   placeholderUOM.style["visibility"] = "visible";
-  let tempMax = document.getElementById("temp-max");
-  let tempMin = document.getElementById("temp-min");
-  let feelsLike = document.getElementById("feels-like");
   let cloudiness = document.getElementById("cloudiness");
-  let pressure = document.getElementById("pressure");
+  let feelsLike = document.getElementById("feels-like");
   let humidity = document.getElementById("humidity");
-  let wind = document.getElementById("wind");
+  let pressure = document.getElementById("pressure");
   let sunrise = document.getElementById("sunrise");
   let sunset = document.getElementById("sunset");
+  let tempMax = document.getElementById("temp-max");
+  let tempMin = document.getElementById("temp-min");
+  let wind = document.getElementById("wind");
+  let windSpeed = Math.round(response.data.current.wind_speed * 3.6);
   let windDirection = getCardinalDirectionArrow(response.data.current.wind_deg);
 
-  let cloudinessPercent = response.data.current.clouds;
-  let windSpeed = Math.round(response.data.current.wind_speed * 3.6);
-  let shortDescription = response.data.current.weather[0].main.toLowerCase();
-
-  tempMax.innerHTML = Math.round(response.data.daily[0].temp.max);
-  tempMin.innerHTML = Math.round(response.data.daily[0].temp.min);
+  cloudiness.innerHTML = response.data.current.clouds;
   feelsLike.innerHTML = Math.round(response.data.current.feels_like);
-  cloudiness.innerHTML = cloudinessPercent;
-  pressure.innerHTML = response.data.current.pressure;
   humidity.innerHTML = response.data.current.humidity;
-  wind.innerHTML = `${windSpeed} ${windDirection}`;
+  pressure.innerHTML = response.data.current.pressure;
   sunrise.innerHTML = convertUnixTime(response.data.current.sunrise);
   sunset.innerHTML = convertUnixTime(response.data.current.sunset);
-
-  defineBackgroundTheme(shortDescription);
-  defineExtraAnimation(cloudinessPercent, shortDescription, windSpeed);
+  tempMax.innerHTML = Math.round(response.data.daily[0].temp.max);
+  tempMin.innerHTML = Math.round(response.data.daily[0].temp.min);
+  wind.innerHTML = `${windSpeed} ${windDirection}`;
 }
 function displayForecastHourly(response) {
   let forecastHoursFromArray = response.data.hourly;
@@ -359,7 +353,7 @@ function geocodeAddress(geocoder) {
   });
 }
 
-// OpenWeather API calls, f with OneCall is the "command center". Google API call is on index
+// OpenWeather API calls, f OneCall is the "command center"
 
 function createApiRouteForOpenWeatherCurrent(lat, lng) {
   let apiCurrentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=${units}&appid=${apiKeyOW}`;
@@ -381,7 +375,13 @@ function createApiRouteForOpenWeatherOneCall(lat, lng) {
     displayCurrentWeather(response);
     displayForecastWeek(response);
     displayForecastHourly(response);
+    defineBackgroundTheme(response.data.current.weather[0].main.toLowerCase());
     defineBodyFont(elementsWithDynamicFont);
+    defineExtraAnimation(
+      response.data.current.clouds,
+      response.data.current.weather[0].main.toLowerCase(),
+      Math.round(response.data.current.wind_speed * 3.6)
+    );
   });
 }
 
