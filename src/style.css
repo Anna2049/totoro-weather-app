@@ -208,7 +208,12 @@ select {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.9);
+  background: linear-gradient(
+    117.9deg,
+    rgb(183, 248, 193) -3.5%,
+    rgb(169, 212, 250) 53.8%,
+    rgb(148, 231, 255) 100.4%
+  );
   z-index: 1;
 }
 #overlay img {
@@ -220,4 +225,15 @@ select {
   left: 0;
   right: 0;
   margin: auto;
+}
+
+#overlay .loader-text {
+  font-family: cursive;
+  font-size: 6vw;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.6);
+  text-shadow: 2px 2px 2px whitesmoke;
+  position: fixed;
+  bottom: 25vh;
+  left: 30vw;
 }
