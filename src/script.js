@@ -108,6 +108,12 @@ function changeUOM(event) {
 }
 // f responsible for visuals
 
+function showLoader() {
+  document.getElementById("overlay").style.display = "block";
+}
+function hideLoader() {
+  document.getElementById("overlay").style.display = "none";
+}
 function defineBackgroundTheme(shortDescription) {
   if (
     shortDescription === "clear" ||
@@ -367,6 +373,8 @@ function createApiRouteForOpenWeatherOneCall(lat, lng) {
   let apiOneCallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=${units}&exclude=minutely&appid=${apiKeyOW}`;
   console.log(apiOneCallUrl);
   axios.get(apiOneCallUrl).then((response) => {
+    showLoader();
+    setTimeout(hideLoader, 3000);
     showCurrentDateAndTime(convertTZ(now, response.data.timezone));
     changeCurrentTimezone(response.data.timezone);
     changeCurrentTimezoneOffset(response.data.timezone_offset);
@@ -430,4 +438,7 @@ buttonSearch.addEventListener("click", (event) => {
   let citySelected = address.value.split(",");
   currentCity.innerHTML = citySelected[0];
 });
+
+setTimeout(hideLoader, 3000);
+
 //let inputFormCity = document.getElementById("search-city-form");
