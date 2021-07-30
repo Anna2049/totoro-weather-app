@@ -351,6 +351,7 @@ function getCurrentPositionFromGPS(position) {
   createApiRouteForOpenWeatherOneCall(lat, lng);
 }
 function geocodeAddress(geocoder) {
+  showLoader();
   geocoder.geocode({ address: address.value }).then(({ results }) => {
     createApiRouteForOpenWeatherOneCall(
       results[0].geometry.location.lat(),
@@ -373,8 +374,6 @@ function createApiRouteForOpenWeatherOneCall(lat, lng) {
   let apiOneCallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=${units}&exclude=minutely&appid=${apiKeyOW}`;
   console.log(apiOneCallUrl);
   axios.get(apiOneCallUrl).then((response) => {
-    showLoader();
-    setTimeout(hideLoader, 3000);
     showCurrentDateAndTime(convertTZ(now, response.data.timezone));
     changeCurrentTimezone(response.data.timezone);
     changeCurrentTimezoneOffset(response.data.timezone_offset);
@@ -439,6 +438,7 @@ buttonSearch.addEventListener("click", (event) => {
   currentCity.innerHTML = citySelected[0];
 });
 
-setTimeout(hideLoader, 3000);
+//setTimeout(hideLoader, 3000);
 
 //let inputFormCity = document.getElementById("search-city-form");
+mainThemeSource.addEventListener("load", hideLoader);
