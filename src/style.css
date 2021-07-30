@@ -212,6 +212,8 @@ select {
   z-index: 1;
 }
 #overlay img {
+  width: 50vw;
+  height: auto;
   position: fixed;
   top: 0;
   bottom: 0;
