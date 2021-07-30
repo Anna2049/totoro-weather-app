@@ -1,3 +1,12 @@
+function initialize() {
+  showLoader();
+  applySettingsThemeFolder();
+  applySettingsUnits();
+  makePreferencesSelected(themePreferred, themeFolder);
+  makePreferencesSelected(unitsPreferred, units);
+  applyLatestGpsLocation();
+}
+
 function applySettingsThemeFolder() {
   if (window.localStorage.theme != null) {
     themeFolder = window.localStorage.getItem("theme");
@@ -72,13 +81,7 @@ let themePreferred = document.getElementById("theme-preferred");
 let unitsPreferred = document.getElementById("units-preferred");
 let savedGpsLocation = document.getElementById("saved-location");
 
-showLoader();
-applySettingsThemeFolder();
-applySettingsUnits();
-applyLatestGpsLocation();
-
-makePreferencesSelected(themePreferred, themeFolder);
-makePreferencesSelected(unitsPreferred, units);
-
 themePreferred.onchange = saveSettingsTheme;
 unitsPreferred.onchange = saveSettingsUnits;
+
+initialize();

@@ -442,5 +442,3 @@ buttonSearch.addEventListener("click", (event) => {
 
 //let inputFormCity = document.getElementById("search-city-form");
 mainThemeSource.addEventListener("load", hideLoader);
-
-showLoader();
