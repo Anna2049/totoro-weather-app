@@ -72,6 +72,7 @@ let themePreferred = document.getElementById("theme-preferred");
 let unitsPreferred = document.getElementById("units-preferred");
 let savedGpsLocation = document.getElementById("saved-location");
 
+showLoader();
 applySettingsThemeFolder();
 applySettingsUnits();
 applyLatestGpsLocation();
