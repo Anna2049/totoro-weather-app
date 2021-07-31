@@ -1,7 +1,7 @@
 // COMMAND CENTERS :
 
 function initialize() {
-  setTimeout(hidePreloader, 3000);
+  mainThemeSource.addEventListener("load", hidePreloader);
   applySettingsThemeFolder();
   applySettingsUnits();
   makePreferencesSelected(themePreferred, themeFolder);
@@ -488,7 +488,6 @@ let fahrenheitUOM = document.getElementById("fahrenheit");
 let uomTemp = document.querySelectorAll(".uom-temp");
 
 const placeholderUOM = document.getElementById("placeholderUOM");
-//const loader = document.getElementById("overlay");
 let mainThemeSource = document.getElementById("mainTheme");
 let frontLayerSource = document.getElementById("front-layer");
 let cloudsCarousel = document.getElementById("clouds-placeholder");
@@ -535,7 +534,5 @@ initialize();
 
 themePreferred.onchange = saveSettingsTheme;
 unitsPreferred.onchange = saveSettingsUnits;
-
-//setTimeout(hideLoader, 3000);
 
 //let inputFormCity = document.getElementById("search-city-form");
