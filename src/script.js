@@ -1,4 +1,97 @@
-// converters
+// COMMAND CENTERS :
+
+function initialize() {
+  showLoader();
+  applySettingsThemeFolder();
+  applySettingsUnits();
+  makePreferencesSelected(themePreferred, themeFolder);
+  makePreferencesSelected(unitsPreferred, units);
+  applyLatestGpsLocation();
+}
+function fetchAndDisplayAll(responseFromOneCall) {
+  showCurrentDateAndTime(convertTZ(now, responseFromOneCall.data.timezone));
+  changeCurrentTimezone(responseFromOneCall.data.timezone);
+  changeCurrentTimezoneOffset(responseFromOneCall.data.timezone_offset);
+  displayCurrentWeatherIndicesPlaceholder();
+  displayCurrentWeather(responseFromOneCall);
+  displayCurrentWeather(responseFromOneCall);
+  displayForecastWeek(responseFromOneCall);
+  displayForecastHourly(responseFromOneCall);
+  defineBackgroundTheme(
+    responseFromOneCall.data.current.weather[0].main.toLowerCase()
+  );
+  defineBodyFont(elementsWithDynamicFont);
+  defineExtraAnimation(
+    responseFromOneCall.data.current.clouds,
+    responseFromOneCall.data.current.weather[0].main.toLowerCase(),
+    Math.round(responseFromOneCall.data.current.wind_speed * 3.6)
+  );
+}
+// LOCAL STORAGE :
+
+function applyLatestGpsLocation() {
+  if (
+    window.localStorage.latitude != null &&
+    window.localStorage.longitude != null
+  ) {
+    lat = window.localStorage.getItem("latitude");
+    lng = window.localStorage.getItem("longitude");
+    currentCity.innerHTML = window.localStorage.getItem("gpsCity");
+    savedGpsLocation.value = window.localStorage.getItem("gpsCity");
+    createApiRouteForOpenWeatherOneCall(lat, lng);
+  } else {
+    createApiRouteForOpenWeatherOneCall(lat, lng);
+  }
+}
+function applySettingsThemeFolder() {
+  if (window.localStorage.theme != null) {
+    themeFolder = window.localStorage.getItem("theme");
+    return themeFolder;
+  }
+}
+function applySettingsUnits() {
+  if (window.localStorage.units != null) {
+    units = window.localStorage.getItem("units");
+    return units;
+  }
+}
+function makePreferencesSelected(optionsList, preference) {
+  var option = optionsList.options;
+  for (var i = 0; i < optionsList.options.length; i++) {
+    if (option[i].value == preference) {
+      option[i].selected = true;
+    }
+  }
+}
+function saveCityFromGps(latestGpsSearch) {
+  localStorage.setItem("gpsCity", latestGpsSearch);
+  savedGpsLocation.value = latestGpsSearch;
+}
+function saveGpsCoords(lat, lng) {
+  localStorage.setItem("latitude", lat);
+  localStorage.setItem("longitude", lng);
+}
+function saveSettingsTheme() {
+  localStorage.setItem(
+    "theme",
+    document.getElementById("theme-preferred").value
+  );
+  themeFolder = document.getElementById("theme-preferred").value;
+  return themeFolder;
+}
+function saveSettingsUnits() {
+  localStorage.setItem(
+    "units",
+    document.getElementById("units-preferred").value
+  );
+  units = document.getElementById("units-preferred").value;
+  return units;
+}
+function clear() {
+  window.localStorage.clear();
+  console.log(localStorage);
+}
+// converters :
 
 function showCurrentDateAndTime(dateString) {
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -106,7 +199,7 @@ function changeUOM(event) {
     }
   }
 }
-// f responsible for visuals
+// f responsible for visuals :
 
 function showLoader() {
   document.getElementById("overlay").style.display = "block";
@@ -346,7 +439,7 @@ function enableGPS() {
 function getCurrentPositionFromGPS(position) {
   lat = position.coords.latitude;
   lng = position.coords.longitude;
-  saveGps(lat, lng);
+  saveGpsCoords(lat, lng);
   createApiRouteForOpenWeatherCurrent(lat, lng);
   createApiRouteForOpenWeatherOneCall(lat, lng);
 }
@@ -359,8 +452,7 @@ function geocodeAddress(geocoder) {
     );
   });
 }
-
-// OpenWeather API calls, f OneCall is the "command center"
+// OpenWeather API calls
 
 function createApiRouteForOpenWeatherCurrent(lat, lng) {
   let apiCurrentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=${units}&appid=${apiKeyOW}`;
@@ -373,23 +465,7 @@ function createApiRouteForOpenWeatherCurrent(lat, lng) {
 function createApiRouteForOpenWeatherOneCall(lat, lng) {
   let apiOneCallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=${units}&exclude=minutely&appid=${apiKeyOW}`;
   console.log(apiOneCallUrl);
-  axios.get(apiOneCallUrl).then((response) => {
-    showCurrentDateAndTime(convertTZ(now, response.data.timezone));
-    changeCurrentTimezone(response.data.timezone);
-    changeCurrentTimezoneOffset(response.data.timezone_offset);
-    displayCurrentWeatherIndicesPlaceholder();
-    displayCurrentWeather(response);
-    displayCurrentWeather(response);
-    displayForecastWeek(response);
-    displayForecastHourly(response);
-    defineBackgroundTheme(response.data.current.weather[0].main.toLowerCase());
-    defineBodyFont(elementsWithDynamicFont);
-    defineExtraAnimation(
-      response.data.current.clouds,
-      response.data.current.weather[0].main.toLowerCase(),
-      Math.round(response.data.current.wind_speed * 3.6)
-    );
-  });
+  axios.get(apiOneCallUrl).then(fetchAndDisplayAll);
 }
 
 // declarations
@@ -398,16 +474,12 @@ const apiKeyOW = "13e9496ba2a5643119025f905a5f6396";
 
 let now = new Date();
 let currentDateAndTime = document.querySelector("#date-and-time");
+let currentCity = document.getElementById("current-city");
 var requesterTimeZoneOffset = new Date().getTimezoneOffset() * 60;
 console.log(requesterTimeZoneOffset);
 let currentTimeZone = "";
 let currentTimeZoneOffset = null;
-
 let timeOfTheDay = "";
-let lat = "";
-let lng = "";
-let units = "";
-let themeFolder = "";
 
 let celsiusUOM = document.getElementById("celsius");
 let fahrenheitUOM = document.getElementById("fahrenheit");
@@ -419,13 +491,16 @@ let frontLayerSource = document.getElementById("front-layer");
 let cloudsCarousel = document.getElementById("clouds-placeholder");
 let elementsWithDynamicFont = document.getElementsByClassName("dynamic-font");
 
+// cities input options popolated from Google library
+
 const address = document.getElementById("city-input");
 let cityOptions = {
   types: ["(cities)"],
 };
 let autocomplete = new google.maps.places.Autocomplete(address, cityOptions);
 const geocoder = new google.maps.Geocoder();
-let currentCity = document.getElementById("current-city");
+
+// buttons and event listeners
 
 const buttonGps = document.getElementById("button-location-gps");
 const buttonSearch = document.getElementById("submit");
@@ -437,8 +512,27 @@ buttonSearch.addEventListener("click", (event) => {
   let citySelected = address.value.split(",");
   currentCity.innerHTML = citySelected[0];
 });
+mainThemeSource.addEventListener("load", hideLoader);
+
+// declarations: local storage
+
+let themePreferred = document.getElementById("theme-preferred");
+let unitsPreferred = document.getElementById("units-preferred");
+let savedGpsLocation = document.getElementById("saved-location");
+
+// declarations: default settings under first load (if local storage is empty)
+
+let themeFolder = "nature";
+let units = "metric";
+let lat = `52.248952`;
+let lng = `21.012078`;
+currentCity.innerHTML = "Warsaw";
+
+initialize();
+
+themePreferred.onchange = saveSettingsTheme;
+unitsPreferred.onchange = saveSettingsUnits;
 
 //setTimeout(hideLoader, 3000);
 
 //let inputFormCity = document.getElementById("search-city-form");
-mainThemeSource.addEventListener("load", hideLoader);
