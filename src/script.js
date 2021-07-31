@@ -200,6 +200,9 @@ function changeUOM(event) {
 }
 // f responsible for visuals :
 
+function showPreloader() {
+  document.getElementById("preloader").style.display = "block";
+}
 function hidePreloader() {
   document.getElementById("preloader").style.display = "none";
 }

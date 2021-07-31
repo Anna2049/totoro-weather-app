@@ -246,7 +246,7 @@ select {
   color: rgba(0, 0, 0, 0.7);
   text-shadow: 2px 2px 2px whitesmoke;
   position: fixed;
-  bottom: 30vh;
+  bottom: 25vh;
 }
 #overlay .loader-text {
   left: 25vw;
