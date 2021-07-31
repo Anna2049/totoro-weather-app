@@ -9,53 +9,18 @@ function initialize() {
   applyLatestGpsLocation(); //-> createApiRouteForOpenWeatherOneCall(lat, lng)
 }
 function fetchAndDisplayAll(responseFromOneCall) {
-  //start test
   console.log(responseFromOneCall);
-  let dtCurrent = document.getElementById("dt-current");
-  let dtHourlyArray0 = document.getElementById("dt-hourly-array-0");
-  let dtHourlyArray1 = document.getElementById("dt-hourly-array-1");
-
-  timestamp1 = new Date(responseFromOneCall.data.current.dt * 1000);
-  timestamp2 = new Date(responseFromOneCall.data.hourly[0].dt * 1000);
-  timestamp3 = new Date(responseFromOneCall.data.hourly[1].dt * 1000);
-
-  console.log(timestamp1);
-  console.log(timestamp2);
-  console.log(timestamp3);
-
-  timestamp1 = timestamp1.toGMTString();
-  timestamp2 = timestamp2.toGMTString();
-  timestamp3 = timestamp3.toGMTString();
-
-  console.log(timestamp1);
-  console.log(timestamp2);
-  console.log(timestamp3);
-
-  let timezone = responseFromOneCall.data.timezone;
-  timestamp1 = convertTZ(timestamp1, timezone);
-  timestamp2 = convertTZ(timestamp2, timezone);
-  timestamp3 = convertTZ(timestamp3, timezone);
-
-  console.log(timestamp1);
-  console.log(timestamp2);
-  console.log(timestamp3);
-
-  dtCurrent.innerHTML = timestamp1;
-  dtHourlyArray0.innerHTML = timestamp2;
-  dtHourlyArray1.innerHTML = timestamp3;
-  //end test
-  showCurrentDateAndTime(convertTZ(now, responseFromOneCall.data.timezone)); //-> defineTimeOfTheDay(hours)
   changeCurrentTimezone(responseFromOneCall.data.timezone);
-  changeCurrentTimezoneOffset(responseFromOneCall.data.timezone_offset);
+  showCurrentDateAndTime(convertTZ(now, currentTimeZone)); //-> setTimeOfTheDay(hours)
   displayCurrentWeatherIndicesPlaceholder();
   displayCurrentWeather(responseFromOneCall);
   displayForecastWeek(responseFromOneCall);
   displayForecastHourly(responseFromOneCall);
-  defineBackgroundTheme(
+  setBackgroundTheme(
     responseFromOneCall.data.current.weather[0].main.toLowerCase()
   );
-  defineBodyFont(elementsWithDynamicFont);
-  defineExtraAnimation(
+  setBodyFont(elementsWithDynamicFont);
+  setExtraAnimation(
     responseFromOneCall.data.current.clouds,
     responseFromOneCall.data.current.weather[0].main.toLowerCase(),
     Math.round(responseFromOneCall.data.current.wind_speed * 3.6)
@@ -125,37 +90,12 @@ function clear() {
   window.localStorage.clear();
   console.log(localStorage);
 }
-// converters :
+// f responsible for dates and time :
 
-function test(dateString) {
-  console.log(dateString);
-  let hours = dateString.getHours();
-  let minutes = dateString.getMinutes();
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
-  }
-  let time = `${hours}:${minutes}`;
-  return time;
-}
 function showCurrentDateAndTime(dateString) {
-  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  let months = [
-    "Jan",
-    "Feb",
-    "March",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+  let day = days[dateString.getDay()];
   let month = months[dateString.getMonth()];
   let date = dateString.getDate();
-  let day = days[dateString.getDay()];
   let hours = dateString.getHours();
   let minutes = dateString.getMinutes();
   if (minutes < 10) {
@@ -163,12 +103,12 @@ function showCurrentDateAndTime(dateString) {
   }
   let time = `${hours}:${minutes}`;
   currentDateAndTime.innerHTML = `${month} ${date}, ${day}, ${time}`;
-  defineTimeOfTheDay(hours);
+  setTimeOfTheDay(hours);
 }
-function convertTZ(date, tzString) {
+function convertTZ(date, TimezoneString) {
   return new Date(
     (typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {
-      timeZone: tzString,
+      timeZone: TimezoneString,
     })
   );
 }
@@ -176,11 +116,7 @@ function changeCurrentTimezone(openWeatherResponse) {
   currentTimeZone = `${openWeatherResponse}`;
   return currentTimeZone;
 }
-function changeCurrentTimezoneOffset(openWeatherResponse) {
-  currentTimeZoneOffset = `${openWeatherResponse}`;
-  return currentTimeZoneOffset;
-}
-function defineTimeOfTheDay(hours) {
+function setTimeOfTheDay(hours) {
   if (hours >= 5 && hours <= 19) {
     timeOfTheDay = "day";
   } else if (hours > 19 && hours <= 21) {
@@ -191,10 +127,7 @@ function defineTimeOfTheDay(hours) {
   return timeOfTheDay;
 }
 function convertUnixTime(UNIX_timestamp) {
-  let date = new Date(
-    UNIX_timestamp * 1000 +
-      (currentTimeZoneOffset * 1000 - Math.abs(requesterTimeZoneOffset) * 1000)
-  );
+  let date = convertTZ(new Date(UNIX_timestamp * 1000), currentTimeZone);
   let hh = date.getHours();
   let mm = date.getMinutes();
   if (mm < 10) {
@@ -204,14 +137,12 @@ function convertUnixTime(UNIX_timestamp) {
   return formatedTime;
 }
 function convertUnixDay(UNIX_timestamp) {
-  let date = new Date(
-    UNIX_timestamp * 1000 +
-      (currentTimeZoneOffset * 1000 - Math.abs(requesterTimeZoneOffset)) * 1000
-  );
+  let date = convertTZ(new Date(UNIX_timestamp * 1000), currentTimeZone);
   let day = date.getDay();
-  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   return days[day];
 }
+// weather converters :
+
 function getCardinalDirectionArrow(angle) {
   const directions = ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"];
   // const directions = ["⇑","⇗","⇒","⇘","⇓","⇙","⇐","⇖"];
@@ -257,7 +188,7 @@ function showLoader() {
 function hideLoader() {
   document.getElementById("overlay").style.display = "none";
 }
-function defineBackgroundTheme(shortDescription) {
+function setBackgroundTheme(shortDescription) {
   if (
     shortDescription === "clear" ||
     shortDescription === "clouds" ||
@@ -288,37 +219,7 @@ function defineBackgroundTheme(shortDescription) {
   } else {
   }
 }
-function defineExtraAnimation(cloudinessPercent, shortDescription, windSpeed) {
-  if (cloudinessPercent > 5) {
-    cloudsCarousel.style["visibility"] = "visible";
-    setCloudsSpeedAndOpacity(windSpeed, cloudinessPercent);
-  } else {
-    cloudsCarousel.style["visibility"] = "hidden";
-  }
-
-  if (shortDescription === "drizzle") {
-    frontLayerSource.src = "media/front-layers/rain4.gif";
-    frontLayerSource.style["visibility"] = "visible";
-  } else if (shortDescription === "rain") {
-    frontLayerSource.src = "media/front-layers/rain5.gif";
-    frontLayerSource.style["visibility"] = "visible";
-  } else {
-    frontLayerSource.src = "";
-    frontLayerSource.style["visibility"] = "hidden";
-  }
-}
-function setCloudsSpeedAndOpacity(windSpeed, cloudinessPercent) {
-  let carouselItem1 = document.getElementById("carousel-item1");
-  let carouselItem2 = document.getElementById("carousel-item2");
-  transitionDuration = 40 - windSpeed; //supposed that 40km/h is max for weather being just cloudy
-  carouselItem1.style["transition"] = `transform ${transitionDuration}s linear`;
-  carouselItem2.style["transition"] = `transform ${transitionDuration}s linear`;
-  let carouselCloud1 = document.getElementById("carousel-cloud1");
-  let carouselCloud2 = document.getElementById("carousel-cloud2");
-  carouselCloud1.setAttribute("style", `opacity: ${cloudinessPercent * 1.5}%;`); //*1.5 since direct correlation is a bit too transparent
-  carouselCloud2.setAttribute("style", `opacity: ${cloudinessPercent * 1.5}%;`);
-}
-function defineBodyFont(elements) {
+function setBodyFont(elements) {
   if (timeOfTheDay === "night") {
     for (var i = 0; i < elementsWithDynamicFont.length; i++) {
       elementsWithDynamicFont[i].setAttribute(
@@ -337,6 +238,36 @@ function defineBodyFont(elements) {
         color: black;`
       ); // background-color: rgba(255, 255, 255, 0.6);
     }
+  }
+}
+function setCloudsSpeedAndOpacity(windSpeed, cloudinessPercent) {
+  let carouselItem1 = document.getElementById("carousel-item1");
+  let carouselItem2 = document.getElementById("carousel-item2");
+  transitionDuration = 40 - windSpeed; //supposed that 40km/h is max for weather being just cloudy
+  carouselItem1.style["transition"] = `transform ${transitionDuration}s linear`;
+  carouselItem2.style["transition"] = `transform ${transitionDuration}s linear`;
+  let carouselCloud1 = document.getElementById("carousel-cloud1");
+  let carouselCloud2 = document.getElementById("carousel-cloud2");
+  carouselCloud1.setAttribute("style", `opacity: ${cloudinessPercent * 1.5}%;`); //*1.5 since direct correlation is a bit too transparent
+  carouselCloud2.setAttribute("style", `opacity: ${cloudinessPercent * 1.5}%;`);
+}
+function setExtraAnimation(cloudinessPercent, shortDescription, windSpeed) {
+  if (cloudinessPercent > 5) {
+    cloudsCarousel.style["visibility"] = "visible";
+    setCloudsSpeedAndOpacity(windSpeed, cloudinessPercent);
+  } else {
+    cloudsCarousel.style["visibility"] = "hidden";
+  }
+
+  if (shortDescription === "drizzle") {
+    frontLayerSource.src = "media/front-layers/rain4.gif";
+    frontLayerSource.style["visibility"] = "visible";
+  } else if (shortDescription === "rain") {
+    frontLayerSource.src = "media/front-layers/rain5.gif";
+    frontLayerSource.style["visibility"] = "visible";
+  } else {
+    frontLayerSource.src = "";
+    frontLayerSource.style["visibility"] = "hidden";
   }
 }
 // f responsible for weather results
@@ -423,7 +354,6 @@ function displayCurrentWeather(response) {
 function displayForecastHourly(response) {
   let forecastHoursFromArray = response.data.hourly;
   forecastHoursFromArray.shift();
-  //console.log(forecastHoursFromArray);
   let forecastHourly = document.querySelector("#forecast-hourly");
   let forecastHourlyHTML = `<h4> Hourly: 48 hours </h4>
     <hr /><div class="scrolling-wrapper">`;
@@ -518,22 +448,37 @@ function createApiRouteForOpenWeatherOneCall(lat, lng) {
   axios.get(apiOneCallUrl).then(fetchAndDisplayAll);
 }
 
-// declarations
-
 const apiKeyOW = "13e9496ba2a5643119025f905a5f6396";
+
+// declarations: dates and time
 
 let now = new Date();
 let currentDateAndTime = document.querySelector("#date-and-time");
-let currentCity = document.getElementById("current-city");
-var requesterTimeZoneOffset = new Date().getTimezoneOffset() * 60;
-console.log(requesterTimeZoneOffset);
+const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const months = [
+  "Jan",
+  "Feb",
+  "March",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 let currentTimeZone = "";
-let currentTimeZoneOffset = null;
 let timeOfTheDay = "";
+
+// declarations: units of measure
 
 let celsiusUOM = document.getElementById("celsius");
 let fahrenheitUOM = document.getElementById("fahrenheit");
 let uomTemp = document.querySelectorAll(".uom-temp");
+
+// declarations: visuals
 
 const placeholderUOM = document.getElementById("placeholderUOM");
 let mainThemeSource = document.getElementById("mainTheme");
@@ -541,8 +486,9 @@ let frontLayerSource = document.getElementById("front-layer");
 let cloudsCarousel = document.getElementById("clouds-placeholder");
 let elementsWithDynamicFont = document.getElementsByClassName("dynamic-font");
 
-// cities input options popolated from Google library
+// declarations: city and city input options
 
+let currentCity = document.getElementById("current-city");
 const address = document.getElementById("city-input");
 let cityOptions = {
   types: ["(cities)"],
@@ -582,5 +528,3 @@ initialize();
 
 themePreferred.onchange = saveSettingsTheme;
 unitsPreferred.onchange = saveSettingsUnits;
-
-//let inputFormCity = document.getElementById("search-city-form");
