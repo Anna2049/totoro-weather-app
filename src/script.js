@@ -1,19 +1,18 @@
 // COMMAND CENTERS :
 
 function initialize() {
-  showLoader();
+  setTimeout(hidePreloader, 3000);
   applySettingsThemeFolder();
   applySettingsUnits();
   makePreferencesSelected(themePreferred, themeFolder);
   makePreferencesSelected(unitsPreferred, units);
-  applyLatestGpsLocation();
+  applyLatestGpsLocation(); //-> createApiRouteForOpenWeatherOneCall(lat, lng)
 }
 function fetchAndDisplayAll(responseFromOneCall) {
-  showCurrentDateAndTime(convertTZ(now, responseFromOneCall.data.timezone));
+  showCurrentDateAndTime(convertTZ(now, responseFromOneCall.data.timezone)); //-> defineTimeOfTheDay(hours)
   changeCurrentTimezone(responseFromOneCall.data.timezone);
   changeCurrentTimezoneOffset(responseFromOneCall.data.timezone_offset);
   displayCurrentWeatherIndicesPlaceholder();
-  displayCurrentWeather(responseFromOneCall);
   displayCurrentWeather(responseFromOneCall);
   displayForecastWeek(responseFromOneCall);
   displayForecastHourly(responseFromOneCall);
@@ -201,11 +200,14 @@ function changeUOM(event) {
 }
 // f responsible for visuals :
 
+function hidePreloader() {
+  document.getElementById("preloader").style.display = "none";
+}
 function showLoader() {
-  loader.style.display = "block";
+  document.getElementById("overlay").style.display = "block";
 }
 function hideLoader() {
-  loader.style.display = "none";
+  document.getElementById("overlay").style.display = "none";
 }
 function defineBackgroundTheme(shortDescription) {
   if (
@@ -486,7 +488,7 @@ let fahrenheitUOM = document.getElementById("fahrenheit");
 let uomTemp = document.querySelectorAll(".uom-temp");
 
 const placeholderUOM = document.getElementById("placeholderUOM");
-const loader = document.getElementById("overlay");
+//const loader = document.getElementById("overlay");
 let mainThemeSource = document.getElementById("mainTheme");
 let frontLayerSource = document.getElementById("front-layer");
 let cloudsCarousel = document.getElementById("clouds-placeholder");

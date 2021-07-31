@@ -106,7 +106,9 @@ ul {
   border-radius: 4px 0px 0px 4px;
   font-size: 20px;
 }
-
+.search #city-input {
+  z-index: 1;
+}
 #placeholderUOM {
   font-size: 30px;
   position: relative;
@@ -200,7 +202,8 @@ select {
   width: 30%;
 }
 
-#overlay {
+#overlay,
+#preloader {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -216,9 +219,16 @@ select {
   );
   z-index: 1;
 }
-#overlay img {
-  width: 50vw;
-  height: auto;
+
+#preloader {
+  display: block;
+}
+#overlay {
+  display: none;
+}
+#overlay img,
+#preloader img {
+  height: 25vh;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -226,8 +236,10 @@ select {
   right: 0;
   margin: auto;
 }
+/*transform: scaleX(-1);*/
 
-#overlay .loader-text {
+#overlay .loader-text,
+#preloader .preloader-text {
   font-family: "Press Start 2P", cursive;
   font-size: 4vw;
   font-weight: 700;
@@ -235,5 +247,10 @@ select {
   text-shadow: 2px 2px 2px whitesmoke;
   position: fixed;
   bottom: 30vh;
-  left: 20vw;
+}
+#overlay .loader-text {
+  left: 25vw;
+}
+#preloader .preloader-text {
+  left: 30vw;
 }
