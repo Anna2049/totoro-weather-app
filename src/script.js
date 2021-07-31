@@ -202,10 +202,10 @@ function changeUOM(event) {
 // f responsible for visuals :
 
 function showLoader() {
-  document.getElementById("overlay").style.display = "block";
+  loader.style.display = "block";
 }
 function hideLoader() {
-  document.getElementById("overlay").style.display = "none";
+  loader.style.display = "none";
 }
 function defineBackgroundTheme(shortDescription) {
   if (
@@ -486,6 +486,7 @@ let fahrenheitUOM = document.getElementById("fahrenheit");
 let uomTemp = document.querySelectorAll(".uom-temp");
 
 const placeholderUOM = document.getElementById("placeholderUOM");
+const loader = document.getElementById("overlay");
 let mainThemeSource = document.getElementById("mainTheme");
 let frontLayerSource = document.getElementById("front-layer");
 let cloudsCarousel = document.getElementById("clouds-placeholder");

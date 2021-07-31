@@ -228,12 +228,12 @@ select {
 }
 
 #overlay .loader-text {
-  font-family: cursive;
-  font-size: 6vw;
+  font-family: "Press Start 2P", cursive;
+  font-size: 4vw;
   font-weight: 700;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(0, 0, 0, 0.7);
   text-shadow: 2px 2px 2px whitesmoke;
   position: fixed;
-  bottom: 25vh;
-  left: 30vw;
+  bottom: 30vh;
+  left: 20vw;
 }
