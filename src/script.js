@@ -9,6 +9,41 @@ function initialize() {
   applyLatestGpsLocation(); //-> createApiRouteForOpenWeatherOneCall(lat, lng)
 }
 function fetchAndDisplayAll(responseFromOneCall) {
+  //start test
+  console.log(responseFromOneCall);
+  let dtCurrent = document.getElementById("dt-current");
+  let dtHourlyArray0 = document.getElementById("dt-hourly-array-0");
+  let dtHourlyArray1 = document.getElementById("dt-hourly-array-1");
+
+  timestamp1 = new Date(responseFromOneCall.data.current.dt * 1000);
+  timestamp2 = new Date(responseFromOneCall.data.hourly[0].dt * 1000);
+  timestamp3 = new Date(responseFromOneCall.data.hourly[1].dt * 1000);
+
+  console.log(timestamp1);
+  console.log(timestamp2);
+  console.log(timestamp3);
+
+  timestamp1 = timestamp1.toGMTString();
+  timestamp2 = timestamp2.toGMTString();
+  timestamp3 = timestamp3.toGMTString();
+
+  console.log(timestamp1);
+  console.log(timestamp2);
+  console.log(timestamp3);
+
+  let timezone = responseFromOneCall.data.timezone;
+  timestamp1 = convertTZ(timestamp1, timezone);
+  timestamp2 = convertTZ(timestamp2, timezone);
+  timestamp3 = convertTZ(timestamp3, timezone);
+
+  console.log(timestamp1);
+  console.log(timestamp2);
+  console.log(timestamp3);
+
+  dtCurrent.innerHTML = timestamp1;
+  dtHourlyArray0.innerHTML = timestamp2;
+  dtHourlyArray1.innerHTML = timestamp3;
+  //end test
   showCurrentDateAndTime(convertTZ(now, responseFromOneCall.data.timezone)); //-> defineTimeOfTheDay(hours)
   changeCurrentTimezone(responseFromOneCall.data.timezone);
   changeCurrentTimezoneOffset(responseFromOneCall.data.timezone_offset);
@@ -92,6 +127,16 @@ function clear() {
 }
 // converters :
 
+function test(dateString) {
+  console.log(dateString);
+  let hours = dateString.getHours();
+  let minutes = dateString.getMinutes();
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  let time = `${hours}:${minutes}`;
+  return time;
+}
 function showCurrentDateAndTime(dateString) {
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   let months = [
@@ -148,7 +193,7 @@ function defineTimeOfTheDay(hours) {
 function convertUnixTime(UNIX_timestamp) {
   let date = new Date(
     UNIX_timestamp * 1000 +
-      (currentTimeZoneOffset - Math.abs(requesterTimeZoneOffset)) * 1000
+      (currentTimeZoneOffset * 1000 - Math.abs(requesterTimeZoneOffset) * 1000)
   );
   let hh = date.getHours();
   let mm = date.getMinutes();
@@ -161,7 +206,7 @@ function convertUnixTime(UNIX_timestamp) {
 function convertUnixDay(UNIX_timestamp) {
   let date = new Date(
     UNIX_timestamp * 1000 +
-      (currentTimeZoneOffset - Math.abs(requesterTimeZoneOffset)) * 1000
+      (currentTimeZoneOffset * 1000 - Math.abs(requesterTimeZoneOffset)) * 1000
   );
   let day = date.getDay();
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
