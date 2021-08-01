@@ -20,10 +20,12 @@ function fetchAndDisplayAll(responseFromOneCall) {
     responseFromOneCall.data.current.weather[0].main.toLowerCase()
   );
   setBodyFont(elementsWithDynamicFont);
-  setExtraAnimation(
+  setFrontLayerAnimation(
+    responseFromOneCall.data.current.weather[0].main.toLowerCase()
+  );
+  setCloudsSpeedAndOpacity(
     responseFromOneCall.data.current.clouds,
-    responseFromOneCall.data.current.weather[0].main.toLowerCase(),
-    Math.round(responseFromOneCall.data.current.wind_speed * 3.6)
+    responseFromOneCall.data.current.wind_speed
   );
 }
 // LOCAL STORAGE :
@@ -236,7 +238,7 @@ function setBackgroundTheme(shortDescription) {
   } else {
   }
 }
-function setBodyFont(elements) {
+function setBodyFont(elementsHTML) {
   if (timeOfTheDay === "night") {
     for (var i = 0; i < elementsWithDynamicFont.length; i++) {
       elementsWithDynamicFont[i].setAttribute(
@@ -257,40 +259,47 @@ function setBodyFont(elements) {
     }
   }
 }
-function setCloudsSpeedAndOpacity(windSpeed, cloudinessPercent) {
-  let carouselItem1 = document.getElementById("carousel-item1");
-  let carouselItem2 = document.getElementById("carousel-item2");
-  /*  for wind speed below 40 km/h, maximum transition time is set 40s
-      so that there is still clouds movement visible when the wind speed is low */
-  if ((units = "metric ")) {
+function setCloudsSpeedAndOpacity(cloudinessPercent, windSpeed) {
+  if (cloudinessPercent > 5) {
+    cloudsCarousel.style["visibility"] = "visible";
+    let carouselItem1 = document.getElementById("carousel-item1");
+    let carouselItem2 = document.getElementById("carousel-item2");
+    /*  for wind speed below 40 km/h, maximum transition time is set 40s, 
+  so that there is still clouds movement visible when the wind speed is low 
+  1 mi/h = 1.61 km/h
+  1 m /s = 3.6  km/h
+  */
+    if (units === "metric") {
+      windSpeed = windSpeed * 3.6;
+    } else {
+      windSpeed = windSpeed * 1.61;
+    }
     if (windSpeed < 40) {
       transitionDuration = 40 - windSpeed;
     } else {
       transitionDuration = 1;
     }
-  } //td: correct this piece after setting calculations for imperial
-  if ((units = "imperial")) {
-    if (windSpeed < 90) {
-      transitionDuration = 90 - windSpeed;
-    } else {
-      transitionDuration = 1;
-    }
-  }
-  carouselItem1.style["transition"] = `transform ${transitionDuration}s linear`;
-  carouselItem2.style["transition"] = `transform ${transitionDuration}s linear`;
-  let carouselCloud1 = document.getElementById("carousel-cloud1");
-  let carouselCloud2 = document.getElementById("carousel-cloud2");
-  carouselCloud1.setAttribute("style", `opacity: ${cloudinessPercent * 1.5}%;`); //*1.5 since direct correlation is a bit too transparent
-  carouselCloud2.setAttribute("style", `opacity: ${cloudinessPercent * 1.5}%;`);
-}
-function setExtraAnimation(cloudinessPercent, shortDescription, windSpeed) {
-  if (cloudinessPercent > 5) {
-    cloudsCarousel.style["visibility"] = "visible";
-    setCloudsSpeedAndOpacity(windSpeed, cloudinessPercent);
+    carouselItem1.style[
+      "transition"
+    ] = `transform ${transitionDuration}s linear`;
+    carouselItem2.style[
+      "transition"
+    ] = `transform ${transitionDuration}s linear`;
+    let carouselCloud1 = document.getElementById("carousel-cloud1");
+    let carouselCloud2 = document.getElementById("carousel-cloud2");
+    carouselCloud1.setAttribute(
+      "style",
+      `opacity: ${cloudinessPercent * 1.5}%;`
+    ); //*1.5 since direct correlation is a bit too transparent
+    carouselCloud2.setAttribute(
+      "style",
+      `opacity: ${cloudinessPercent * 1.5}%;`
+    );
   } else {
     cloudsCarousel.style["visibility"] = "hidden";
   }
-
+}
+function setFrontLayerAnimation(shortDescription) {
   if (shortDescription === "drizzle") {
     frontLayerSource.src = "media/front-layers/rain4.gif";
     frontLayerSource.style["visibility"] = "visible";
@@ -325,7 +334,7 @@ function displayCurrentWeather(response) {
   let wind = document.getElementById("wind");
   let windDirection = getCardinalDirectionArrow(response.data.current.wind_deg);
   let windSpeed = null;
-  if ((units = "metric")) {
+  if (units === "metric") {
     windSpeed = Math.round(response.data.current.wind_speed * 3.6);
   } else {
     windSpeed = Math.round(response.data.current.wind_speed);
