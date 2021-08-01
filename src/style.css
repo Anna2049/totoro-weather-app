@@ -339,3 +339,7 @@ select {
   position: fixed;
   top: 65%;
 }
+
+.iconify {
+  font-size: 20px;
+}

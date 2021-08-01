@@ -12,7 +12,7 @@ function fetchAndDisplayAll(responseFromOneCall) {
   console.log(responseFromOneCall);
   changeCurrentTimezone(responseFromOneCall.data.timezone);
   showCurrentDateAndTime(convertTZ(now, currentTimeZone)); //-> setTimeOfTheDay(hours)
-  displayCurrentWeatherIndicesPlaceholder();
+  setUOM(units);
   displayCurrentWeather(responseFromOneCall);
   displayForecastWeek(responseFromOneCall);
   displayForecastHourly(responseFromOneCall);
@@ -141,7 +141,7 @@ function convertUnixDay(UNIX_timestamp) {
   let day = date.getDay();
   return days[day];
 }
-// weather converters :
+// UOM and converters :
 
 function getCardinalDirectionArrow(angle) {
   const directions = ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"];
@@ -171,6 +171,23 @@ function changeUOM(event) {
       );
       celsiusUOM.removeEventListener("click", changeUOM);
       fahrenheitUOM.addEventListener("click", changeUOM);
+    }
+  }
+}
+function setUOM(units) {
+  if (units === "metric") {
+    for (var i = 0; i < uomTemp.length; i++) {
+      uomTemp[i].innerHTML = "°С";
+    }
+    for (var i = 0; i < uomSpeed.length; i++) {
+      uomSpeed[i].innerHTML = "km/h";
+    }
+  } else {
+    for (var i = 0; i < uomTemp.length; i++) {
+      uomTemp[i].innerHTML = "°F";
+    }
+    for (var i = 0; i < uomSpeed.length; i++) {
+      uomSpeed[i].innerHTML = "mi/h";
     }
   }
 }
@@ -243,7 +260,22 @@ function setBodyFont(elements) {
 function setCloudsSpeedAndOpacity(windSpeed, cloudinessPercent) {
   let carouselItem1 = document.getElementById("carousel-item1");
   let carouselItem2 = document.getElementById("carousel-item2");
-  transitionDuration = 40 - windSpeed; //supposed that 40km/h is max for weather being just cloudy
+  /*  for wind speed below 40 km/h, maximum transition time is set 40s
+      so that there is still clouds movement visible when the wind speed is low */
+  if ((units = "metric ")) {
+    if (windSpeed < 40) {
+      transitionDuration = 40 - windSpeed;
+    } else {
+      transitionDuration = 1;
+    }
+  } //td: correct this piece after setting calculations for imperial
+  if ((units = "imperial")) {
+    if (windSpeed < 90) {
+      transitionDuration = 90 - windSpeed;
+    } else {
+      transitionDuration = 1;
+    }
+  }
   carouselItem1.style["transition"] = `transform ${transitionDuration}s linear`;
   carouselItem2.style["transition"] = `transform ${transitionDuration}s linear`;
   let carouselCloud1 = document.getElementById("carousel-cloud1");
@@ -272,53 +304,6 @@ function setExtraAnimation(cloudinessPercent, shortDescription, windSpeed) {
 }
 // f responsible for weather results
 
-function displayCurrentWeatherIndicesPlaceholder() {
-  let currentWeatherIndices = document.querySelector(
-    "#current-weather-indices"
-  );
-  currentWeatherIndices.innerHTML = `      <div class="row g-0">
-        <div class="col-2">
-          <i class="fas fa-temperature-high"></i
-          ><i class="fas fa-temperature-low"></i>
-        </div>
-        <div class="col-2">
-          <span class="t" id="temp-max"></span> /
-          <span class="t" id="temp-min"></span>
-        </div>
-        <div class="col-2 uom-temp">°С</div>
-
-        <div class="col-2"><i class="fas fa-cloud"></i></div>
-        <div class="col-2" id="cloudiness"></div>
-        <div class="col-2">%</div>
-
-        <div class="col-2"><i class="fas fa-tshirt"></i></div>
-        <div class="col-2 t" id="feels-like">25</div>
-        <div class="col-2 uom-temp">°С</div>
-
-        <div class="col-2"><i class="fas fa-tachometer-alt"></i></div>
-        <div class="col-2" id="pressure"></div>
-        <div class="col-2">hPa</div>
-
-        <div class="col-2">
-          <i class="fas fa-tint"></i>
-        </div>
-        <div class="col-2" id="humidity"></div>
-        <div class="col-2">%</div>
-
-        <div class="col-2"><i class="fas fa-wind"></i></div>
-        <div class="col-2" id="wind"></div>
-        <div class="col-2">km/h</div>
-
-        <div class="col-2">
-          <i class="fas fa-sun"></i><i class="fas fa-angle-double-up"></i>
-        </div>
-        <div class="col-4" id="sunrise"></div>
-        <div class="col-2">
-          <i class="fas fa-sun"></i><i class="fas fa-angle-double-down"></i>
-        </div>
-        <div class="col-4" id="sunset"></div>
-      </div>`;
-}
 function displayCurrentWeather(response) {
   let currentTemperature = document.getElementById("current-temperature");
   let currentWeatherDescription = document.getElementById(
@@ -338,8 +323,13 @@ function displayCurrentWeather(response) {
   let tempMax = document.getElementById("temp-max");
   let tempMin = document.getElementById("temp-min");
   let wind = document.getElementById("wind");
-  let windSpeed = Math.round(response.data.current.wind_speed * 3.6);
   let windDirection = getCardinalDirectionArrow(response.data.current.wind_deg);
+  let windSpeed = null;
+  if ((units = "metric")) {
+    windSpeed = Math.round(response.data.current.wind_speed * 3.6);
+  } else {
+    windSpeed = Math.round(response.data.current.wind_speed);
+  }
 
   cloudiness.innerHTML = response.data.current.clouds;
   feelsLike.innerHTML = Math.round(response.data.current.feels_like);
@@ -370,7 +360,7 @@ function displayForecastHourly(response) {
               }@2x.png"
               class="image-weather-small"
             />
-            <p class="temp">${Math.round(forecastHour.temp)}°</p>
+            <p>${Math.round(forecastHour.temp)}°</p>
           </div>`;
   });
   forecastHourlyHTML = forecastHourlyHTML + `</div>`;
@@ -384,30 +374,24 @@ function displayForecastWeek(response) {
   let forecastDaysFromArray = response.data.daily;
   forecastDaysFromArray.shift();
   let forecastWeek = document.querySelector("#forecast-week");
-  let forecastWeekHTML = `    <h4>
-      Weekly: <span class="clickables">Brief</span> |
+  let forecastWeekHTML = `<h4> Weekly: <span class="clickables">Brief</span>
       <span class="clickables">Detailed</span>
     </h4>
     <hr /><div class="scrolling-wrapper">`;
-
   forecastDaysFromArray.forEach(function (forecastDay) {
     forecastWeekHTML =
       forecastWeekHTML +
       `<div class="card weekly col-2">
-          <p class="weekday">${convertUnixDay(forecastDay.dt)}</p>
-          <img
+          <p>${convertUnixDay(forecastDay.dt)}</p>
+          <img class="image-weather-small"
             src="https://openweathermap.org/img/wn/${
               forecastDay.weather[0].icon
             }@2x.png"
-            class="image-weather-small"
           />
-           <p class="temp max">${Math.round(forecastDay.temp.max)}°</p>
-          <small class="temp min">${Math.round(forecastDay.temp.min)}°</small>
-         
+           <p>${Math.round(forecastDay.temp.max)}°</p>
+          <small>${Math.round(forecastDay.temp.min)}°</small>      
         </div>`;
   });
-  forecastWeekHTML = forecastWeekHTML + `</div>`;
-
   forecastWeek.innerHTML = forecastWeekHTML;
 }
 // GPS-related
@@ -476,7 +460,6 @@ let timeOfTheDay = "";
 
 let celsiusUOM = document.getElementById("celsius");
 let fahrenheitUOM = document.getElementById("fahrenheit");
-let uomTemp = document.querySelectorAll(".uom-temp");
 
 // declarations: visuals
 
@@ -528,3 +511,6 @@ initialize();
 
 themePreferred.onchange = saveSettingsTheme;
 unitsPreferred.onchange = saveSettingsUnits;
+
+let uomTemp = document.getElementsByClassName("uom-temp");
+let uomSpeed = document.getElementsByClassName("uom-speed");
