@@ -311,9 +311,9 @@ p {
   z-index: 1;
 }
 
-/*change to block once done*/
 #preloader {
   display: none;
+  display: block;
 }
 #loader-fetching,
 #loader-nothing-to-search {

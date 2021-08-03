@@ -12,7 +12,6 @@ function fetchAndDisplayAll(responseFromOneCall) {
   console.log(responseFromOneCall);
   changeCurrentTimezone(responseFromOneCall.data.timezone);
   showCurrentDateAndTime(convertTZ(now, currentTimeZone)); //-> setTimeOfTheDay(hours)
-  setUOM(units);
   displayCurrentWeather(responseFromOneCall);
   displayForecastWeekBrief(responseFromOneCall);
   displayForecastHourly(responseFromOneCall);
@@ -28,6 +27,7 @@ function fetchAndDisplayAll(responseFromOneCall) {
     responseFromOneCall.data.current.wind_speed
   );
   fetchForecastWeekDetailed(responseFromOneCall);
+  setUOM(units);
 }
 // LOCAL STORAGE :
 
@@ -129,6 +129,16 @@ function setTimeOfTheDay(hours) {
   }
   return timeOfTheDay;
 }
+function convertUnixDay(UNIX_timestamp) {
+  let date = convertTZ(new Date(UNIX_timestamp * 1000), currentTimeZone);
+  let day = date.getDay();
+  return days[day];
+}
+function convertUnixDate(UNIX_timestamp) {
+  let date = convertTZ(new Date(UNIX_timestamp * 1000), currentTimeZone);
+  let convertedDate = `${months[date.getMonth()]} ${date.getDay()}`;
+  return convertedDate;
+}
 function convertUnixTime(UNIX_timestamp) {
   let date = convertTZ(new Date(UNIX_timestamp * 1000), currentTimeZone);
   let hh = date.getHours();
@@ -139,13 +149,16 @@ function convertUnixTime(UNIX_timestamp) {
   var formatedTime = `${hh}:${mm}`;
   return formatedTime;
 }
-function convertUnixDay(UNIX_timestamp) {
-  let date = convertTZ(new Date(UNIX_timestamp * 1000), currentTimeZone);
-  let day = date.getDay();
-  return days[day];
-}
 // UOM and converters :
 
+function convertSpeed(speed) {
+  if (units === "metric") {
+    speed = Math.round(speed * 3.6);
+  } else {
+    speed = Math.round(speed * 1.61);
+  }
+  return speed;
+}
 function getCardinalDirectionArrow(angle) {
   const directions = ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"];
   // const directions = ["⇑","⇗","⇒","⇘","⇓","⇙","⇐","⇖"];
@@ -386,56 +399,11 @@ function displayForecastWeekBrief(response) {
   });
   forecastWeek.innerHTML = forecastWeekHTML + `</div>`;
 }
-// GPS-related
-
-function enableGPS() {
-  address.value = "";
-  navigator.geolocation.getCurrentPosition(getCurrentPositionFromGPS);
-}
-function getCurrentPositionFromGPS(position) {
-  lat = position.coords.latitude;
-  lng = position.coords.longitude;
-  saveGpsCoords(lat, lng);
-  createApiRouteForOpenWeatherCurrent(lat, lng);
-  createApiRouteForOpenWeatherOneCall(lat, lng);
-}
-function geocodeAddress(geocoder) {
-  if (address.value === "") {
-    //showLoaderforEmptySearch();
-  } else {
-    hideLoaderforEmptySearch();
-    //showLoader();
-    geocoder.geocode({ address: address.value }).then(({ results }) => {
-      createApiRouteForOpenWeatherOneCall(
-        results[0].geometry.location.lat(),
-        results[0].geometry.location.lng()
-      );
-    });
-  }
-}
-// OpenWeather API calls
-
-function createApiRouteForOpenWeatherCurrent(lat, lng) {
-  let apiCurrentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=${units}&appid=${apiKeyOW}`;
-  console.log(apiCurrentUrl);
-  axios.get(apiCurrentUrl).then((response) => {
-    currentCity.innerHTML = response.data.name;
-    saveCityFromGps(response.data.name);
-  });
-}
-function createApiRouteForOpenWeatherOneCall(lat, lng) {
-  let apiOneCallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=${units}&exclude=minutely&appid=${apiKeyOW}`;
-  console.log(apiOneCallUrl);
-  axios.get(apiOneCallUrl).then(fetchAndDisplayAll);
-}
-
 function fetchForecastWeekDetailed(response) {
   let accordionItems = ["One", "Two", "Three", "Four", "Five", "Six", "Seven"];
   let fcDaysFromArray = response.data.daily;
   let forecastWeekDetailed = document.getElementById("weekday-detailed");
-  let forecastWeekDetailedHTML = ``;
-  forecastWeekDetailedHTML =
-    forecastWeekDetailedHTML + `<div class="accordion" id="weekday-detailed">`;
+  let forecastWeekDetailedHTML = `<div class="accordion" id="weekday-detailed">`;
   fcDaysFromArray.forEach(function (fcDay, index) {
     forecastWeekDetailedHTML =
       forecastWeekDetailedHTML +
@@ -451,15 +419,19 @@ function fetchForecastWeekDetailed(response) {
       >
         <div class="col-4">
           <span class="weekday">${convertUnixDay(fcDay.dt)}
-          </span>,<span class="weekdate">${`Aug 31`}</span>
+          </span>, <span class="weekdate">${convertUnixDate(fcDay.dt)}</span>
         </div>
         <div class="col-4 image">
           <img id="weekly-weather-icon" class="image-middle"
-            src="http://openweathermap.org/img/wn/01d@2x.png"/>
+            src="http://openweathermap.org/img/wn/${
+              fcDay.weather[0].icon
+            }@2x.png"/>
         </div>
-        <div class="col-4 index">
-          <span id="weekday-temp-max">${fcDay.temp.max}</span>° /
-          <span id="weekday-temp-min">${fcDay.temp.min}</span>°
+        <div class="col-3 index">
+          <strong id="weekday-temp-max">${Math.round(fcDay.temp.max)}</strong> /
+          <span id="weekday-temp-min">${Math.round(
+            fcDay.temp.min
+          )}</span><span class="uom-temp"></span>
         </div>
       </button>
     </h2>
@@ -475,28 +447,28 @@ function fetchForecastWeekDetailed(response) {
             <span class="text">morning</span>
           </div>
           <div class="col-3 index" id="temp-morning">
-            ${fcDay.temp.morn}°
+            ${Math.round(fcDay.temp.morn)}<span class="uom-temp"></span>
           </div>
           <div class="col-3">
             <span class="iconify" data-icon="bi:sunset" data-inline="false"></span>
             <span class="text">evening</span>
           </div>
           <div class="col-3 index" id="temp-evening">
-            ${fcDay.temp.eve}°
+            ${Math.round(fcDay.temp.eve)}<span class="uom-temp"></span>
           </div>
           <div class="col-3">
             <span class="iconify" data-icon="fontisto:day-sunny" data-inline="false"></span>
             <span class="text">day</span>
           </div>
           <div class="col-3 index" id="temp-day">
-            ${fcDay.temp.day}°
+            ${Math.round(fcDay.temp.day)}<span class="uom-temp"></span>
           </div>
           <div class="col-3">
             <span class="iconify" data-icon="mdi:weather-night" data-inline="false"></span>
             <span class="text">night</span>
           </div>
           <div class="col-3 index" id="temp-night">
-            ${fcDay.temp.night}°
+            ${Math.round(fcDay.temp.night)}<span class="uom-temp"></span>
           </div>
 
           <div class="col-3">
@@ -504,16 +476,18 @@ function fetchForecastWeekDetailed(response) {
             <span class="text">w.speed</span>
           </div>
           <div class="col-3 index">
-            <span id="weekday-wind-speed">${fcDay.wind_speed}</span>
-            <span class="uom-speed">km/h</span>
+            <span id="weekday-wind-speed">${convertSpeed(
+              fcDay.wind_speed
+            )}</span>
+            <span class="uom-speed"></span>
           </div>
           <div class="col-3">
             <span class="iconify" data-icon="carbon:wind-gusts" data-inline="false"></span>
             <span class="text">w.gust</span>
           </div>
           <div class="col-3 index">
-            <span id="weekday-wind-gust">${fcDay.wind_gust}</span>
-            <span class="uom-speed">km/h</span>
+            <span id="weekday-wind-gust">${convertSpeed(fcDay.wind_gust)}</span>
+            <span class="uom-speed"></span>
           </div>
           <div class="col-3">
             <span class="iconify" data-icon="wi:barometer" data-inline="false"></span>
@@ -527,14 +501,16 @@ function fetchForecastWeekDetailed(response) {
             <span class="text">w.dir.</span>
           </div>
           <div class="col-3 index" id="weekday-wind-direction">
-            ${fcDay.wind_deg}
+            ${getCardinalDirectionName(
+              fcDay.wind_deg
+            )} ${getCardinalDirectionArrow(fcDay.wind_deg)}
           </div>
           <div class="col-3">
             <span class="iconify" data-icon="akar-icons:umbrella" data-inline="false"></span>
             <span class="text">chance</span>
           </div>
           <div class="col-3 index" id="weekday-chance-of-rain">
-            ${fcDay.pop}%
+            ${Math.round(fcDay.pop)}%
           </div>
           <div class="col-3">
             <span class="iconify" data-icon="mi:drop" data-inline="false"></span>
@@ -574,9 +550,51 @@ function fetchForecastWeekDetailed(response) {
         </div>
       </div>
     </div>
-  </div>;`;
+  </div>`;
   });
   forecastWeekDetailed.innerHTML = forecastWeekDetailedHTML + `</div>`;
+}
+// GPS-related
+
+function enableGPS() {
+  address.value = "";
+  navigator.geolocation.getCurrentPosition(getCurrentPositionFromGPS);
+}
+function getCurrentPositionFromGPS(position) {
+  lat = position.coords.latitude;
+  lng = position.coords.longitude;
+  saveGpsCoords(lat, lng);
+  createApiRouteForOpenWeatherCurrent(lat, lng);
+  createApiRouteForOpenWeatherOneCall(lat, lng);
+}
+function geocodeAddress(geocoder) {
+  if (address.value === "") {
+    showLoaderforEmptySearch();
+  } else {
+    hideLoaderforEmptySearch();
+    showLoader();
+    geocoder.geocode({ address: address.value }).then(({ results }) => {
+      createApiRouteForOpenWeatherOneCall(
+        results[0].geometry.location.lat(),
+        results[0].geometry.location.lng()
+      );
+    });
+  }
+}
+// OpenWeather API calls
+
+function createApiRouteForOpenWeatherCurrent(lat, lng) {
+  let apiCurrentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=${units}&appid=${apiKeyOW}`;
+  console.log(apiCurrentUrl);
+  axios.get(apiCurrentUrl).then((response) => {
+    currentCity.innerHTML = response.data.name;
+    saveCityFromGps(response.data.name);
+  });
+}
+function createApiRouteForOpenWeatherOneCall(lat, lng) {
+  let apiOneCallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=${units}&exclude=minutely&appid=${apiKeyOW}`;
+  console.log(apiOneCallUrl);
+  axios.get(apiOneCallUrl).then(fetchAndDisplayAll);
 }
 
 const apiKeyOW = "13e9496ba2a5643119025f905a5f6396";
@@ -654,47 +672,3 @@ unitsPreferred.onchange = saveSettingsUnits;
 
 let uomTemp = document.getElementsByClassName("uom-temp");
 let uomSpeed = document.getElementsByClassName("uom-speed");
-
-/*
-function fetchForecastWeekDetailed(dailyForecast) {
-  let weekdayTempMax = document.getElementById("weekly-temp-max");
-  let weekdayTempMin = document.getElementById("weekly-temp-min");
-  let weekdayDay = document.getElementById("weekday"); // Tue
-  let weekdayDate = document.getElementById("weekdate"); // Aug 31
-  let weekdayWeatherIcon = document.getElementById("weekly-weather-icon"); //
-  let tempMorning = document.getElementById("temp-morning"); // 25°
-  let tempDay = document.getElementById("temp-day"); // 25°
-  let tempEvening = document.getElementById("temp-evening"); //  25°
-  let tempNight = document.getElementById("temp-night"); // 25°
-  let weekdayWindSpeed = document.getElementById("weekday-wind-speed "); //30
-  let weekdayWindGust = document.getElementById("weekday-wind-gust "); //30
-  let weekdayPressure = document.getElementById("weekday-pressure"); // 1010 hPa
-  let weekdayWindDirection = document.getElementById("weekday-wind-direction"); //
-  let weekdayRainChance = document.getElementById("weekday-chance-of-rain"); //  NW ->
-  let weekdayHumidity = document.getElementById("weekday-humidity"); // 100%
-  let weekdayCloudiness = document.getElementById("weekday-cloudiness"); // 100%
-  let weekdayUV = document.getElementById("weekday-uv-index "); // 2,6
-  let weekdaySunrise = document.getElementById("weekday-sunrise"); // 5:03
-  let weekdaySunset = document.getElementById("weekday-sunset"); // 21:35
-
-  weekdayTempMax = dailyForecast.temp.max;
-  weekdayTempMin = dailyForecast.temp.min;
-  weekdayDay = dailyForecast.dt;
-  weekdayDate = dailyForecast.dt;
-  weekdayWeatherIcon.src = `https://openweathermap.org/img/wn/${forecastDay.weather[0].icon}@2x.png"`;
-  tempMorning = dailyForecast.temp.morn;
-  tempDay = dailyForecast.temp.day;
-  tempEvening = dailyForecast.temp.eve;
-  tempNight = dailyForecast.temp.night;
-  weekdayWindSpeed;
-  weekdayWindGust;
-  weekdayPressure;
-  weekdayWindDirection;
-  weekdayRainChance;
-  weekdayHumidity;
-  weekdayCloudiness;
-  weekdayUV;
-  weekdaySunrise = convertUnixTime(response.data.daily[i].sunrise);
-  weekdaySunset = convertUnixTime(response.data.daily[i].sunrise);
-}
-*/

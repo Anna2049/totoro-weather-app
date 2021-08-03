@@ -7,230 +7,186 @@
     <title>Document</title>
   </head>
   <body>
-    <br /><br /><br /><br />
-    <div class="container">
-      <div class="accordion" id="accordionPanelsStayOpenExample">
-        <div class="accordion-item">
-          <h2
-            class="accordion-header weekday-detailed"
-            id="panelsStayOpen-headingOne"
+    <div class="accordion" id="weekday-detailed">
+      <div class="accordion-item">
+        <h2
+          class="accordion-header dynamic-font"
+          id="panelsStayOpen-headingOne"
+        >
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#panelsStayOpen-collapseOne"
+            aria-expanded="false"
+            aria-controls="panelsStayOpen-collapseOne"
           >
-            <button
-              class="accordion-button"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#panelsStayOpen-collapseOne"
-              aria-expanded="true"
-              aria-controls="panelsStayOpen-collapseOne"
-            >
-              <div class="col-5 weekday">Tue, Aug 31</div>
-              <div class="col-2 image">
-                <img
-                  src="http://openweathermap.org/img/wn/01d@2x.png"
-                  class="image-middle"
-                />
-              </div>
-              <div class="col-5 index">251° / 135°</div>
-            </button>
-          </h2>
-          <div
-            id="panelsStayOpen-collapseOne"
-            class="accordion-collapse collapse show"
-            aria-labelledby="panelsStayOpen-headingOne"
-          >
-            <div class="accordion-body">
-              <div class="row">
-                <div class="col-3">
-                  <span
-                    class="iconify"
-                    data-icon="bi:sunrise"
-                    data-inline="false"
-                  ></span>
-                  <span class="text">morning</span>
-                </div>
-                <div class="col-3 index" id="temp-morning">25°</div>
-                <div class="col-3">
-                  <span
-                    class="iconify"
-                    data-icon="bi:sunset"
-                    data-inline="false"
-                  ></span>
-                  <span class="text">evening</span>
-                </div>
-                <div class="col-3 index" id="temp-evening">25°</div>
-                <div class="col-3">
-                  <span
-                    class="iconify"
-                    data-icon="fontisto:day-sunny"
-                    data-inline="false"
-                  ></span>
-                  <span class="text">day</span>
-                </div>
-                <div class="col-3 index" id="temp-day">25°</div>
-
-                <div class="col-3">
-                  <span
-                    class="iconify"
-                    data-icon="mdi:weather-night"
-                    data-inline="false"
-                  ></span>
-                  <span class="text">night</span>
-                </div>
-                <div class="col-3 index" id="temp-night">25°</div>
-
-                <div class="col-3">
-                  <span
-                    class="iconify"
-                    data-icon="bi:wind"
-                    data-inline="false"
-                  ></span>
-                  <span class="text">w.speed</span>
-                </div>
-                <div class="col-3 index" id="temp-night">25 km/h</div>
-
-                <div class="col-3">
-                  <span
-                    class="iconify"
-                    data-icon="carbon:wind-gusts"
-                    data-inline="false"
-                  ></span>
-                  <span class="text">w.gust</span>
-                </div>
-                <div class="col-3 index" id="wind-gust">30 km/h</div>
-
-                <div class="col-3">
-                  <span
-                    class="iconify"
-                    data-icon="wi:barometer"
-                    data-inline="false"
-                  ></span>
-                  <span class="text">pressure</span>
-                </div>
-                <div class="col-3 index" id="pressure">1010 hPa</div>
-
-                <div class="col-3">
-                  <span
-                    class="iconify"
-                    data-icon="carbon:wind-stream"
-                    data-inline="false"
-                  ></span>
-                  <span class="text">w.dir.</span>
-                </div>
-                <div class="col-3 index" id="wind-direction">NW -></div>
-
-                <div class="col-3">
-                  <span
-                    class="iconify"
-                    data-icon="akar-icons:umbrella"
-                    data-inline="false"
-                  ></span>
-                  <span class="text">chance</span>
-                </div>
-                <div class="col-3 index" id="chance-of-rain">100%</div>
-
-                <div class="col-3">
-                  <span
-                    class="iconify"
-                    data-icon="mi:drop"
-                    data-inline="false"
-                  ></span>
-                  <span class="text">humidity</span>
-                </div>
-                <div class="col-3 index" id="humidity">100%</div>
-
-                <div class="col-3">
-                  <span
-                    class="iconify"
-                    data-icon="akar-icons:cloud"
-                    data-inline="false"
-                  ></span>
-                  <span class="text">clouds</span>
-                </div>
-                <div class="col-3 index" id="cloudiness">100%</div>
-
-                <div class="col-3">
-                  <span
-                    class="iconify"
-                    data-icon="carbon:uv-index-alt"
-                    data-inline="false"
-                  ></span>
-                  <span class="text">UV-index</span>
-                </div>
-                <div class="col-3 index" id="UV">2,6</div>
-
-                <div class="col-3">
-                  <span
-                    class="iconify"
-                    data-icon="wi:sunrise"
-                    data-inline="false"
-                  ></span>
-                  <span class="text">sunrise</span>
-                </div>
-                <div class="col-3 index" id="sunrise">5:03</div>
-
-                <div class="col-3">
-                  <span
-                    class="iconify"
-                    data-icon="wi:sunset"
-                    data-inline="false"
-                  ></span>
-                  <span class="text">sunset</span>
-                </div>
-                <div class="col-3 index" id="sunset">21:35</div>
-              </div>
+            <div class="col-4">
+              <span class="weekday">Tue</span>,
+              <span class="weekdate">Aug 31</span>
             </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-            <button
-              class="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#panelsStayOpen-collapseTwo"
-              aria-expanded="false"
-              aria-controls="panelsStayOpen-collapseTwo"
-            >
-              Accordion Item #2
-            </button>
-          </h2>
-          <div
-            id="panelsStayOpen-collapseTwo"
-            class="accordion-collapse collapse"
-            aria-labelledby="panelsStayOpen-headingTwo"
-          >
-            <div class="accordion-body">
-              <strong>This is the second item's accordion body.</strong>
+            <div class="col-4 image">
+              <img
+                id="weekly-weather-icon"
+                src="http://openweathermap.org/img/wn/01d@2x.png"
+                class="image-middle"
+              />
             </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-            <button
-              class="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#panelsStayOpen-collapseThree"
-              aria-expanded="false"
-              aria-controls="panelsStayOpen-collapseThree"
-            >
-              Accordion Item #3
-            </button>
-          </h2>
-          <div
-            id="panelsStayOpen-collapseThree"
-            class="accordion-collapse collapse"
-            aria-labelledby="panelsStayOpen-headingThree"
-          >
-            <div class="accordion-body">
-              <strong>This is the third item's accordion body.</strong> It is
-              hidden by default, until the collapse plugin adds the appropriate
-              classes that we use to style each element. These classes control
-              the overall appearance, as well as the showing and hiding via CSS
-              transitions. You can modify any of this with custom CSS or
-              overriding our default variables. It's also worth noting that just
-              about any HTML can go within the <code>.accordion-body</code>,
-              though the transition does limit overflow.
+            <div class="col-4 index">
+              <span id="weekday-temp-max">251</span>° /
+              <span id="weekday-temp-min">135</span>°
+            </div>
+          </button>
+        </h2>
+        <div
+          id="panelsStayOpen-collapseOne"
+          class="accordion-collapse collapse"
+          aria-labelledby="panelsStayOpen-headingOne"
+        >
+          <div class="accordion-body dynamic-font">
+            <div class="row">
+              <div class="col-3">
+                <span
+                  class="iconify"
+                  data-icon="bi:sunrise"
+                  data-inline="false"
+                ></span>
+                <span class="text">morning</span>
+              </div>
+              <div class="col-3 index" id="temp-morning">25°</div>
+              <div class="col-3">
+                <span
+                  class="iconify"
+                  data-icon="bi:sunset"
+                  data-inline="false"
+                ></span>
+                <span class="text">evening</span>
+              </div>
+              <div class="col-3 index" id="temp-evening">25°</div>
+              <div class="col-3">
+                <span
+                  class="iconify"
+                  data-icon="fontisto:day-sunny"
+                  data-inline="false"
+                ></span>
+                <span class="text">day</span>
+              </div>
+              <div class="col-3 index" id="temp-day">25°</div>
+
+              <div class="col-3">
+                <span
+                  class="iconify"
+                  data-icon="mdi:weather-night"
+                  data-inline="false"
+                ></span>
+                <span class="text">night</span>
+              </div>
+              <div class="col-3 index" id="temp-night">25°</div>
+
+              <div class="col-3">
+                <span
+                  class="iconify"
+                  data-icon="bi:wind"
+                  data-inline="false"
+                ></span>
+                <span class="text">w.speed</span>
+              </div>
+              <div class="col-3 index">
+                <span id="weekday-wind-speed">30</span>
+                <span class="uom-speed">km/h</span>
+              </div>
+              <div class="col-3">
+                <span
+                  class="iconify"
+                  data-icon="carbon:wind-gusts"
+                  data-inline="false"
+                ></span>
+                <span class="text">w.gust</span>
+              </div>
+              <div class="col-3 index">
+                <span id="weekday-wind-gust">30</span>
+                <span class="uom-speed">km/h</span>
+              </div>
+
+              <div class="col-3">
+                <span
+                  class="iconify"
+                  data-icon="wi:barometer"
+                  data-inline="false"
+                ></span>
+                <span class="text">pressure</span>
+              </div>
+              <div class="col-3 index" id="weekday-pressure">1010 hPa</div>
+
+              <div class="col-3">
+                <span
+                  class="iconify"
+                  data-icon="carbon:wind-stream"
+                  data-inline="false"
+                ></span>
+                <span class="text">w.dir.</span>
+              </div>
+              <div class="col-3 index" id="weekday-wind-direction">NW -></div>
+
+              <div class="col-3">
+                <span
+                  class="iconify"
+                  data-icon="akar-icons:umbrella"
+                  data-inline="false"
+                ></span>
+                <span class="text">chance</span>
+              </div>
+              <div class="col-3 index" id="weekday-chance-of-rain">100%</div>
+
+              <div class="col-3">
+                <span
+                  class="iconify"
+                  data-icon="mi:drop"
+                  data-inline="false"
+                ></span>
+                <span class="text">humidity</span>
+              </div>
+              <div class="col-3 index" id="weekday-humidity">100%</div>
+
+              <div class="col-3">
+                <span
+                  class="iconify"
+                  data-icon="akar-icons:cloud"
+                  data-inline="false"
+                ></span>
+                <span class="text">clouds</span>
+              </div>
+              <div class="col-3 index" id="weekday-cloudiness">100%</div>
+
+              <div class="col-3">
+                <span
+                  class="iconify"
+                  data-icon="carbon:uv-index-alt"
+                  data-inline="false"
+                ></span>
+                <span class="text">UV-index</span>
+              </div>
+              <div class="col-3 index" id="weekday-uv-index">2,6</div>
+
+              <div class="col-3">
+                <span
+                  class="iconify"
+                  data-icon="wi:sunrise"
+                  data-inline="false"
+                ></span>
+                <span class="text">sunrise</span>
+              </div>
+              <div class="col-3 index" id="weekday-sunrise">5:03</div>
+
+              <div class="col-3">
+                <span
+                  class="iconify"
+                  data-icon="wi:sunset"
+                  data-inline="false"
+                ></span>
+                <span class="text">sunset</span>
+              </div>
+              <div class="col-3 index" id="weekday-sunset">21:35</div>
             </div>
           </div>
         </div>
@@ -238,188 +194,3 @@
     </div>
   </body>
 </html>
-
-<div class="container">
-  <div class="accordion" id="weekday-detailed">
-    <div class="accordion-item">
-      <h2 class="accordion-header dynamic-font" id="panelsStayOpen-headingOne">
-        <button
-          class="accordion-button collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#panelsStayOpen-collapseOne"
-          aria-expanded="false"
-          aria-controls="panelsStayOpen-collapseOne"
-        >
-          <div class="col-4">
-            <span class="weekday">Tue</span>,
-            <span class="weekdate">Aug 31</span>
-          </div>
-          <div class="col-4 image">
-            <img
-              id="weekly-weather-icon"
-              src="http://openweathermap.org/img/wn/01d@2x.png"
-              class="image-middle"
-            />
-          </div>
-          <div class="col-4 index">
-            <span id="weekday-temp-max">251</span>° /
-            <span id="weekday-temp-min">135</span>°
-          </div>
-        </button>
-      </h2>
-      <div
-        id="panelsStayOpen-collapseOne"
-        class="accordion-collapse collapse"
-        aria-labelledby="panelsStayOpen-headingOne"
-      >
-        <div class="accordion-body dynamic-font">
-          <div class="row">
-            <div class="col-3">
-              <span
-                class="iconify"
-                data-icon="bi:sunrise"
-                data-inline="false"
-              ></span>
-              <span class="text">morning</span>
-            </div>
-            <div class="col-3 index" id="temp-morning">25°</div>
-            <div class="col-3">
-              <span
-                class="iconify"
-                data-icon="bi:sunset"
-                data-inline="false"
-              ></span>
-              <span class="text">evening</span>
-            </div>
-            <div class="col-3 index" id="temp-evening">25°</div>
-            <div class="col-3">
-              <span
-                class="iconify"
-                data-icon="fontisto:day-sunny"
-                data-inline="false"
-              ></span>
-              <span class="text">day</span>
-            </div>
-            <div class="col-3 index" id="temp-day">25°</div>
-
-            <div class="col-3">
-              <span
-                class="iconify"
-                data-icon="mdi:weather-night"
-                data-inline="false"
-              ></span>
-              <span class="text">night</span>
-            </div>
-            <div class="col-3 index" id="temp-night">25°</div>
-
-            <div class="col-3">
-              <span
-                class="iconify"
-                data-icon="bi:wind"
-                data-inline="false"
-              ></span>
-              <span class="text">w.speed</span>
-            </div>
-            <div class="col-3 index">
-              <span id="weekday-wind-speed">30</span>
-              <span class="uom-speed">km/h</span>
-            </div>
-            <div class="col-3">
-              <span
-                class="iconify"
-                data-icon="carbon:wind-gusts"
-                data-inline="false"
-              ></span>
-              <span class="text">w.gust</span>
-            </div>
-            <div class="col-3 index">
-              <span id="weekday-wind-gust">30</span>
-              <span class="uom-speed">km/h</span>
-            </div>
-
-            <div class="col-3">
-              <span
-                class="iconify"
-                data-icon="wi:barometer"
-                data-inline="false"
-              ></span>
-              <span class="text">pressure</span>
-            </div>
-            <div class="col-3 index" id="weekday-pressure">1010 hPa</div>
-
-            <div class="col-3">
-              <span
-                class="iconify"
-                data-icon="carbon:wind-stream"
-                data-inline="false"
-              ></span>
-              <span class="text">w.dir.</span>
-            </div>
-            <div class="col-3 index" id="weekday-wind-direction">NW -></div>
-
-            <div class="col-3">
-              <span
-                class="iconify"
-                data-icon="akar-icons:umbrella"
-                data-inline="false"
-              ></span>
-              <span class="text">chance</span>
-            </div>
-            <div class="col-3 index" id="weekday-chance-of-rain">100%</div>
-
-            <div class="col-3">
-              <span
-                class="iconify"
-                data-icon="mi:drop"
-                data-inline="false"
-              ></span>
-              <span class="text">humidity</span>
-            </div>
-            <div class="col-3 index" id="weekday-humidity">100%</div>
-
-            <div class="col-3">
-              <span
-                class="iconify"
-                data-icon="akar-icons:cloud"
-                data-inline="false"
-              ></span>
-              <span class="text">clouds</span>
-            </div>
-            <div class="col-3 index" id="weekday-cloudiness">100%</div>
-
-            <div class="col-3">
-              <span
-                class="iconify"
-                data-icon="carbon:uv-index-alt"
-                data-inline="false"
-              ></span>
-              <span class="text">UV-index</span>
-            </div>
-            <div class="col-3 index" id="weekday-uv-index">2,6</div>
-
-            <div class="col-3">
-              <span
-                class="iconify"
-                data-icon="wi:sunrise"
-                data-inline="false"
-              ></span>
-              <span class="text">sunrise</span>
-            </div>
-            <div class="col-3 index" id="weekday-sunrise">5:03</div>
-
-            <div class="col-3">
-              <span
-                class="iconify"
-                data-icon="wi:sunset"
-                data-inline="false"
-              ></span>
-              <span class="text">sunset</span>
-            </div>
-            <div class="col-3 index" id="weekday-sunset">21:35</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
