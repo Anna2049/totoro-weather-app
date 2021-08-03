@@ -4,10 +4,11 @@
     font-size: 100%;
   }
 
-  #overlay,
-  #preloader,
   .main-theme,
-  .front-layer {
+  .front-layer,
+  #loader-fetching,
+  #loader-nothing-to-search,
+  #preloader {
     width: 100vw;
     height: 100vh;
   }
@@ -26,19 +27,20 @@
     line-height: 11vw;
   }
   h3 {
-    font-size: 7vw;
+    font-size: 6.5vw;
   }
   h4 {
     font-size: 6vw;
   }
-  #placeholderUOM {
-    font-size: 6.5vw;
+  #temp-main small {
+    font-size: 9.5vw;
     top: -13vw;
   }
 
   #current-weather-indices {
-    font-size: 4.5vw;
+    font-size: 5vw;
   }
+
   .hourly,
   .weekly,
   .search #button-settings,
@@ -70,16 +72,17 @@
   .image-six-chibi {
     margin: -10vw 0 -14vw -3vw;
   }
-  #overlay .loader-text {
-    left: 25vw;
+  #loader-fetching .loader-text,
+  #loader-nothing-to-search .loader-text {
+    left: 35vw;
   }
   #preloader .preloader-text {
-    left: 30vw;
+    left: 40vw;
   }
 }
 @media (min-width: 1025px) {
   body,
-  #overlay,
+  #loader-fetching,
   #preloader,
   .main-theme,
   .front-layer {
@@ -90,6 +93,7 @@
   .container {
     max-width: 90%;
     margin: 10px auto;
+    padding: 0;
   }
 
   h1 {
@@ -105,14 +109,12 @@
   h4 {
     font-size: 25px;
   }
-  #placeholderUOM {
+  #temp-main small {
     font-size: 30px;
     top: -45px;
   }
 
-  #current-weather-indices {
-    font-size: 20px;
-  }
+  #current-weather-indices,
   .hourly,
   .weekly,
   .search #button-settings,
@@ -142,12 +144,39 @@
   #preloader .preloader-text {
     left: 45%;
   }
+
+  .accordion button img {
+    width: 70px;
+  }
+
+  .accordion-body .text {
+    font-size: 15px;
+  }
+  .accordion-body .iconify {
+    font-size: 35px;
+  }
+  .accordion-body .index {
+    font-size: 17px;
+  }
+
+  .accordion-body .row > * {
+    padding: 0 0 0 10px;
+  }
+
+  .accordion-body {
+    width: 100%;
+    margin: 0;
+    line-height: 40px;
+  }
 }
 
 body {
   font-family: "Oswald", sans-serif;
 }
-
+h1 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
 a {
   text-decoration: none;
   color: unset;
@@ -160,27 +189,16 @@ h3,
 h4 {
   opacity: 80%;
 }
-h1 {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-}
 
 h3:first-letter {
   text-transform: capitalize;
 }
 
-/*td: replace h4,p?*/
-h4 {
-  text-align: center;
-}
+h4,
 p {
   margin: 0;
-}
-
-ul {
-  list-style: none;
   padding: 0;
-  margin: 0;
+  text-align: center;
 }
 
 .main-theme,
@@ -206,14 +224,13 @@ ul {
 .search #button-settings {
   border-radius: 4px;
 }
-
 .search #button-location-gps {
   border-radius: 4px 0px 0px 4px;
 }
 .search #city-input {
   z-index: 1;
 }
-#placeholderUOM {
+#temp-main small {
   position: relative;
 }
 
@@ -236,26 +253,21 @@ ul {
   opacity: 80%;
 }
 
+#current-weather-indices,
+.card,
+.accordion-button,
+.accordion-item {
+  background-color: rgba(203, 207, 207, 0.6);
+  /* background-color: rgba(255, 255, 255, 0.6); */
+}
 #current-weather-indices {
   border-radius: 4px;
   padding: 12px;
 }
-
-/* td: change this below to js*/
-#placeholderUOM {
-  visibility: collapse;
+.offcanvas-body .api-icons-explanation img {
+  width: 3em;
+  margin: -0.8em;
 }
-
-.visible {
-  visibility: visible;
-}
-.hidden {
-  visibility: hidden;
-}
-.collapsed {
-  visibility: collapse;
-}
-
 .offcanvas-body footer {
   text-align: center;
   margin-top: 20px;
@@ -263,16 +275,10 @@ ul {
 .offcanvas-body footer .image-footer {
   width: 15%;
 }
-
-#current-weather-indices,
-.card {
-  background-color: rgba(203, 207, 207, 0.6);
-  /* background-color: rgba(255, 255, 255, 0.6); */
-}
-
-.api-icons-explanation img {
-  width: 3em;
-  margin: -0.8em;
+.offcanvas-body select {
+  margin-bottom: 10px;
+  margin-right: 15px;
+  width: 30%;
 }
 
 .carousel-inner {
@@ -280,7 +286,6 @@ ul {
   width: 100%;
   z-index: -1;
 }
-
 .carousel-item img {
   height: 40vh;
 }
@@ -289,13 +294,8 @@ ul {
   z-index: -1;
 }
 
-select {
-  margin-bottom: 10px;
-  margin-right: 15px;
-  width: 30%;
-}
-
-#overlay,
+#loader-fetching,
+#loader-nothing-to-search,
 #preloader {
   position: fixed;
   top: 0;
@@ -311,14 +311,17 @@ select {
   z-index: 1;
 }
 
+/*change to block once done*/
 #preloader {
-  display: block;
-}
-#overlay {
   display: none;
 }
-#overlay img,
-#preloader img {
+#loader-fetching,
+#loader-nothing-to-search {
+  display: none;
+}
+#loader-fetching img,
+#preloader img,
+#loader-nothing-to-search img {
   height: 25vh;
   position: fixed;
   top: 0;
@@ -327,10 +330,9 @@ select {
   right: 0;
   margin: auto;
 }
-/*transform: scaleX(-1);*/
 
-#overlay .loader-text,
-#preloader .preloader-text {
+.loader-text,
+.preloader-text {
   font-family: "Press Start 2P", cursive;
   font-size: 2vh;
   font-weight: 700;
@@ -340,6 +342,75 @@ select {
   top: 65%;
 }
 
-.iconify {
-  font-size: 20px;
+.visible {
+  visibility: visible;
+}
+.hidden {
+  visibility: hidden;
+}
+
+.accordion {
+  z-index: 1;
+  opacity: 80%;
+}
+
+/*
+button .weekday-details .image,
+.accordion-body {
+  padding: 0;
+}
+
+button .weekday-details .weekday,
+button .weekday-details .index button .weekday-details img {
+  padding-right: 0;
+}
+
+.accordion-button {
+  padding: 5vw;
+}
+.weekday-detailed .weekday {
+  padding-left: 10px;
+}
+
+button .weekday-details .image {
+  padding-left: 0;
+}
+button .weekday-details .index {
+  padding-right: 0;
+}
+button .weekday-details .weekday,
+button .weekday-details .index {
+  font-size: 5vw;
+  vertical-align: middle;
+}
+*/
+
+.accordion button img {
+  width: 15vw;
+}
+
+.accordion-body .text {
+  font-size: 3.5vw;
+}
+.accordion-body .iconify {
+  font-size: 7.5vw;
+}
+.accordion-body .index {
+  font-size: 4vw;
+}
+
+.accordion-body .row > * {
+  padding: 0 0 0 1.1vw;
+}
+
+.accordion-body {
+  width: 95vw;
+  margin: 0;
+  line-height: 8.5vw;
+  padding: 1rem 0.5rem 1rem 1.25rem;
+}
+
+#weekday-detailed button {
+  padding-top: 0;
+  padding-bottom: 0;
 }

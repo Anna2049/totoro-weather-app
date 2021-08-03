@@ -4,17 +4,17 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Press+Start+2P&display=swap"
       rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
-      crossorigin="anonymous"
     />
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -34,12 +34,17 @@
       <div class="preloader-text">Loading...</div>
     </div>
 
-    <div id="overlay">
+    <div id="loader-fetching">
       <img src="media/loaders/loader-toto.gif" />
       <div class="loader-text">
         Fetching data <br />
         Please wait...
       </div>
+    </div>
+
+    <div id="loader-nothing-to-search">
+      <img src="media/loaders/loader-toto2.gif" />
+      <div class="loader-text">Empty search...</div>
     </div>
 
     <img class="main-theme" id="mainTheme" src="" />
@@ -111,11 +116,8 @@
 
     <div class="container main-info dynamic-font">
       <h1 id="temp-main">
-        <span id="current-temperature"></span
-        ><small id="placeholderUOM">
-          <a href="#" class="clickables" id="celsius">°С</a> |
-          <a href="#" class="clickables" id="fahrenheit">°F</a>
-        </small>
+        <span id="current-temperature" class="t"></span
+        ><small class="uom-temp">°С</small>
       </h1>
       <h2 id="current-city"></h2>
       <h3 id="date-and-time"></h3>
@@ -129,8 +131,8 @@
           ><i class="fas fa-temperature-low"></i>
         </div>
         <div class="col-2">
-          <span id="temp-max"></span> /
-          <span id="temp-min"></span>
+          <span id="temp-max" class="t"></span> /
+          <span id="temp-min" class="t"></span>
         </div>
         <div class="col-2 uom-temp">°С</div>
 
@@ -174,6 +176,196 @@
     </div>
 
     <div class="container dynamic-font" id="forecast-week"></div>
+
+    <br />
+    <div class="container" id="weekday-detailed"></div>
+    <!--
+          <div class="accordion" id="weekday-detailed">
+        <div class="accordion-item">
+          <h2
+            class="accordion-header dynamic-font"
+            id="panelsStayOpen-headingOne"
+          >
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#panelsStayOpen-collapseOne"
+              aria-expanded="false"
+              aria-controls="panelsStayOpen-collapseOne"
+            >
+              <div class="col-4">
+                <span class="weekday">Tue</span>,
+                <span class="weekdate">Aug 31</span>
+              </div>
+              <div class="col-4 image">
+                <img
+                  id="weekly-weather-icon"
+                  src="http://openweathermap.org/img/wn/01d@2x.png"
+                  class="image-middle"
+                />
+              </div>
+              <div class="col-4 index">
+                <span id="weekday-temp-max">251</span>° /
+                <span id="weekday-temp-min">135</span>°
+              </div>
+            </button>
+          </h2>
+          <div
+            id="panelsStayOpen-collapseOne"
+            class="accordion-collapse collapse"
+            aria-labelledby="panelsStayOpen-headingOne"
+          >
+            <div class="accordion-body dynamic-font">
+              <div class="row">
+                <div class="col-3">
+                  <span
+                    class="iconify"
+                    data-icon="bi:sunrise"
+                    data-inline="false"
+                  ></span>
+                  <span class="text">morning</span>
+                </div>
+                <div class="col-3 index" id="temp-morning">25°</div>
+                <div class="col-3">
+                  <span
+                    class="iconify"
+                    data-icon="bi:sunset"
+                    data-inline="false"
+                  ></span>
+                  <span class="text">evening</span>
+                </div>
+                <div class="col-3 index" id="temp-evening">25°</div>
+                <div class="col-3">
+                  <span
+                    class="iconify"
+                    data-icon="fontisto:day-sunny"
+                    data-inline="false"
+                  ></span>
+                  <span class="text">day</span>
+                </div>
+                <div class="col-3 index" id="temp-day">25°</div>
+
+                <div class="col-3">
+                  <span
+                    class="iconify"
+                    data-icon="mdi:weather-night"
+                    data-inline="false"
+                  ></span>
+                  <span class="text">night</span>
+                </div>
+                <div class="col-3 index" id="temp-night">25°</div>
+
+                <div class="col-3">
+                  <span
+                    class="iconify"
+                    data-icon="bi:wind"
+                    data-inline="false"
+                  ></span>
+                  <span class="text">w.speed</span>
+                </div>
+                <div class="col-3 index">
+                  <span id="weekday-wind-speed">30</span>
+                  <span class="uom-speed">km/h</span>
+                </div>
+                <div class="col-3">
+                  <span
+                    class="iconify"
+                    data-icon="carbon:wind-gusts"
+                    data-inline="false"
+                  ></span>
+                  <span class="text">w.gust</span>
+                </div>
+                <div class="col-3 index">
+                  <span id="weekday-wind-gust">30</span>
+                  <span class="uom-speed">km/h</span>
+                </div>
+
+                <div class="col-3">
+                  <span
+                    class="iconify"
+                    data-icon="wi:barometer"
+                    data-inline="false"
+                  ></span>
+                  <span class="text">pressure</span>
+                </div>
+                <div class="col-3 index" id="weekday-pressure">1010 hPa</div>
+
+                <div class="col-3">
+                  <span
+                    class="iconify"
+                    data-icon="carbon:wind-stream"
+                    data-inline="false"
+                  ></span>
+                  <span class="text">w.dir.</span>
+                </div>
+                <div class="col-3 index" id="weekday-wind-direction">NW -></div>
+
+                <div class="col-3">
+                  <span
+                    class="iconify"
+                    data-icon="akar-icons:umbrella"
+                    data-inline="false"
+                  ></span>
+                  <span class="text">chance</span>
+                </div>
+                <div class="col-3 index" id="weekday-chance-of-rain">100%</div>
+
+                <div class="col-3">
+                  <span
+                    class="iconify"
+                    data-icon="mi:drop"
+                    data-inline="false"
+                  ></span>
+                  <span class="text">humidity</span>
+                </div>
+                <div class="col-3 index" id="weekday-humidity">100%</div>
+
+                <div class="col-3">
+                  <span
+                    class="iconify"
+                    data-icon="akar-icons:cloud"
+                    data-inline="false"
+                  ></span>
+                  <span class="text">clouds</span>
+                </div>
+                <div class="col-3 index" id="weekday-cloudiness">100%</div>
+
+                <div class="col-3">
+                  <span
+                    class="iconify"
+                    data-icon="carbon:uv-index-alt"
+                    data-inline="false"
+                  ></span>
+                  <span class="text">UV-index</span>
+                </div>
+                <div class="col-3 index" id="weekday-uv-index">2,6</div>
+
+                <div class="col-3">
+                  <span
+                    class="iconify"
+                    data-icon="wi:sunrise"
+                    data-inline="false"
+                  ></span>
+                  <span class="text">sunrise</span>
+                </div>
+                <div class="col-3 index" id="weekday-sunrise">5:03</div>
+
+                <div class="col-3">
+                  <span
+                    class="iconify"
+                    data-icon="wi:sunset"
+                    data-inline="false"
+                  ></span>
+                  <span class="text">sunset</span>
+                </div>
+                <div class="col-3 index" id="weekday-sunset">21:35</div>
+              </div>
+            </div>
+          </div>
+        </div> 
+</div>
+        -->
 
     <div
       class="offcanvas offcanvas-start"
