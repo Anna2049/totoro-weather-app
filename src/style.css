@@ -8,13 +8,19 @@
   .front-layer,
   #loader-fetching,
   #loader-nothing-to-search,
-  #preloader .loader-text {
+  #preloader,
+  .loader-text {
     width: 100vw;
     height: 100vh;
+    margin: auto;
+  }
+  .image-six-chibi {
+    width: 100vw;
+    margin: -10vw 0 -14vw -6vw;
   }
   .container {
-    width: 90vw;
     max-width: none;
+    width: 90vw;
     margin: 5vw auto;
     padding: 0;
   }
@@ -24,7 +30,7 @@
   }
   h2 {
     font-size: 10vw;
-    line-height: 11vw;
+    line-height: 11vw; /*   */
   }
   h3 {
     font-size: 6.5vw;
@@ -37,25 +43,17 @@
     top: -13vw;
   }
 
-  #current-weather-indices {
-    font-size: 5vw;
-  }
-
-  .hourly,
-  .weekly,
   .search #button-settings,
   .search #button-location-gps,
-  .search #submit {
+  .search #submit,
+  #current-weather-indices,
+  #forecast-hourly,
+  #forecast-week-brief,
+  #weekday-detailed,
+  .accordion-button {
     font-size: 5vw;
-    text-align: center;
-    padding-left: 0;
-    padding-right: 0;
   }
-  .search #city-input {
-    font-size: 5vw;
-  }
-  .hourly,
-  .weekly,
+  .card,
   .search #button-settings {
     margin-right: 1vw;
   }
@@ -66,26 +64,45 @@
   .search #submit {
     width: 20vw;
   }
+  .accordion-body .index,
   .offcanvas-body footer {
     font-size: 4vw;
   }
-  .image-six-chibi {
-    margin: -10vw 0 -14vw -3vw;
-  }
+  .accordion-body .text,
   .loader-text {
-    font-size: 3vw;
+    font-size: 3.5vw;
+  }
+  .accordion button img {
+    width: 15vw;
+  }
+  .accordion-body .iconify {
+    font-size: 7.5vw;
+  }
+  .accordion-body {
+    width: 95vw;
+    margin: 0;
+    line-height: 8.5vw;
+    padding: 1rem 0.5rem 1rem 1.25rem;
+  }
+  .accordion-body .row > * {
+    padding: 0 0 0 1.1vw;
   }
 }
 @media (min-width: 1025px) {
   body,
-  #loader-fetching,
-  #preloader,
-  .loader-text,
   .main-theme,
-  .front-layer {
+  .front-layer,
+  #preloader,
+  #loader-fetching,
+  #loader-nothing-to-search,
+  .loader-text {
     width: 500px;
     height: 100vh;
     margin: auto;
+  }
+  .image-six-chibi {
+    width: 100%;
+    margin: -40px 0 -60px -10px;
   }
   .container {
     max-width: 90%;
@@ -98,7 +115,7 @@
   }
   h2 {
     font-size: 40px;
-    line-height: 44px;
+    line-height: 44px; /*   */
   }
   h3 {
     font-size: 30px;
@@ -111,17 +128,17 @@
     top: -45px;
   }
 
-  #current-weather-indices,
-  .hourly,
-  .weekly,
   .search #button-settings,
   .search #button-location-gps,
-  .search #city-input,
-  .search #submit {
+  .search #submit,
+  #current-weather-indices,
+  #forecast-hourly,
+  #forecast-week-brief,
+  #weekday-detailed,
+  .accordion-button {
     font-size: 20px;
   }
-  .hourly,
-  .weekly,
+  .card,
   .search #button-settings {
     margin-right: 5px;
   }
@@ -132,39 +149,37 @@
   .search #submit {
     width: 80px;
   }
-  .offcanvas-body footer {
-    font-size: 15px;
-  }
-  .image-six-chibi {
-    margin: -40px 0 -60px -10px;
-  }
 
-  .loader-text {
+  .loader-text,
+  .accordion-body .index,
+  .offcanvas-body footer {
     font-size: 15px;
   }
 
   .accordion button img {
-    width: 70px;
+    width: 80px;
+    margin-top: -5px;
+    margin-bottom: -5px;
   }
-
   .accordion-body .text {
     font-size: 15px;
   }
   .accordion-body .iconify {
     font-size: 35px;
   }
-  .accordion-body .index {
-    font-size: 17px;
-  }
-
-  .accordion-body .row > * {
-    padding: 0 0 0 10px;
-  }
-
   .accordion-body {
     width: 100%;
     margin: 0;
     line-height: 40px;
+  }
+  .accordion-body .iconify {
+    font-size: 35px;
+  }
+  .accordion-body {
+    padding: 1rem 0 1rem 2.25rem;
+  }
+  .accordion-body .row > * {
+    padding: 0 0 0 10px;
   }
 }
 
@@ -178,16 +193,24 @@ h1 {
 a {
   text-decoration: none;
   color: unset;
+}
+
+a :hover,
+.clickables:hover {
   cursor: pointer;
+  font-size: larger;
+  opacity: 80%;
 }
 
 h1,
 h2,
 h3,
-h4 {
+h4,
+#current-weather-indices .fas {
   opacity: 80%;
 }
 
+h1:first-letter,
 h3:first-letter {
   text-transform: capitalize;
 }
@@ -204,7 +227,7 @@ p {
   position: fixed;
   top: 0;
   z-index: -1;
-  opacity: 80%;
+  opacity: 85%;
   border: 1px solid lightgray;
 }
 
@@ -214,8 +237,6 @@ p {
 }
 
 .image-six-chibi {
-  display: block;
-  width: 100%;
   opacity: 90%;
 }
 
@@ -232,11 +253,9 @@ p {
   position: relative;
 }
 
-.hourly,
-.weekly {
+.card {
   display: inline-block;
   text-align: center;
-  padding: 0;
   width: 16%;
 }
 
@@ -245,18 +264,14 @@ p {
   max-width: 80%;
 }
 
-.clickables:hover {
-  cursor: pointer;
-  font-size: larger;
-  opacity: 80%;
-}
-
 #current-weather-indices,
 .card,
 .accordion-button,
 .accordion-item {
-  background-color: rgba(203, 207, 207, 0.6);
-  /* background-color: rgba(255, 255, 255, 0.6); */
+  background-color: rgba(203, 207, 207, 0.5);
+}
+.accordion-button .image {
+  text-align: center;
 }
 #current-weather-indices {
   border-radius: 4px;
@@ -279,6 +294,9 @@ p {
   width: 30%;
 }
 
+.front-layer {
+  z-index: -1;
+}
 .carousel-inner {
   position: absolute;
   width: 100%;
@@ -286,10 +304,6 @@ p {
 }
 .carousel-item img {
   height: 40vh;
-}
-
-.front-layer {
-  z-index: -1;
 }
 
 #preloader {
@@ -334,40 +348,10 @@ p {
   text-align: center;
   margin-top: 65vh;
 }
-
-.accordion {
-  z-index: 1;
-  opacity: 80%;
-}
-.accordion button img {
-  width: 15vw;
-}
-
-.accordion-body .text {
-  font-size: 3.5vw;
-}
-.accordion-body .iconify {
-  font-size: 7.5vw;
-}
-.accordion-body .index {
-  font-size: 4vw;
-}
-
-.accordion-body .row > * {
-  padding: 0 0 0 1.1vw;
-}
-.accordion-body {
-  width: 95vw;
-  margin: 0;
-  line-height: 8.5vw;
-  padding: 1rem 0.5rem 1rem 1.25rem;
-}
-
 #weekday-detailed button {
   padding-top: 0;
   padding-bottom: 0;
 }
-
 .visible {
   visibility: visible;
 }

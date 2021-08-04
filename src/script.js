@@ -18,7 +18,6 @@ function fetchAndDisplayAll(responseFromOneCall) {
   setBackgroundTheme(
     responseFromOneCall.data.current.weather[0].main.toLowerCase()
   );
-  setBodyFont(elementsWithDynamicFont);
   setFrontLayerAnimation(
     responseFromOneCall.data.current.weather[0].main.toLowerCase()
   );
@@ -28,6 +27,8 @@ function fetchAndDisplayAll(responseFromOneCall) {
   );
   fetchForecastWeekDetailed(responseFromOneCall);
   setUOM(units);
+  setBodyFont(elementsWithDynamicFont);
+  showWeekBrief();
 }
 // LOCAL STORAGE :
 
@@ -136,7 +137,7 @@ function convertUnixDay(UNIX_timestamp) {
 }
 function convertUnixDate(UNIX_timestamp) {
   let date = convertTZ(new Date(UNIX_timestamp * 1000), currentTimeZone);
-  let convertedDate = `${months[date.getMonth()]} ${date.getDay()}`;
+  let convertedDate = `${months[date.getMonth()]} ${date.getDate()}`;
   return convertedDate;
 }
 function convertUnixTime(UNIX_timestamp) {
@@ -309,6 +310,14 @@ function setFrontLayerAnimation(shortDescription) {
     frontLayerSource.style["visibility"] = "hidden";
   }
 }
+function showWeekBrief(event) {
+  forecastWeekDetailed.style.display = "none";
+  forecastWeekBrief.style.display = "block";
+}
+function showWeekDetailed(event) {
+  forecastWeekBrief.style.display = "none";
+  forecastWeekDetailed.style.display = "block";
+}
 // f responsible for weather results
 
 function displayCurrentWeather(response) {
@@ -378,14 +387,10 @@ function displayForecastHourly(response) {
 function displayForecastWeekBrief(response) {
   let forecastDaysFromArray = response.data.daily;
   forecastDaysFromArray.shift();
-  let forecastWeek = document.querySelector("#forecast-week");
-  let forecastWeekHTML = `<h4> Weekly: <span class="clickables">Brief</span> |
-      <span class="clickables">Detailed</span>
-    </h4>
-    <hr /><div class="scrolling-wrapper">`;
+  let forecastWeekBriefHTML = ``;
   forecastDaysFromArray.forEach(function (forecastDay) {
-    forecastWeekHTML =
-      forecastWeekHTML +
+    forecastWeekBriefHTML =
+      forecastWeekBriefHTML +
       `<div class="card weekly col-2">
           <p>${convertUnixDay(forecastDay.dt)}</p>
           <img class="image-weather-small"
@@ -397,12 +402,11 @@ function displayForecastWeekBrief(response) {
           <small>${Math.round(forecastDay.temp.min)}°</small>      
         </div>`;
   });
-  forecastWeek.innerHTML = forecastWeekHTML + `</div>`;
+  forecastWeekBrief.innerHTML = forecastWeekBriefHTML;
 }
 function fetchForecastWeekDetailed(response) {
   let accordionItems = ["One", "Two", "Three", "Four", "Five", "Six", "Seven"];
   let fcDaysFromArray = response.data.daily;
-  let forecastWeekDetailed = document.getElementById("weekday-detailed");
   let forecastWeekDetailedHTML = `<div class="accordion" id="weekday-detailed">`;
   fcDaysFromArray.forEach(function (fcDay, index) {
     forecastWeekDetailedHTML =
@@ -412,7 +416,7 @@ function fetchForecastWeekDetailed(response) {
       accordionItems[index]
     }">
       <button
-        class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+        class="accordion-button collapsed dynamic-font" type="button" data-bs-toggle="collapse"
         data-bs-target="#panelsStayOpen-collapse${accordionItems[index]}"
         aria-expanded="false"
         aria-controls="panelsStayOpen-collapse${accordionItems[index]}"
@@ -628,6 +632,9 @@ let frontLayerSource = document.getElementById("front-layer");
 let cloudsCarousel = document.getElementById("clouds-placeholder");
 let elementsWithDynamicFont = document.getElementsByClassName("dynamic-font");
 
+let forecastWeekBrief = document.getElementById("forecast-week-brief");
+let forecastWeekDetailed = document.getElementById("weekday-detailed");
+
 // declarations: city and city input options
 
 let currentCity = document.getElementById("current-city");
@@ -642,6 +649,8 @@ const geocoder = new google.maps.Geocoder();
 
 const buttonGps = document.getElementById("button-location-gps");
 const buttonSearch = document.getElementById("submit");
+const buttonBrief = document.getElementById("button-week-brief");
+const buttonDetailed = document.getElementById("button-week-detailed");
 buttonGps.addEventListener("click", enableGPS);
 buttonSearch.addEventListener("click", (event) => {
   event.preventDefault();
@@ -649,6 +658,8 @@ buttonSearch.addEventListener("click", (event) => {
   let citySelected = address.value.split(",");
   currentCity.innerHTML = citySelected[0];
 });
+buttonBrief.addEventListener("click", showWeekBrief);
+buttonDetailed.addEventListener("click", showWeekDetailed);
 mainThemeSource.addEventListener("load", hideLoader);
 
 // declarations: local storage
