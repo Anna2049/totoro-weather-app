@@ -50,7 +50,8 @@
   #forecast-hourly,
   #forecast-week-brief,
   #weekday-detailed,
-  .accordion-button {
+  .accordion-button,
+  #linkedin {
     font-size: 5vw;
   }
   .card,
@@ -135,7 +136,8 @@
   #forecast-hourly,
   #forecast-week-brief,
   #weekday-detailed,
-  .accordion-button {
+  .accordion-button,
+  #linkedin {
     font-size: 20px;
   }
   .card,
@@ -221,7 +223,9 @@ p {
   padding: 0;
   text-align: center;
 }
-
+.search button {
+  padding: 0;
+}
 .main-theme,
 .front-layer {
   position: fixed;
@@ -270,6 +274,8 @@ p {
 .accordion-item {
   background-color: rgba(203, 207, 207, 0.5);
 }
+
+.center,
 .accordion-button .image {
   text-align: center;
 }
@@ -293,7 +299,9 @@ p {
   margin-right: 15px;
   width: 30%;
 }
-
+.offcanvas-body #linkedin {
+  color: #0a66c2;
+}
 .front-layer {
   z-index: -1;
 }
