@@ -8,7 +8,7 @@
   .front-layer,
   #loader-fetching,
   #loader-nothing-to-search,
-  #preloader {
+  #preloader .loader-text {
     width: 100vw;
     height: 100vh;
   }
@@ -72,23 +72,20 @@
   .image-six-chibi {
     margin: -10vw 0 -14vw -3vw;
   }
-  #loader-fetching .loader-text,
-  #loader-nothing-to-search .loader-text {
-    left: 35vw;
-  }
-  #preloader .preloader-text {
-    left: 40vw;
+  .loader-text {
+    font-size: 3vw;
   }
 }
 @media (min-width: 1025px) {
   body,
   #loader-fetching,
   #preloader,
+  .loader-text,
   .main-theme,
   .front-layer {
     width: 500px;
-    margin: 0 auto;
     height: 100vh;
+    margin: auto;
   }
   .container {
     max-width: 90%;
@@ -141,8 +138,9 @@
   .image-six-chibi {
     margin: -40px 0 -60px -10px;
   }
-  #preloader .preloader-text {
-    left: 45%;
+
+  .loader-text {
+    font-size: 15px;
   }
 
   .accordion button img {
@@ -294,6 +292,13 @@ p {
   z-index: -1;
 }
 
+#preloader {
+  display: block;
+}
+#loader-fetching,
+#loader-nothing-to-search {
+  display: none;
+}
 #loader-fetching,
 #loader-nothing-to-search,
 #preloader {
@@ -310,15 +315,6 @@ p {
   );
   z-index: 1;
 }
-
-#preloader {
-  display: none;
-  display: block;
-}
-#loader-fetching,
-#loader-nothing-to-search {
-  display: none;
-}
 #loader-fetching img,
 #preloader img,
 #loader-nothing-to-search img {
@@ -330,61 +326,19 @@ p {
   right: 0;
   margin: auto;
 }
-
-.loader-text,
-.preloader-text {
+.loader-text {
   font-family: "Press Start 2P", cursive;
-  font-size: 2vh;
   font-weight: 700;
   color: rgba(0, 0, 0, 0.7);
   text-shadow: 2px 2px 2px whitesmoke;
-  position: fixed;
-  top: 65%;
-}
-
-.visible {
-  visibility: visible;
-}
-.hidden {
-  visibility: hidden;
+  text-align: center;
+  margin-top: 65vh;
 }
 
 .accordion {
   z-index: 1;
   opacity: 80%;
 }
-
-/*
-button .weekday-details .image,
-.accordion-body {
-  padding: 0;
-}
-
-button .weekday-details .weekday,
-button .weekday-details .index button .weekday-details img {
-  padding-right: 0;
-}
-
-.accordion-button {
-  padding: 5vw;
-}
-.weekday-detailed .weekday {
-  padding-left: 10px;
-}
-
-button .weekday-details .image {
-  padding-left: 0;
-}
-button .weekday-details .index {
-  padding-right: 0;
-}
-button .weekday-details .weekday,
-button .weekday-details .index {
-  font-size: 5vw;
-  vertical-align: middle;
-}
-*/
-
 .accordion button img {
   width: 15vw;
 }
@@ -402,7 +356,6 @@ button .weekday-details .index {
 .accordion-body .row > * {
   padding: 0 0 0 1.1vw;
 }
-
 .accordion-body {
   width: 95vw;
   margin: 0;
@@ -413,4 +366,11 @@ button .weekday-details .index {
 #weekday-detailed button {
   padding-top: 0;
   padding-bottom: 0;
+}
+
+.visible {
+  visibility: visible;
+}
+.hidden {
+  visibility: hidden;
 }
