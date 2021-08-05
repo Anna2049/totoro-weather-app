@@ -9,7 +9,6 @@ function initialize() {
   applyLatestGpsLocation(); //-> createApiRouteForOpenWeatherOneCall(lat, lng)
 }
 function fetchAndDisplayAll(responseFromOneCall) {
-  console.log(responseFromOneCall);
   changeCurrentTimezone(responseFromOneCall.data.timezone);
   showCurrentDateAndTime(convertTZ(now, currentTimeZone)); //-> setTimeOfTheDay(hours)
   displayCurrentWeather(responseFromOneCall);
@@ -588,7 +587,24 @@ function fetchForecastWeekDetailed(response) {
 
 function enableGPS() {
   address.value = "";
-  navigator.geolocation.getCurrentPosition(getCurrentPositionFromGPS);
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      navigator.geolocation.getCurrentPosition(getCurrentPositionFromGPS),
+      errorGPS
+    );
+  } else {
+    alert("No GPS Functionality.");
+  }
+}
+
+function errorGPS(error) {
+  alert(
+    "GPS Error: " +
+      error.code +
+      ", " +
+      error.message +
+      ". If you are an iPhone user, please check your Settings >> Provacy >> Location Services"
+  );
 }
 function getCurrentPositionFromGPS(position) {
   lat = position.coords.latitude;
