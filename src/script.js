@@ -453,7 +453,7 @@ function fetchForecastWeekDetailed(response) {
         </div>
         <div class="col-3 image">
           <img id="weekly-weather-icon" class="image-middle"
-            src="http://openweathermap.org/img/wn/${
+            src="https://openweathermap.org/img/wn/${
               fcDay.weather[0].icon
             }@2x.png"/>
         </div>
