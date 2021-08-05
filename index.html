@@ -141,7 +141,7 @@
         <div class="col-2">%</div>
 
         <div class="col-2"><i class="fas fa-tshirt"></i></div>
-        <div class="col-2 center t" id="feels-like"></div>
+        <div class="col-2 t" id="feels-like"></div>
         <div class="col-2 uom-temp"></div>
 
         <div class="col-2"><i class="fas fa-tachometer-alt"></i></div>
@@ -151,7 +151,7 @@
         <div class="col-2">
           <i class="fas fa-tint"></i>
         </div>
-        <div class="col-2 center" id="humidity"></div>
+        <div class="col-2" id="humidity"></div>
         <div class="col-2">%</div>
 
         <div class="col-2"><i class="fas fa-wind"></i></div>
@@ -192,7 +192,7 @@
       aria-labelledby="offcanvasStartLabel"
     >
       <div class="offcanvas-header">
-        <h5 id="offcanvasStartLabel">Settings:</h5>
+        <h4 id="offcanvasStartLabel">Settings:</h4>
 
         <button
           type="button"
@@ -202,7 +202,7 @@
         ></button>
       </div>
       <div class="offcanvas-body">
-        <div>
+        <div class="settings">
           <label for="themes">Theme:</label>
           <select id="theme-preferred" class="">
             <option value="nature">Nature</option>
@@ -218,7 +218,7 @@
 
           <br />
 
-          <label for="cities">Saved location:</label>
+          <label for="cities">Saved GPS location:</label>
           <input id="saved-location" disabled />
 
           <div>
@@ -232,8 +232,8 @@
 
         <hr />
 
-        <h5>Icons meaning: Current Weather</h5>
-        <div class="container">
+        <h3>Icons meaning: Current</h3>
+        <div class="container icons-explanation">
           <div class="row">
             <div class="col-2">
               <i class="fas fa-temperature-high"></i>
@@ -268,8 +268,8 @@
           </div>
         </div>
         <hr />
-        <h5>Icons meaning: Weather Forecasts</h5>
-        <div class="container">
+        <h3>Icons meaning: Forecasts</h3>
+        <div class="container icons-explanation">
           <div class="row g-0 align-items-center api-icons-explanation">
             <div class="col-1">
               <img src="https://openweathermap.org/img/wn/01d@2x.png" />
@@ -285,20 +285,17 @@
               <img src="https://openweathermap.org/img/wn/02n@2x.png" />
             </div>
             <div class="col-4">Few clouds</div>
-            <div class="col-1">
+            <div class="col-2">
               <img src="https://openweathermap.org/img/wn/03d@2x.png" />
             </div>
-            <div class="col-1"></div>
             <div class="col-4">Scattered clouds</div>
-            <div class="col-1">
+            <div class="col-2">
               <img src="https://openweathermap.org/img/wn/04d@2x.png" />
             </div>
-            <div class="col-1"></div>
             <div class="col-4">Broken clouds</div>
-            <div class="col-1">
+            <div class="col-2">
               <img src="https://openweathermap.org/img/wn/09d@2x.png" />
             </div>
-            <div class="col-1"></div>
             <div class="col-4">Shower rain</div>
             <div class="col-1">
               <img src="https://openweathermap.org/img/wn/10d@2x.png" />
@@ -307,20 +304,17 @@
               <img src="https://openweathermap.org/img/wn/10n@2x.png" />
             </div>
             <div class="col-4">Rain</div>
-            <div class="col-1">
+            <div class="col-2">
               <img src="https://openweathermap.org/img/wn/11d@2x.png" />
             </div>
-            <div class="col-1"></div>
-            <div class="col-4">thunderstorm</div>
-            <div class="col-1">
+            <div class="col-4">Thunderstorm</div>
+            <div class="col-2">
               <img src="https://openweathermap.org/img/wn/13d@2x.png" />
             </div>
-            <div class="col-1"></div>
             <div class="col-4">Snow</div>
-            <div class="col-1">
+            <div class="col-2">
               <img src="https://openweathermap.org/img/wn/50d@2x.png" />
             </div>
-            <div class="col-1"></div>
             <div class="col-4">Mist</div>
           </div>
         </div>
