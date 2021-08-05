@@ -425,13 +425,13 @@ function fetchForecastWeekDetailed(response) {
           <span class="weekday">${convertUnixDay(fcDay.dt)}
           </span>, <span class="weekdate">${convertUnixDate(fcDay.dt)}</span>
         </div>
-        <div class="col-4 image">
+        <div class="col-3 image">
           <img id="weekly-weather-icon" class="image-middle"
             src="http://openweathermap.org/img/wn/${
               fcDay.weather[0].icon
             }@2x.png"/>
         </div>
-        <div class="col-3 index">
+        <div class="col-4 center index">
           <strong id="weekday-temp-max">${Math.round(fcDay.temp.max)}</strong> /
           <span id="weekday-temp-min">${Math.round(
             fcDay.temp.min
