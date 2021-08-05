@@ -161,8 +161,18 @@ function convertSpeed(speed) {
   return speed;
 }
 function getCardinalDirectionArrow(angle) {
-  const directions = ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"];
-  // const directions = ["⇑","⇗","⇒","⇘","⇓","⇙","⇐","⇖"];
+  //const directions = ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"];
+  const directions = ["⇑", "⇗", "⇒", "⇘", "⇓", "⇙", "⇐", "⇖"];
+  /*const directions = [
+    `<span class="iconify" data-icon="wi:wind-direction-n"></span>`,
+    `<span class="iconify" data-icon="wi:wind-direction-ne"></span>`,
+    `<span class="iconify" data-icon="wi:wind-direction-nw"></span>`,
+    `<span class="iconify" data-icon="wi:wind-direction-se"></span>`,
+    `<span class="iconify" data-icon="wi:wind-direction-s"></span>`,
+    `<span class="iconify" data-icon="wi:wind-direction-sw"></span>`,
+    `<span class="iconify" data-icon="wi:wind-direction-w"></span>`,
+    `<span class="iconify" data-icon="wi:wind-direction-nw"></span>`,
+  ]; */
   return directions[Math.round(angle / 45) % 8];
 }
 function getCardinalDirectionName(angle) {
@@ -325,10 +335,14 @@ function setFrontLayerAnimation(shortDescription) {
 function showWeekBrief(event) {
   forecastWeekDetailed.style.display = "none";
   forecastWeekBrief.style.display = "block";
+  buttonBrief.setAttribute(`style`, `font-size: larger`);
+  buttonDetailed.removeAttribute(`style`, `font-size: larger`);
 }
 function showWeekDetailed(event) {
   forecastWeekBrief.style.display = "none";
   forecastWeekDetailed.style.display = "block";
+  buttonDetailed.setAttribute(`style`, `font-size: larger`);
+  buttonBrief.removeAttribute(`style`, `font-size: larger`);
 }
 // f responsible for weather results
 
