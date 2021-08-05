@@ -588,10 +588,8 @@ function fetchForecastWeekDetailed(response) {
 function enableGPS() {
   address.value = "";
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      navigator.geolocation.getCurrentPosition(getCurrentPositionFromGPS),
-      errorGPS
-    );
+    navigator.geolocation.getCurrentPosition(getCurrentPositionFromGPS),
+      errorGPS;
   } else {
     alert("No GPS Functionality.");
   }
@@ -603,7 +601,7 @@ function errorGPS(error) {
       error.code +
       ", " +
       error.message +
-      ". If you are an iPhone user, please check your Settings >> Provacy >> Location Services"
+      ". If you are an iPhone user, please check your Settings >> Privacy >> Location Services"
   );
 }
 function getCurrentPositionFromGPS(position) {
@@ -631,7 +629,6 @@ function geocodeAddress(geocoder) {
 
 function createApiRouteForOpenWeatherCurrent(lat, lng) {
   let apiCurrentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=${units}&appid=${apiKeyOW}`;
-  console.log(apiCurrentUrl);
   axios.get(apiCurrentUrl).then((response) => {
     currentCity.innerHTML = response.data.name;
     saveCityFromGps(response.data.name);
@@ -639,7 +636,6 @@ function createApiRouteForOpenWeatherCurrent(lat, lng) {
 }
 function createApiRouteForOpenWeatherOneCall(lat, lng) {
   let apiOneCallUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=${units}&exclude=minutely&appid=${apiKeyOW}`;
-  console.log(apiOneCallUrl);
   axios.get(apiOneCallUrl).then(fetchAndDisplayAll);
 }
 
