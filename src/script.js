@@ -247,6 +247,12 @@ function setBodyFont(elementsHTML) {
         color: white;`
       );
     }
+    for (var i = 0; i < accordionItemsCollapsed.length; i++) {
+      accordionItemsCollapsed[i].setAttribute(
+        `style`,
+        `background-color: rgba(0, 0, 0, 0.1);`
+      );
+    }
   } else {
     for (var i = 0; i < elementsWithDynamicFont.length; i++) {
       elementsWithDynamicFont[i].setAttribute(
@@ -255,6 +261,12 @@ function setBodyFont(elementsHTML) {
         text-shadow: 2px 1px 4px white;
         color: black;`
       ); // background-color: rgba(255, 255, 255, 0.6);
+    }
+    for (var i = 0; i < accordionItemsCollapsed.length; i++) {
+      accordionItemsCollapsed[i].setAttribute(
+        `style`,
+        `background-color: rgba(255, 255, 255, 0.1);`
+      );
     }
   }
 }
@@ -631,6 +643,8 @@ let mainThemeSource = document.getElementById("mainTheme");
 let frontLayerSource = document.getElementById("front-layer");
 let cloudsCarousel = document.getElementById("clouds-placeholder");
 let elementsWithDynamicFont = document.getElementsByClassName("dynamic-font");
+let accordionItemsCollapsed =
+  document.getElementsByClassName("accordion-collapse");
 
 let forecastWeekBrief = document.getElementById("forecast-week-brief");
 let forecastWeekDetailed = document.getElementById("weekday-detailed");
