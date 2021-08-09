@@ -232,6 +232,7 @@ a :hover,
   cursor: pointer;
   font-size: larger;
   opacity: 80%;
+  color: unset;
 }
 
 h1,

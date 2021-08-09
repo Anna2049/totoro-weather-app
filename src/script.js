@@ -27,7 +27,11 @@ function fetchAndDisplayAll(responseFromOneCall) {
   fetchForecastWeekDetailed(responseFromOneCall);
   setUOM(units);
   setBodyFont(elementsWithDynamicFont);
-  showWeekBrief();
+  forecastWeekDetailed.style.display = "block";
+  buttonDetailed.setAttribute(
+    `style`,
+    `font-size: larger; text-decoration: underline`
+  );
 }
 // LOCAL STORAGE :
 
@@ -332,16 +336,34 @@ function setFrontLayerAnimation(shortDescription) {
   }
 }
 function showWeekBrief(event) {
+  event.preventDefault();
   forecastWeekDetailed.style.display = "none";
   forecastWeekBrief.style.display = "block";
-  buttonBrief.setAttribute(`style`, `font-size: larger`);
-  buttonDetailed.removeAttribute(`style`, `font-size: larger`);
+  buttonBrief.setAttribute(
+    `style`,
+    `font-size: larger; text-decoration: underline`
+  );
+  //buttonBrief.setAttribute(`active`, `true`);
+  buttonDetailed.removeAttribute(
+    `style`,
+    `font-size: larger; text-decoration: underline`
+  );
+  //buttonDetailed.setAttribute(`active`, `false`);
 }
 function showWeekDetailed(event) {
+  event.preventDefault();
   forecastWeekBrief.style.display = "none";
   forecastWeekDetailed.style.display = "block";
-  buttonDetailed.setAttribute(`style`, `font-size: larger`);
-  buttonBrief.removeAttribute(`style`, `font-size: larger`);
+  buttonDetailed.setAttribute(
+    `style`,
+    `font-size: larger; text-decoration: underline`
+  );
+  // buttonDetailed.setAttribute(`active`, `true`);
+  buttonBrief.removeAttribute(
+    `style`,
+    `font-size: larger; text-decoration: underline`
+  );
+  //buttonBrief.setAttribute(`active`, `false`);
 }
 // f responsible for weather results
 
