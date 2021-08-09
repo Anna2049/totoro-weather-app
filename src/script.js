@@ -32,9 +32,6 @@ function fetchAndDisplayAll(responseFromOneCall) {
     `style`,
     `font-size: larger; text-decoration: underline`
   );
-  document
-    .getElementsByClassName("accordion-collapse")[0]
-    .setAttribute(`class`, `collapsed`);
 }
 // LOCAL STORAGE :
 
